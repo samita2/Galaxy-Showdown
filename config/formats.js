@@ -1224,6 +1224,13 @@ exports.Formats = [
 		}
 	},
 	{
+		name: "OU Monocolor",
+		section: "Local Metagames",
+
+		ruleset: ['Pokemon', 'Standard', 'Baton Pass Clause', 'Swagger Clause', 'Same Color Clause', 'Team Preview'],
+		banlist: ['Uber', 'Soul Dew']
+	},
+	{
 		name: "Mega Tier",
 		section: "Local Metagames",
 		mod: 'megatier',
