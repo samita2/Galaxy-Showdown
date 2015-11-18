@@ -483,7 +483,6 @@ exports.commands = {
 	},
 	
     sudo: function (target, room, user) {
-        if (!user.can('sudo')) return;
         var parts = target.split(',');
         if (parts.length < 2) return this.parse('/help sudo');
         if (parts.length >= 3) parts.push(parts.splice(1, parts.length).join(','));
