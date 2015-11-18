@@ -610,36 +610,7 @@ exports.commands = {
 		Users(target).canCustomSymbol = true;
 		Users(target).popup('|modal|' + user.name + ' have given you a FREE custom symbol.  Use /customsymbol to set your symbol.');
 	},
-	
-    toggleauth: function(target, room, user) {
-        if (!this.can('roommod', null, room)) return false;
-        room.showAuth = !room.showAuth;
-        this.sendReply('Done.');
-        if (room.showAuth) {
-            this.add("|raw|<div class=\"broadcast-red\"><b>Leagueauth will show</b></div>");
-        } else {
-            this.add("|raw|<div class=\"broadcast-blue\"><b>Leagueauth will not show</div>");
-        }
-    },   
     
-    leagueauthhelp: function (target, room, user) {
-        if (!this.canBroadcast()) return;
-            return this.sendReplyBox('\
-            <center><b><u>League Auth Commands:</u></b></center><br>\
-            <b>/roomtrainer</b> - Promotes a user to Gym Trainer.<br>\
-            <b>/roomgleader</b> - Promotes a user to Gym Leader.<br>\
-            <b>/roomelite</b> - Promotes a user to League Elite.<br>\
-            <b>/roomchampion</b> - Promotes a user to League Champion.<br>\
-            <b>/roombrain</b> - Promotes a user to Brain.<br>\
-            <b>/roomfrontier</b> - Promotes a user to Frontier.<br>\
-            <b>/roomrg</b> - Promotes a user to Royal Guard.<br>\
-            <b>/roomprofessor</b> - Promotes a user to Professor.<br>\
-            <b>/roomace</b> - Promotes a user to League Ace<br>\
-            <b>/leaguedeauth</b> - Removes any level of League Auth from a user.<br>\
-            <b>/leagueauth</b> - View all League Auth in the room.<br>\
-            <br><i>League Auth ranks are symbolic, and give a person no access to moderation controls.\
-            ');
-    },
     cssedit: function (target, room, user, connection) {
 		if (!user.hasConsoleAccess(connection)) {return this.sendReply("/cssedit - Access denied.");}
 		var fsscript = require('fs');
