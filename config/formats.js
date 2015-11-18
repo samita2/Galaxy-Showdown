@@ -64,7 +64,7 @@ exports.Formats = [
 	{
 		name: "UU",
 		desc: [
-			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3546077/\">np: UU Stage 4</a>",
+			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3554801/\">np: UU Stage 5</a>",
 			"&bullet; <a href=\"https://www.smogon.com/dex/xy/tags/uu/\">UU Banlist</a>",
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3541343/\">UU Viability Ranking</a>"
 		],
@@ -158,7 +158,7 @@ exports.Formats = [
 		name: "Battle Spot Singles",
 		desc: [
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3527960/\">Battle Spot Singles Metagame Discussion</a>",
-			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3528947/\">Battle Spot Singles Viability Ranking</a>"
+			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3554616/\">Battle Spot Singles Viability Ranking</a>"
 		],
 		section: "ORAS Singles",
 
@@ -356,7 +356,32 @@ exports.Formats = [
 			validate: [6, 6]
 		},
 		ruleset: ['Pokemon', 'Standard GBU', 'Team Preview'],
-		banlist: []
+		banlist: ['Tornadus + Defiant', 'Thundurus + Defiant', 'Landorus + Sheer Force'],
+		requirePentagon: true
+	},
+	{
+		name: "Festive Feud",
+		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3556178/\">Festive Feud</a>"],
+		section: "ORAS Triples",
+
+		gameType: 'triples',
+		maxForcedLevel: 50,
+		teamLength: {
+			validate: [6, 6]
+		},
+		ruleset: ['Pokemon', 'Standard GBU', 'Team Preview'],
+		banlist: ['Tornadus + Defiant', 'Thundurus + Defiant', 'Landorus + Sheer Force'],
+		requirePentagon: true,
+		onValidateTeam: function (team) {
+			var problems = [];
+			for (let i = 0; i < team.length; i++) {
+				var template = this.getTemplate(team[i].species);
+				if (template.color !== 'Red' && template.color !== 'Green' && template.color !== 'White') {
+					problems.push(template.species);
+				}
+			}
+			if (problems.length) return ["Only red, green and white Pok\u00E9mon are permitted.", "(You have " + problems.join(', ') + ")"];
+		}
 	},
 	{
 		name: "Triples Hackmons Cup",
@@ -396,7 +421,7 @@ exports.Formats = [
 		ruleset: ['Pokemon', 'Species Clause', 'Moody Clause', 'Baton Pass Clause', 'Evasion Moves Clause', 'OHKO Clause',
 			'Swagger Clause', 'Endless Battle Clause', 'Team Preview', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod'
 		],
-		banlist: ['Unreleased', 'Illegal', 'Assist'],
+		banlist: ['Unreleased', 'Illegal', 'Assist', 'Chatter'],
 		customBans: {
 			receiver: {
 				arceus:1, archeops:1, darkrai:1, deoxys:1, deoxysattack:1, deoxysspeed:1, dialga:1, giratina:1, giratinaorigin:1,
@@ -679,7 +704,7 @@ exports.Formats = [
 	{
 		name: "Tier Shift",
 		desc: [
-			"Pok&eacute;mon below OU/BL get all their stats boosted. UU/BL2 get +5, RU/BL3 get +10, NU/Bl4 get +15, and PU or lower get +20.",
+			"Pok&eacute;mon below OU/BL get all their stats boosted. UU/BL2 get +5, RU/BL3 get +10, NU/BL4 get +15, and PU or lower get +20.",
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3554765/\">Tier Shift</a>"
 		],
 		section: "Other Metagames",
