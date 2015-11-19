@@ -769,6 +769,12 @@ exports.commands = {
 				return this.errorReply("/" + cmd + " - Access denied for promoting/demoting to " + Config.groups[nextGroup].name + ".");
 			}
 		}
+		if ((!room.isPrivate && !room.battle && !room.isPersonal) && targetUser.locked && (nextGroup === '%' || nextGroup === '@')) {
+			Monitor.log("[CrisisMonitor] " + user.name + " was automatically demoted in " + room.id + " for trying to promote locked user: " + targetUser.name + ".");
+			room.auth[user.userid] = '@';
+			user.updateIdentity(room.id);
+			return this.errorReply("You have been automatically deauthed for trying to promote locked user: '" + name + "'.");
+		}
 
 		if (nextGroup === ' ') {
 			delete room.auth[userid];
@@ -917,7 +923,9 @@ exports.commands = {
 				this.privateModCommand("(" + targetUser.name + "'s ac account: " + acAccount + ")");
 			}
 		}
-		this.add('|unlink|' + this.getLastIdOf(targetUser));
+		let lastid = this.getLastIdOf(targetUser);
+		this.add('|unlink|' + lastid);
+		if (lastid !== toId(this.inputUsername)) this.add('|unlink|' + toId(this.inputUsername));
 	},
 	roombanhelp: ["/roomban [username] - Bans the user from the room you are in. Requires: @ # & ~"],
 
@@ -999,7 +1007,9 @@ exports.commands = {
 
 		this.addModCommand("" + targetUser.name + " was warned by " + user.name + "." + (target ? " (" + target + ")" : ""));
 		targetUser.send('|c|~|/warn ' + target);
-		this.add('|unlink|' + this.getLastIdOf(targetUser));
+		let userid = this.getLastIdOf(targetUser);
+		this.add('|unlink|' + userid);
+		if (userid !== toId(this.inputUsername)) this.add('|unlink|' + toId(this.inputUsername));
 	},
 	warnhelp: ["/warn OR /k [username], [reason] - Warns a user showing them the Pok\u00e9mon Showdown Rules and [reason] in an overlay. Requires: % @ # & ~"],
 
@@ -1061,7 +1071,9 @@ exports.commands = {
 		if (targetUser in room.users) targetUser.popup("|modal|" + user.name + " has muted you in " + room.id + " for " + muteDuration.duration() + ". " + target);
 		this.addModCommand("" + targetUser.name + " was muted by " + user.name + " for " + muteDuration.duration() + "." + (target ? " (" + target + ")" : ""));
 		if (targetUser.autoconfirmed && targetUser.autoconfirmed !== targetUser.userid) this.privateModCommand("(" + targetUser.name + "'s ac account: " + targetUser.autoconfirmed + ")");
-		this.add('|unlink|' + this.getLastIdOf(targetUser));
+		let userid = this.getLastIdOf(targetUser);
+		this.add('|unlink|' + userid);
+		if (userid !== toId(this.inputUsername)) this.add('|unlink|' + toId(this.inputUsername));
 
 		room.mute(targetUser, muteDuration, false);
 	},
