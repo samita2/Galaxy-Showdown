@@ -171,10 +171,10 @@ rps: "rockpaperscissors",
 					this.add('|html|' + rpsplayers[0] + ' responded with \'lizard\' and ' + rpsplayers[1] + ' responded with \'spock\', so <b>' + rpsplayers[0] + '</b> won the game of rock-paper-scissors-lizard-spock!');
 				}
 				if(player1response[0] === 'lizard' && player2response[0] === 'paper') {
-					this.add('|html|' + rpsplayers[0] + ' responded with \'lizard\' and ' + rpsplayers[1] + ' responded with \'paper\', so <b>' + rpsplayers[1] + '</b> won the game of rock-paper-scissors-lizard-spock!');
+					this.add('|html|' + rpsplayers[0] + ' responded with \'lizard\' and ' + rpsplayers[1] + ' responded with \'paper\', so <b>' + rpsplayers[0] + '</b> won the game of rock-paper-scissors-lizard-spock!');
 				}
 				if(player1response[0] === 'lizard' && player2response[0] === 'scissors') {
-					this.add('|html|' + rpsplayers[0] + ' responded with \'lizard\' and ' + rpsplayers[1] + ' responded with \'scissors\', so <b>' + rpsplayers[0] + '</b> won the game of rock-paper-scissors-lizard-spock!');
+					this.add('|html|' + rpsplayers[0] + ' responded with \'lizard\' and ' + rpsplayers[1] + ' responded with \'scissors\', so <b>' + rpsplayers[1] + '</b> won the game of rock-paper-scissors-lizard-spock!');
 				}
 				if(player1response[0] === 'spock' && player2response[0] === 'paper') {
 					this.add('|html|' + rpsplayers[0] + ' responded with \'spock\' and ' + rpsplayers[1] + ' responded with \'paper\', so <b>' + rpsplayers[1] + '</b> won the game of rock-paper-scissors-lizard-spock!');
