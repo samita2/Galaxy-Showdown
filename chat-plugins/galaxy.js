@@ -9,15 +9,6 @@ var fs = require('fs');
 var confirmDeleteElo = false;
 var request = require('request');
 
-//rps
-var rockpaperscissors  = false;
-var numberofspots = 2;
-var gamestart = false;
-var rpsplayers = new Array();
-var rpsplayersid = new Array();
-var player1response = new Array();
-var player2response = new Array();
-
 var messages = [
 	"has vanished into nothingness!",
 	"used Explosion!",
@@ -348,22 +339,6 @@ exports.commands = {
 		targetUser.ban();
 		ipbans.write('\n' + targetUser.latestIp);
 	},
-	bitch: 'complain',
-	report: 'complain',
-	complain: function(target, room, user) {
-		if (!target) return this.sendReply('/report [report] - Use this command to report other users.');
-		var html = ['<img ', '<a href', '<font ', '<marquee', '<blink', '<center'];
-		for (var x in html) {
-			if (target.indexOf(html[x]) > -1) return this.sendReply('HTML is not supported in this command.');
-		}
-		if (target.length > 350) return this.sendReply('This report is too long; it cannot exceed 350 characters.');
-		if (!this.canTalk()) return;
-		Rooms.rooms.staff.add(user.userid + ' (in ' + room.id + ') has reported: ' + target + '');
-		this.sendReply('Your report "' + target + '" has been reported.');
-		for (var u in Users.users)
-			if ((Users.users[u].group == "~" || Users.users[u].group == "&" || Users.users[u].group == "@" || Users.users[u].group == "%") && Users.users[u].connected)
-				Users.users[u].send('|pm|~Server|' + Users.users[u].getIdentity() + '|' + user.userid + ' (in ' + room.id + ') has reported: ' + target + '');
-	},
 	gdeclarered: 'gdeclare',
 	gdeclaregreen: 'gdeclare',
 	gdeclare: function(target, room, user, connection, cmd) {
@@ -635,36 +610,7 @@ exports.commands = {
 		Users(target).canCustomSymbol = true;
 		Users(target).popup('|modal|' + user.name + ' have given you a FREE custom symbol.  Use /customsymbol to set your symbol.');
 	},
-	
-    toggleauth: function(target, room, user) {
-        if (!this.can('roommod', null, room)) return false;
-        room.showAuth = !room.showAuth;
-        this.sendReply('Done.');
-        if (room.showAuth) {
-            this.add("|raw|<div class=\"broadcast-red\"><b>Leagueauth will show</b></div>");
-        } else {
-            this.add("|raw|<div class=\"broadcast-blue\"><b>Leagueauth will not show</div>");
-        }
-    },   
     
-    leagueauthhelp: function (target, room, user) {
-        if (!this.canBroadcast()) return;
-            return this.sendReplyBox('\
-            <center><b><u>League Auth Commands:</u></b></center><br>\
-            <b>/roomtrainer</b> - Promotes a user to Gym Trainer.<br>\
-            <b>/roomgleader</b> - Promotes a user to Gym Leader.<br>\
-            <b>/roomelite</b> - Promotes a user to League Elite.<br>\
-            <b>/roomchampion</b> - Promotes a user to League Champion.<br>\
-            <b>/roombrain</b> - Promotes a user to Brain.<br>\
-            <b>/roomfrontier</b> - Promotes a user to Frontier.<br>\
-            <b>/roomrg</b> - Promotes a user to Royal Guard.<br>\
-            <b>/roomprofessor</b> - Promotes a user to Professor.<br>\
-            <b>/roomace</b> - Promotes a user to League Ace<br>\
-            <b>/leaguedeauth</b> - Removes any level of League Auth from a user.<br>\
-            <b>/leagueauth</b> - View all League Auth in the room.<br>\
-            <br><i>League Auth ranks are symbolic, and give a person no access to moderation controls.\
-            ');
-    },
     cssedit: function (target, room, user, connection) {
 		if (!user.hasConsoleAccess(connection)) {return this.sendReply("/cssedit - Access denied.");}
 		var fsscript = require('fs');
@@ -703,177 +649,6 @@ exports.commands = {
 	/*********************************************************
 	 * Others
 	 *********************************************************/
-	
-	rps: "rockpaperscissors",
-	rockpaperscissors: function(target, room, user) {
-		if(rockpaperscissors === false) {
-			rockpaperscissors = true;
-			return this.parse('/jrps');
-		}
-	},
-
-	respond: 'shoot',
-	shoot: function(target, room, user) {
-		if(gamestart === false) {
-			return this.sendReply('There is currently no game of rock-paper-scissors going on.');
-		} else {
-			if(user.userid === rpsplayersid[0]) {
-				if(player1response[0]) {
-					return this.sendReply('You have already responded.');
-				}
-				if(target === 'rock') {
-					player1response.push('rock');
-					if(player2response[0]) {
-						return this.parse('/compare');
-					}
-					return this.sendReply('You responded with rock.');
-				}
-				if(target === 'paper') {
-					player1response.push('paper');
-					if(player2response[0]) {
-						return this.parse('/compare');
-					}
-					return this.sendReply('You responded with paper.');
-				}
-				if(target === 'scissors') {
-					player1response.push('scissors');
-					if(player2response[0]) {
-						return this.parse('/compare');
-					}
-					return this.sendReply('You responded with scissors.');
-				} else {
-					return this.sendReply('Please respond with one of the following: rock, paper, or scissors.');
-				}
-			}
-			if(user.userid === rpsplayersid[1]) {
-				if(player2response[0]) {
-					return this.sendReply('You have already responded.');
-				}
-				if(target === 'rock') {
-					player2response.push('rock');
-					if(player1response[0]) {
-						return this.parse('/compare');
-					}
-					return this.sendReply('You responded with rock.');
-				}
-				if(target === 'paper') {
-					player2response.push('paper');
-					if(player1response[0]) {
-						return this.parse('/compare');
-					}
-					return this.sendReply('You responded with paper.');
-				}
-				if(target === 'scissors') {
-					player2response.push('scissors');
-					if(player1response[0]) {
-						return this.parse('/compare');
-					}
-					return this.sendReply('You responded with scissors.');
-				}
-				else {
-				return this.sendReply('Please respond with one of the following: rock, paper, or scissors.');
-				}
-			} else {
-				return this.sendReply('You are not in this game of rock-paper-scissors.');
-			}
-		}
-	},
-
-	compare: function(target, room, user) {
-		if(gamestart === false) {
-			return this.sendReply('There is no rock-paper-scissors game going on right now.');
-		} else {
-			if(player1response[0] === undefined && player2response[0] === undefined) {
-				return this.sendReply('Neither ' + rpsplayers[0] + ' nor ' + rpsplayers[1] + ' has responded yet.');
-			}
-			if(player1response[0] === undefined) {
-				return this.sendReply(rpsplayers[0] + ' has not responded yet.');
-			}
-			if(player2response[0] === undefined) {
-				return this.sendReply(rpsplayers[1] + ' has not responded yet.');
-			} else {
-				if(player1response[0] === player2response[0]) {
-					this.add('Both players responded with \'' + player1response[0] + '\', so the game of rock-paper-scissors between ' + rpsplayers[0] + ' and ' + rpsplayers[1] + ' was a tie!');
-				}
-				if(player1response[0] === 'rock' && player2response[0] === 'paper') {
-					this.add('|html|' + rpsplayers[0] + ' responded with \'rock\' and ' + rpsplayers[1] + ' responded with \'paper\', so <b>' + rpsplayers[1] + '</b> won the game of rock-paper-scissors!');
-				}
-				if(player1response[0] === 'rock' && player2response[0] === 'scissors') {
-					this.add('|html|' + rpsplayers[0] + ' responded with \'rock\' and ' + rpsplayers[1] + ' responded with \'scissors\', so <b>' + rpsplayers[0] + '</b> won the game of rock-paper-scissors!');
-				}
-				if(player1response[0] === 'paper' && player2response[0] === 'rock') {
-					this.add('|html|' + rpsplayers[0] + ' responded with \'paper\' and ' + rpsplayers[1] + ' responded with \'rock\', so <b>' + rpsplayers[0] + '</b> won the game of rock-paper-scissors!');
-				}
-				if(player1response[0] === 'paper' && player2response[0] === 'scissors') {
-					this.add('|html|' + rpsplayers[0] + ' responded with \'paper\' and ' + rpsplayers[1] + ' responded with \'scissors\', so <b>' + rpsplayers[1] + '</b> won the game of rock-paper-scissors!');
-				}
-				if(player1response[0] === 'scissors' && player2response[0] === 'rock') {
-					this.add('|html|' + rpsplayers[0] + ' responded with \'scissors\' and ' + rpsplayers[1] + ' responded with \'rock\', so <b>' + rpsplayers[1] + '</b> won the game of rock-paper-scissors!');
-				}
-				if(player1response[0] === 'scissors' && player2response[0] === 'paper') {
-					this.add('|html|' + rpsplayers[0] + ' responded with \'scissors\' and ' + rpsplayers[1] + ' responded with \'paper\', so <b>' + rpsplayers[0] + '</b> won the game of rock-paper-scissors!');
-				}
-				rockpaperscissors = false;
-				numberofspots = 2;
-				gamestart = false;
-				rpsplayers = [];
-				rpsplayersid = [];
-				player1response = [];
-				player2response = [];
-			}
-		}
-	},
-
-	endrps: function(target, room, user) {
-		if(!user.can('broadcast')) {
-			return this.sendReply('You do not have enough authority to do this.');
-		}
-		if(rockpaperscissors === false) {
-			return this.sendReply('There is no game of rock-paper-scissors happening right now.');
-		}
-		if(user.can('broadcast') && rockpaperscissors === true) {
-			rockpaperscissors = false;
-			numberofspots = 2;
-			gamestart = false;
-			rpsplayers = [];
-			rpsplayersid = [];
-			player1response = [];
-			player2response = [];
-			return this.add('|html|<b>' + user.name + '</b> ended the game of rock-paper-scissors.');
-		}
-	},
-
-	jrps: 'joinrps',
-	joinrps: function(target, room, user) {
-		if(rockpaperscissors === false) {
-			return this.sendReply('There is no game going on right now.');
-		}
-		if(numberofspots === 0) {
-			return this.sendReply('There is no more space in the game.');
-		}
-		else {
-			if(rpsplayers[0] === undefined) {
-				numberofspots = numberofspots - 1;
-				this.add('|html|<b>' + user.name + '</b> has started a game of rock-paper-scissors! /jrps or /joinrps to play against them.');
-				rpsplayers.push(user.name);
-				rpsplayersid.push(user.userid);
-				return false;
-			}
-			if(rpsplayers[0] === user.name) {
-				return this.sendReply('You are already in the game.');
-			}
-			if(rpsplayers[0] && rpsplayers[1] === undefined) {
-				numberofspots = numberofspots - 1;
-				this.add('|html|<b>' + user.name + '</b> has joined the game of rock-paper-scissors!');
-				rpsplayers.push(user.name);
-				rpsplayersid.push(user.userid);
-			}
-			if(numberofspots === 0) {
-				this.add('|html|The game of rock-paper-scissors between <b>' + rpsplayers[0] + '</b> and <b>' + rpsplayers[1] + '</b> has begun! Use /shoot rock/paper/scissors');
-				gamestart = true;
-			}
-		}
-	},
 	
 		//Panagram
 	panagramhelp: 'panagramrules',
@@ -1253,6 +1028,3 @@ exports.commands = {
 };
 	
 	
-
-
-       
