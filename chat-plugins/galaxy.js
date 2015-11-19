@@ -736,6 +736,7 @@ exports.commands = {
         delete room.panagram;
     },
     
+    spr: 'sprite',
     sprite: function (target, room, user, connection, cmd) {
 		if (!this.canBroadcast()) return;
 		if (!toId(target)) return this.sendReply('/sprite [Pokémon] - Allows you to view the sprite of a Pokémon');
@@ -783,7 +784,7 @@ exports.commands = {
 			self.sendReply('|html|<img src = "' + url + sprite + alt + '.gif">');
 		});
 	},
-	
+	        ospr: 'oldsprite',
 		oldsprite: function (target, room, user, connection, cmd) {
 		if (!this.canBroadcast()) return;
 		if (!toId(target)) return this.sendReply('/oldsprite [Pokémon] - Allows you to view the sprite of a Pokémon');
