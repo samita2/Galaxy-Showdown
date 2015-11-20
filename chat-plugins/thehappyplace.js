@@ -2,7 +2,7 @@
 * The Happy Place: Quote of the Day Plugin
 * This is a command that allows a room owner to set an inspirational "quote" of the day.
 * Others may braodcast this at any time to remind the room of such.
-* Only works in a room with the id "thehappyplace"
+* Only works in a room with the id "game"
 * Credits: panpawn, TalkTakesTime, Morfent, and sirDonovan
 */
 
@@ -11,7 +11,7 @@
 exports.commands = {
 	quoteoftheday: 'qotd',
 	qotd: function (target, room, user) {
-		if (room.id !== 'thehappyplace') return this.errorReply("This command can only be used in The Happy Place.");
+		if (room.id !== 'game') return this.errorReply("This command can only be used in Game.");
 		if (!room.chatRoomData) return;
 		if (!target) {
 			if (!this.canBroadcast()) return;
