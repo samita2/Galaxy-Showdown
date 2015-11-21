@@ -1,18 +1,13 @@
-'use strict';
-
 var fs = require('fs');
 var path = require('path');
 
 var shop = [
-	['Ticket', 'Buys a lottery ticket for a chance to win big money.', 5],
-	['Symbol', 'Buys a custom symbol to go infront of name and puts you at top of userlist. (Temporary until restart, certain symbols are blocked)', 5],
-	['Fix', 'Buys the ability to alter your current custom avatar or trainer card. (don\'t buy if you have neither)', 10],
-	['Avatar', 'Buys an custom avatar to be applied to your name (You supply. Images larger than 80x80 may not show correctly)', 20],
-	['Icon', 'Buys a custom userlist icon', 10],
-	['League Room', 'Purchases a room at a reduced rate for use with a league.  A roster must be supplied with at least 10 members for this room.', 25],
-	['Trainer', 'Buys a trainer card which shows information through a command. (You supply, can be refused)', 40],
-	['Staff Help', 'Staff member will help set up roomintros and anything else needed in a room. Response may not be immediate.', 50],
-	['Room', 'Buys a chatroom for you to own. (within reason, can be refused)', 100]
+	['Ticket', 'Buys a lottery ticket for a chance to win big money.', 5, "<button name = 'send', value = '/buy ticket'><b>Buy!</button>"],
+	['Symbol', 'Buys a custom symbol to go infront of name and puts you at top of userlist. (Temporary until restart, certain symbols are blocked)', 5, "<button name = 'send', value = '/buy symbol'><b>Buy!</button>"],
+	['Avatar', 'Buys an custom avatar to be applied to your name (You supply. Images larger than 80x80 may not show correctly)', 20, "<button name = 'send', value = '/buy avatar'><b>Buy!</button>"],
+	['Icon', 'Buys a custom userlist icon', 10, "<button name = 'send', value = '/buy icon'><b>Buy!</button>"],
+	['Trainer Card', 'Buys a trainer card which shows information through a command. (You supply, can be refused)', 40, "<button name = 'send', value = '/buy trainer card'><b>Buy!</button>"],
+	['Room', 'Buys a chatroom for you to own. (within reason, can be refused)', 100, "<button name = 'send', value = '/buy room'><b>Buy!</button>"]
 ];
 
 var shopDisplay = getShopDisplay(shop);
@@ -67,18 +62,19 @@ function logMoney(message) {
  * @return {String} display
  */
 function getShopDisplay(shop) {
-	var display = "<table border='1' cellspacing='0' cellpadding='5' width='100%'>" +
-					"<tbody><tr><th>Command</th><th>Description</th><th>Cost</th></tr>";
+	var display = "<center><h3><b><i>Galaxy Shop</i></b></h3><table border = '1' cellspacing = '0' cellpadding = '4'>" +
+					"<tr><th>Item</th><th>Description</th><th>Price</th><th></th></tr>";
 	var start = 0;
 	while (start < shop.length) {
 		display += "<tr>" +
-						"<td align='center'><button name='send' value='/buy " + shop[start][0] + "'><b>" + shop[start][0] + "</b></button>" + "</td>" +
+						"<td align='center'>" + shop[start][0] + "</td>" +
 						"<td align='center'>" + shop[start][1] + "</td>" +
 						"<td align='center'>" + shop[start][2] + "</td>" +
+						"<td align='center'>" + shop[start][3] + "</td>" +
 					"</tr>";
 		start++;
 	}
-	display += "</tbody></table><center>To buy an item from the shop, use /buy <em>command</em>.</center>";
+	display += "</tbody></table><center>To buy an item, type in /buy [item] in the chat, or simply click on one of the buttons.</center>";
 	return display;
 }
 
