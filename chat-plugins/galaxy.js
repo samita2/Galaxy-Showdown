@@ -804,9 +804,7 @@ exports.commands = {
 		else if (type === 'gscback') url = 'http://play.pokemonshowdown.com/sprites/gsc-back/';
 		else if (type === 'gscshinyback') url = 'http://play.pokemonshowdown.com/sprites/gsc-back-shiny/';
 		else if (type === 'rby') url = 'http://play.pokemonshowdown.com/sprites/rby/';
-		else if (type === 'rbyshiny') url = 'http://play.pokemonshowdown.com/sprites/rby-shiny/';
 		else if (type === 'rbyback') url = 'http://play.pokemonshowdown.com/sprites/rby-back/';
-		else if (type === 'rbyshinyback') url = 'http://play.pokemonshowdown.com/sprites/rby-back-shiny/';
 		else if (type === 'afd') url = 'http://play.pokemonshowdown.com/sprites/afd/';
 		else if (type === 'afdshiny') url = 'http://play.pokemonshowdown.com/sprites/afd-shiny/';
 		else if (type === 'afdback') url = 'http://play.pokemonshowdown.com/sprites/afd-back/';
