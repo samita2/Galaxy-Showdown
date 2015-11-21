@@ -11,7 +11,7 @@ function hasAvatar (user) {
 }
 
 function loadAvatars() {
-	var formatList = ['.png', '.gif', '.jpeg', '.jpg'];
+	var formatList = ['.png', '.gif', '.jpeg', '.jpg', '.bmp'];
 	fs.readdirSync('config/avatars')
 	.filter(function (avatar) {
 		return formatList.indexOf(path.extname(avatar)) > -1;
@@ -51,7 +51,7 @@ var cmds = {
 		var link = target[1].trim();
 		if (!link.match(/^https?:\/\//i)) link = 'http://' + link;
 		
-		var allowedFormats = ['png', 'jpg', 'jpeg', 'gif'];
+		var allowedFormats = ['png', 'jpg', 'jpeg', 'gif', '.bmp'];
 		new Promise (function (resolve, reject) {
 			require("request").get(link)
 				.on('error', function (err) {
