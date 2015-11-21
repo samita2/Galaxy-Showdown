@@ -769,7 +769,7 @@ exports.commands = {
 				return this.errorReply("/" + cmd + " - Access denied for promoting/demoting to " + Config.groups[nextGroup].name + ".");
 			}
 		}
-		if ((!room.isPrivate && !room.battle && !room.isPersonal) && targetUser.locked && (nextGroup === '%' || nextGroup === '@')) {
+		if (targetUser && targetUser.locked && !room.isPrivate && !room.battle && !room.isPersonal && (nextGroup === '%' || nextGroup === '@')) {
 			Monitor.log("[CrisisMonitor] " + user.name + " was automatically demoted in " + room.id + " for trying to promote locked user: " + targetUser.name + ".");
 			room.auth[user.userid] = '@';
 			user.updateIdentity(room.id);
@@ -1491,6 +1491,10 @@ exports.commands = {
 		if (room.modchat && room.modchat.length <= 1 && Config.groupsranking.indexOf(room.modchat) > 1 && !user.can('modchatall', null, room)) {
 			return this.errorReply("/modchat - Access denied for removing a setting higher than " + Config.groupsranking[1] + ".");
 		}
+		if (room.requestModchat) {
+			let error = room.requestModchat(user);
+			if (error) return this.errorReply(error);
+		}
 
 		target = target.toLowerCase();
 		let currentModchat = room.modchat;
@@ -1528,6 +1532,7 @@ exports.commands = {
 			let modchat = Tools.escapeHTML(room.modchat);
 			this.add("|raw|<div class=\"broadcast-red\"><b>Moderated chat was set to " + modchat + "!</b><br />Only users of rank " + modchat + " and higher can talk.</div>");
 		}
+		if (room.battle && !room.modchat && !user.can('modchat')) room.requestModchat(null);
 		this.logModCommand(user.name + " set modchat to " + room.modchat);
 
 		if (room.chatRoomData) {
