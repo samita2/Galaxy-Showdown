@@ -160,6 +160,7 @@ Retired Staff
 Contributors
 
 - Andrew Goodsell [Zracknel] - Art (battle weather backdrops)
+- Bär Halberkamp [bumbadadabum] - Development
 - Ben Davies [Morfent] - Development
 - Ben Frengley [TalkTakesTime] - Development
 - Cody Thompson [Rising_Dusk] - Development

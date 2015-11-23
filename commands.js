@@ -892,7 +892,7 @@ exports.commands = {
 	rb: 'roomban',
 	roomban: function (target, room, user, connection) {
 		if (!target) return this.parse('/help roomban');
-		if (room.isMuted(user) && !user.can('bypassall')) return this.errorReply("You cannot do this while unable to talk.");
+		if (!this.canTalk()) return this.errorReply("You cannot do this while unable to talk.");
 
 		target = this.splitTarget(target);
 		let targetUser = this.targetUser;
@@ -940,7 +940,7 @@ exports.commands = {
 		if (!room.bannedUsers || !room.bannedIps) {
 			return this.errorReply("Room bans are not meant to be used in room " + room.id + ".");
 		}
-		if (room.isMuted(user) && !user.can('bypassall')) return this.errorReply("You cannot do this while unable to talk.");
+		if (!this.canTalk()) return this.errorReply("You cannot do this while unable to talk.");
 
 		this.splitTarget(target, true);
 		let targetUser = this.targetUser;
@@ -995,7 +995,7 @@ exports.commands = {
 	k: 'warn',
 	warn: function (target, room, user) {
 		if (!target) return this.parse('/help warn');
-		if (room.isMuted(user) && !user.can('bypassall')) return this.errorReply("You cannot do this while unable to talk.");
+		if (!this.canTalk()) return this.errorReply("You cannot do this while unable to talk.");
 		if (room.isPersonal && !user.can('warn')) return this.errorReply("Warning is unavailable in group chats.");
 
 		target = this.splitTarget(target);
@@ -1052,7 +1052,7 @@ exports.commands = {
 	m: 'mute',
 	mute: function (target, room, user, connection, cmd) {
 		if (!target) return this.parse('/help mute');
-		if (room.isMuted(user) && !user.can('bypassall')) return this.errorReply("You cannot do this while unable to talk.");
+		if (!this.canTalk()) return this.errorReply("You cannot do this while unable to talk.");
 
 		target = this.splitTarget(target);
 		let targetUser = this.targetUser;
@@ -1095,7 +1095,7 @@ exports.commands = {
 	unmute: function (target, room, user) {
 		if (!target) return this.parse('/help unmute');
 		target = this.splitTarget(target);
-		if (room.isMuted(user) && !user.can('bypassall')) return this.errorReply("You cannot do this while unable to talk.");
+		if (!this.canTalk()) return this.errorReply("You cannot do this while unable to talk.");
 		if (!this.can('mute', null, room)) return false;
 
 		let targetUser = this.targetUser;
@@ -1398,7 +1398,7 @@ exports.commands = {
 	mn: 'modnote',
 	modnote: function (target, room, user, connection) {
 		if (!target) return this.parse('/help modnote');
-		if ((user.locked || room.isMuted(user)) && !user.can('bypassall')) return this.errorReply("You cannot do this while unable to talk.");
+		if (!this.canTalk()) return this.errorReply("You cannot do this while unable to talk.");
 
 		if (target.length > MAX_REASON_LENGTH) {
 			return this.errorReply("The note is too long. It cannot exceed " + MAX_REASON_LENGTH + " characters.");
@@ -1490,7 +1490,7 @@ exports.commands = {
 
 	modchat: function (target, room, user) {
 		if (!target) return this.sendReply("Moderated chat is currently set to: " + room.modchat);
-		if ((user.locked || room.isMuted(user)) && !user.can('bypassall')) return this.errorReply("You cannot do this while unable to talk.");
+		if (!this.canTalk()) return this.errorReply("You cannot do this while unable to talk.");
 		if (!this.can('modchat', null, room)) return false;
 
 		if (room.modchat && room.modchat.length <= 1 && Config.groupsranking.indexOf(room.modchat) > 1 && !user.can('modchatall', null, room)) {
@@ -2537,17 +2537,17 @@ exports.commands = {
 			connection.popup("Due to high load, you are limited to 6 team validations every 3 minutes.");
 			return;
 		}
-		let format = Tools.getFormat(target);
-		if (format.effectType !== 'Format') format = Tools.getFormat('Anything Goes');
-		if (format.effectType !== 'Format') {
-			connection.popup("Please provide a valid format.");
-			return;
-		}
+		if (!target) return this.errorReply("Provide a valid format.");
+		let originalFormat = Tools.getFormat(target);
+		let format = originalFormat.effectType === 'Format' ? originalFormat : Tools.getFormat('Anything Goes');
+		if (format.effectType !== 'Format') return this.popupReply("Please provide a valid format.");
+
 		TeamValidator.validateTeam(format.id, user.team, function (success, details) {
+			let matchMessage = (originalFormat === format ? "" : "The format '" + originalFormat.name + "' was not found.");
 			if (success) {
-				connection.popup("Your team is valid for " + format.name + ".");
+				connection.popup("" + (matchMessage ? matchMessage + "\n\n" : "") + "Your team is valid for " + format.name + ".");
 			} else {
-				connection.popup("Your team was rejected for the following reasons:\n\n- " + details.replace(/\n/g, '\n- '));
+				connection.popup("" + (matchMessage ? matchMessage + "\n\n" : "") + "Your team was rejected for the following reasons:\n\n- " + details.replace(/\n/g, '\n- '));
 			}
 		});
 	},
