@@ -97,27 +97,6 @@ exports.commands = {
 		Poll[room.id].topOption = topOption;
 	},
 
-	easytour: 'etour',
-	elimtour: 'etour',
-	etour: function (target, room, user) {
-		if (!this.can('broadcast', null, room)) return;
-		this.parse('/tour new ' + target + ', elimination');
-	},
-
-	roundrobintour: 'rtour',
-	cancertour: 'rtour',
-	rtour: function (target, room, user) {
-		if (!this.can('broadcast', null, room)) return;
-		this.parse('/tour new ' + target + ', roundrobin');
-	},
-	
-	randtour: function (target, room, user) {
-		var randTiers = ['ou', 'pu', 'randombattle', 'ubers', 'uu', 'ru', 'pu', '1v1', 'hackmonscup', 'monotype', 'challengecup1v1', 'ubers', 'lc']; // Add more tiers here
-		var rand = randTiers[Math.floor(Math.random() * randTiers.length)]; // Calculates which tier will be played
-		if (this.can('broadcast', null, room)) return;
-		this.parse('/tour new ' + rand + ', elimination');
-	},
-
 	pr: 'pollremind',
 	pollremind: function (target, room, user) {
 		if (!Poll[room.id]) Poll.reset(room.id);
