@@ -163,8 +163,8 @@ exports.commands = {
 				options.push(params[i]);
 			}
 
-			if (options.length > 10) {
-				return this.errorReply("Too many options for poll (maximum is 10).");
+			if (options.length > 11) {
+				return this.errorReply("Too many options for poll (maximum is 11).");
 			}
 
 			room.poll = new Poll(room, params[0], options);
@@ -287,7 +287,27 @@ exports.commands = {
 	},
 	tierpoll: 'tpoll',
 	tpoll: function(target, room, user) {
-		var tiers = ['OU', 'VGC', 'Random Meta', 'Ubers', 'UU', 'RU', 'NU', 'PU', 'LC', 'Old Gen', 'Other Metagame'];
+		var tiers = ['OU', 'VGC', 'Random Meta', 'Ubers/AG', 'Low Tier', 'Old Gen', 'Other Metagame'];
+		this.parse('/poll new Next tournament tier?, ' + tiers.sort());
+	},
+	lowtierpoll: 'lwtpoll',
+	lwtpoll: function(target, room, user) {
+		var tiers = ['UU', 'RU', 'NU', 'PU', 'LC', 'LC UU'];
+		this.parse('/poll new Next tournament tier?, ' + tiers.sort());
+	},
+	randomtierpoll: 'rtpoll',
+	rtpoll: function(target, room, user) {
+		var tiers = ['Random', 'Random Doubles', 'Random Triples', 'Random Haxmons', 'Random Monotype', 'Random LC', 'Random Ubers', 'Random Monogen', 'Random Inverse', 'Random CAP', 'Random Sky Battle'];
+		this.parse('/poll new Next tournament tier?, ' + tiers.sort());
+	},
+	oldtierpoll: 'otpoll',
+	otpoll: function(target, room, user) {
+		var tiers = ['BW OU', 'DPPT OU', 'RSE OU', 'GSC OU', 'RBY OU'];
+		this.parse('/poll new Next tournament tier?, ' + tiers.sort());
+	},
+	omtierpoll: 'omtpoll',
+	omtpoll: function(target, room, user) {
+		var tiers = ['Monotype', 'CAP', 'Battle Factory', 'AAA', 'Stabmons', 'Inverse Battle', 'Tier Shift', '1v1', 'Metronome', 'CC1v1'];
 		this.parse('/poll new Next tournament tier?, ' + tiers.sort());
 	},
 	vote: function(target, room, user) {
