@@ -310,6 +310,11 @@ exports.commands = {
 		var tiers = ['Monotype', 'CAP', 'Battle Factory', 'AAA', 'Stabmons', 'Inverse Battle', 'Tier Shift', '1v1', 'Metronome', 'CC1v1'];
 		this.parse('/poll new Next tournament tier?, ' + tiers.sort());
 	},
+	botgamepoll: 'bgpoll',
+	bgpoll: function(target, room, user) {
+		var tiers = ['Trivia', 'Hangman', 'Ambush', 'Anagrams', 'BlackJack', 'Kunc', 'Pass-The-Bomb'];
+		this.parse('/poll new Next Bot game?, ' + tiers.sort());
+	},
 	vote: function(target, room, user) {
 		if (!target) return this.errorReply("Usage: /vote [poll option number] - votes for the [option] in the current poll.");
 		this.parse('/poll vote ' + target);
