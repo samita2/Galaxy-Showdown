@@ -149,6 +149,27 @@ exports.commands = {
 		this.sendReply("You have now revealed your auth symbol.");
 		return this.logModCommand(user.name + " has revealed their auth symbol.");
 	},
+	
+	easytour: 'etour',
+	elimtour: 'etour',
+	etour: function (target, room, user) {
+		if (!this.can('broadcast', null, room)) return;
+		this.parse('/tour new ' + target + ', elimination');
+	},
+
+	roundrobintour: 'rtour',
+	cancertour: 'rtour',
+	rtour: function (target, room, user) {
+		if (!this.can('broadcast', null, room)) return;
+		this.parse('/tour new ' + target + ', roundrobin');
+	},
+	
+	randtour: function (target, room, user) {
+		var randTiers = ['ou', 'pu', 'randombattle', 'ubers', 'uu', 'ru', 'pu', '1v1', 'hackmonscup', 'monotype', 'challengecup1v1', 'ubers', 'lc']; // Add more tiers here
+		var rand = randTiers[Math.floor(Math.random() * randTiers.length)]; // Calculates which tier will be played
+		if (this.can('broadcast', null, room)) return;
+		this.parse('/tour new ' + rand + ', elimination');
+	},
 
 	rk: 'kick',
 	roomkick: 'kick',
