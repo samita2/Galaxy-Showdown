@@ -87,6 +87,7 @@ var emotes = {
 	'eczz': 'http://i.imgur.com/wA5VMv3.jpg?1',
 	'chbll': 'http://i.imgur.com/DQ6rTSF.jpg?1',
 	'uDio': 'http://i.imgur.com/OgZWzp8.jpg?1',
+	'waitwat': 'http://i.imgur.com/FpxTQxU.jpg',
 	'happyface': 'https://qph.is.quoracdn.net/main-qimg-f207eb810b1fb6f5655a1bf942a5cf7f?convert_to_webp=true',
 	'KiDm': 'https://qph.is.quoracdn.net/main-qimg-97089097754f3312c841489f86ee0aeb?convert_to_webp=true',
 	'StRnG': 'https://qph.is.quoracdn.net/main-qimg-29c28f170da073803efa56247542a3b0?convert_to_webp=true',
