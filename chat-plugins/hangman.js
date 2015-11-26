@@ -309,6 +309,8 @@ exports.commands = {
 				"/hangman end - Ends the game of hangman before the man is hanged or word is guessed. Requires: % @ # & ~",
 				"/hangman [enable/disable] - Enables or disables hangman from being started in a room. Requires: # & ~"],
 
+	gw: 'guess',
+	g: 'guess',
 	guess: function (target, room, user) {
 		return this.parse('/hangman guess ' + target);
 	},
