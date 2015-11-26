@@ -154,6 +154,8 @@ var emotes = {
 	'meDa': 'http://i.imgur.com/Z25jWSk.jpg?1',
 	'eczz': 'http://i.imgur.com/wA5VMv3.jpg?1',
 	'chbll': 'http://i.imgur.com/DQ6rTSF.jpg?1',
+	'PLui': 'http://i.imgur.com/hhjo6qh.png?1',
+	'snjap': 'http://i.imgur.com/glrg8c2.jpg?1',
 	'uDio': 'http://i.imgur.com/OgZWzp8.jpg?1',
 	'waitwat': 'http://i.imgur.com/FpxTQxU.jpg',
 	'happyface': 'https://qph.is.quoracdn.net/main-qimg-f207eb810b1fb6f5655a1bf942a5cf7f?convert_to_webp=true',
