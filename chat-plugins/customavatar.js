@@ -1,5 +1,3 @@
-'use strict';
-
 /*Custom Avatar script. ~SilverTactic (Siiilver)*/
 var fs = require('fs');
 var path = require('path');
@@ -11,13 +9,11 @@ function hasAvatar (user) {
 }
 
 function loadAvatars() {
-	var formatList = ['.png', '.gif', '.jpeg', '.jpg', '.bmp'];
+	var formatList = ['.png', '.gif', '.jpeg', '.jpg'];
 	fs.readdirSync('config/avatars')
-	.filter(function (avatar) {
-		return formatList.indexOf(path.extname(avatar)) > -1;
-	})
 	.forEach(function (avatar) {
-		Config.customavatars[path.basename(avatar, path.extname(avatar))] = avatar;
+		var name = path.basename(avatar, path.extname(avatar));
+		if (formatList.indexOf(path.extname(avatar)) > -1) Config.customavatars[name] = avatar;
 	});
 }
 loadAvatars();
@@ -34,6 +30,7 @@ var cmds = {
 	help: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		return this.sendReplyBox('<b>Custom Avatar commands</b><br>' +
+			'(All commands require ~)<br><br>' +
 			'<li>/ca set <small>or</small> /setavatar <em>User</em>, <em>URL</em> - Sets a user\'s custom avatar to the specified image URL.' +
 			'<li>/ca delete <small>or</small> /deleteavatar <em>User</em> - Deletes a user\'s custom avatar.' +
 			'<li>/ca move <small>or</small> /moveavatar <em>User 1</em>, <em>User 2</em> - Moves User 1\'s custom avatar to User 2.'
@@ -42,7 +39,7 @@ var cmds = {
 
 	add: 'set',
 	set: function (target, room, user, connection, cmd) {
-		if (!this.can('modlog')) return false;
+		if (!this.can('hotpatch')) return false;
 		if (!target) return this.sendReply('|html|/ca set <em>User</em>, <em>URL</em> - Sets a user\'s custom avatar to the specified image.');
 		target = target.split(',');
 		if (target.length < 2)  return this.sendReply('|html|/ca set <em>User</em>, <em>URL</em> - Sets a user\'s custom avatar to the specified image.');
@@ -51,7 +48,7 @@ var cmds = {
 		var link = target[1].trim();
 		if (!link.match(/^https?:\/\//i)) link = 'http://' + link;
 		
-		var allowedFormats = ['png', 'jpg', 'jpeg', 'gif', '.bmp'];
+		var allowedFormats = ['png', 'jpg', 'jpeg', 'gif'];
 		new Promise (function (resolve, reject) {
 			require("request").get(link)
 				.on('error', function (err) {
@@ -89,7 +86,7 @@ var cmds = {
 
 	remove: 'delete',
 	'delete': function (target, room, user, connection, cmd) {
-		if (!this.can('modlog')) return false;
+		if (!this.can('hotpatch')) return false;
 		if (!target || !target.trim()) return this.sendReply('|html|/' + cmd + ' <em>User</em> - Deletes a user\'s custom avatar.');
 		target = Users.getExact(target) ? Users.getExact(target).name : target;
 		var avatars = Config.customavatars;
@@ -106,7 +103,7 @@ var cmds = {
 	
 	shift: 'move',
 	move: function (target, room, user, connection, cmd) {
-		if (!this.can('modlog')) return false;
+		if (!this.can('hotpatch')) return false;
 		if (!target || !target.trim()) return this.sendReply('|html|/moveavatar <em>User 1</em>, <em>User 2</em> - Moves User 1\'s custom avatar to User 2.');
 		target = target.split(',');
 		if (target.length < 2) return this.sendReply('|html|/moveavatar <em>User 1</em>, <em>User 2</em> - Moves User 1\'s custom avatar to User 2.');
@@ -136,8 +133,8 @@ var cmds = {
 exports.commands = {
 	ca: 'customavatar',
 	customavatar: cmds,
-	moveavatar: cmds.move,
+	setavatar: cmds.set,
 	deleteavatar: 'removeavatar',
 	removeavatar: cmds.delete,
-	setavatar: cmds.set
+	moveavatar: cmds.move
 }
