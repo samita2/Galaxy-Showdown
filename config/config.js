@@ -1,5 +1,5 @@
 // The server port - the port to run Pokemon Showdown under
-exports.port = 80;
+exports.port = 8000;
 
 // proxyip - proxy IPs with trusted X-Forwarded-For headers
 //   This can be either false (meaning not to trust any proxies) or an array
@@ -194,7 +194,7 @@ exports.customavatars = {
 };
 
 // custom avatars appear in profile by specifiying server url.
-exports.avatarurl = 'test3-flareninja.c9.io';
+exports.avatarurl = 'http://test3-flareninja.c9.io';
 
 // Tournament announcements
 // When tournaments are created in rooms listed below, they will be announced in
