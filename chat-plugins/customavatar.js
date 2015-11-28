@@ -1,3 +1,5 @@
+'use strict';
+
 /*Custom Avatar script. ~SilverTactic (Siiilver)*/
 var fs = require('fs');
 var path = require('path');
@@ -9,11 +11,13 @@ function hasAvatar (user) {
 }
 
 function loadAvatars() {
-	var formatList = ['.png', '.gif', '.jpeg', '.jpg'];
+	var formatList = ['.png', '.gif', '.jpeg', '.jpg', '.bmp'];
 	fs.readdirSync('config/avatars')
+	.filter(function (avatar) {
+		return formatList.indexOf(path.extname(avatar)) > -1;
+	})
 	.forEach(function (avatar) {
-		var name = path.basename(avatar, path.extname(avatar));
-		if (formatList.indexOf(path.extname(avatar)) > -1) Config.customavatars[name] = avatar;
+		Config.customavatars[path.basename(avatar, path.extname(avatar))] = avatar;
 	});
 }
 loadAvatars();
@@ -47,7 +51,7 @@ var cmds = {
 		var link = target[1].trim();
 		if (!link.match(/^https?:\/\//i)) link = 'http://' + link;
 		
-		var allowedFormats = ['png', 'jpg', 'jpeg', 'gif'];
+		var allowedFormats = ['png', 'jpg', 'jpeg', 'gif', '.bmp'];
 		new Promise (function (resolve, reject) {
 			require("request").get(link)
 				.on('error', function (err) {
@@ -132,8 +136,8 @@ var cmds = {
 exports.commands = {
 	ca: 'customavatar',
 	customavatar: cmds,
-	setavatar: cmds.set,
+	moveavatar: cmds.move,
 	deleteavatar: 'removeavatar',
 	removeavatar: cmds.delete,
-	moveavatar: cmds.move
+	setavatar: cmds.set
 }
