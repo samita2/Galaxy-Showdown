@@ -124,7 +124,7 @@ function canTalk(user, room, connection, message, targetUser) {
 					this.errorReply("Because moderated chat is set, your account must be at least one week old and you must have won at least one ladder game to speak in this room.");
 					return false;
 				}
-			} else if (Config.groupsranking.indexOf(userGroup) < Config.groupsranking.indexOf(room.modchat) && !user.can('makeroom')) {
+			} else if (Config.groupsranking.indexOf(userGroup) < Config.groupsranking.indexOf(room.modchat) && !user.can('bypassall')) {
 				let groupName = Config.groups[room.modchat].name || room.modchat;
 				this.errorReply("Because moderated chat is set, you must be of rank " + groupName + " or higher to speak in this room.");
 				return false;
