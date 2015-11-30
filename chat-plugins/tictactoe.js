@@ -1,5 +1,6 @@
 //Tic Tac Toe by SilverTactic (Siiilver)
-//Bugs: Absolutely terrible alt/new name handling.
+'use strict';
+
 if (!global.ttt) global.ttt = [{}, {}];
 var tttgames = global.ttt[0];
 var tttplayers = global.ttt[1];
@@ -41,7 +42,7 @@ var TicTacToe = (function () {
 		this.currentPlayer = this.players[Math.floor(Math.random() * 2)];
 		this.phase = 'started';
 		this.resetTimer();
-		var message = 'If you accidentally close out, use <em><b>/ttt open</b></em> to reopen the game.';
+		var message = 'If you accidentally close out, use <em>/ttt open</em> to reopen the game.';
 		this.updateUser(this.p1, message);
 		this.updateUser(this.p2, message);
 	};
@@ -102,7 +103,7 @@ var TicTacToe = (function () {
 	};
 
 	TicTacToe.prototype.checkWinner = function () {
-		if ((this.boxes['1'] === this.boxes['2'] && this.boxes['2'] === this.boxes['3']) || (this.boxes['4'] === this.boxes['5'] && this.boxes['5'] === this.boxes['6']) || (this.boxes['7'] === this.boxes['8'] && this.boxes['8'] === this.boxes['9']) || (this.boxes['1'] === this.boxes['4'] && this.boxes['4'] === this.boxes['7']) || (this.boxes['2'] === this.boxes['5'] && this.boxes['5'] === this.boxes['8']) || (this.boxes['3'] === this.boxes['6'] && this.boxes['6'] === this.boxes['9']) || (this.boxes['1'] === this.boxes['5'] && this.boxes['5'] === this.boxes['9']) || (this.boxes['3'] === this.boxes['5'] && this.boxes['5'] === this.boxes['7'])) {
+		if ((this.boxes['1'] === this.boxes['2'] && this.boxes['2'] === this.boxes['3']) || (this.boxes['4'] === this.boxes['5'] && this.boxes['5'] === this.boxes['6']) || (this.boxes['7'] === this.boxes['8'] && this.boxes['8'] === this.boxes['9']) || (this.boxes['1'] === this.boxes['4'] && this.boxes['4'] === this.boxes['7']) || (this.boxes['2'] === this.boxes['5'] && this.boxes['5'] === this.boxes['8']) || (this.boxes['3'] === this.boxes['4'] && this.boxes['6'] === this.boxes['9']) || (this.boxes['1'] === this.boxes['5'] && this.boxes['5'] === this.boxes['9']) || (this.boxes['3'] === this.boxes['5'] && this.boxes['5'] === this.boxes['7'])) {
 			this.declareWinner();
 			return true;
 		}
@@ -130,10 +131,10 @@ var TicTacToe = (function () {
 
 	TicTacToe.prototype.end = function (message) {
 		if (message) {
-			if (this.phase === 'waiting') {
-				message = '|pm|' + this.p2.getIdentity() + '|' + this.p1.getIdentity() + '|/error ' + message;
-			}
-			this.players.forEach(function (user) {
+			if (this.phase === 'waiting') this.players.forEach(function (user) {
+				user.send('|pm|' + this.p2.getIdentity() + '|' + this.p1.getIdentity() + '|/html <div class="message-error">' + message + '</div>');
+			});
+			else this.players.forEach(function (user) {
 				user.popup(message);
 			});
 		}
@@ -154,13 +155,12 @@ var TicTacToe = (function () {
 var cmds = {
 	'': 'help',
 	help: function (target, room, user) {
-		if (!this.canBroadcast()) return;
 		this.sendReplyBox('<b>Tic-Tac-Toe commands</b><br>' +
 			'<li>/ttt c <em>User</em> - Sends a user a request to play Tic-Tac-Toe. This can also be used in PMs. (Requests automatically expire if they\'re not accepted or declined within 1.5 minutes.)<br>' +
 			'<li>/ttt accept <em>User</em>  - Accepts a Tic-Tac-Toe request from a user.<br>' +
-			'<li>/ttt decline <em>User</em> - Declines a Tic-Tac-Toe request from a user.<br>' +
-			'<li>/ttt see or /ttt show - Opens up the Tic-Tac-Toe board, in case you accidentally closed it out.<br>' +
-			'<li>/ttt end - Exits the current game of Tic-Tac-Toe. Cancels a play request if the game hasn\'t been started yet. (Note: The game automatically ends after a user stays inactive for more than 30 seconds.)<br>'
+			'<li>/ttc decline <em>User</em> - Declines a Tic-Tac-Toe request from a user.<br>' +
+			'<li>/ttc see or /ttt show - Opens up the Tic-Tac-Toe board, in case you accidentally closed it out.<br>' +
+			'<li>/ttc end - Exits the current game of Tic-Tac-Toe. Cancels a play request if the game hasn\'t been started yet. (Note: The game automatically ends after a user stays inactive for more than 30 seconds.)<br>'
 		);
 	},
 
@@ -184,10 +184,8 @@ var cmds = {
 			if (game.checkPlayer(user)) return this.sendReply(game.checkPlayer(user) + ' has already sent you a request...');
 			return this.sendReply(target.name + ' has already asked someone else for a game of Tic-Tac-Toe.');
 		}
-		for (var i in tttgames) {
+		for (var i in tttgames)
 			if (tttgames[i].checkPlayer(user)) return this.sendReply('You were sent a game request by ' + tttgames[i].checkPlayer(user) + '. First respond to that request before challenging someone else.');
-			if (tttgames[i].checkPlayer(target)) return this.sendReply(target.name + ' has already challenged someone else to a game of Tic-Tac-Toe. Either wait for them to finish, or play with someone else.');
-		}
 		target.send('|pm|' + user.getIdentity() + '|' + target.getIdentity() + '|/html ' + user.getIdentity() + ' wants to play Tic-Tac-Toe!<br>' +
 			'<button name = "send" value = "/ttt accept ' + user.userid + '">Accept</button> <button name = "send" value = "/ttt decline ' + user.userid + '">Decline</button>'
 		);
@@ -211,7 +209,6 @@ var cmds = {
 		if (user.userid === target.userid) return this.sendReply('You can\'t accept a challenge from yourself!');
 		if (!(target.userid in tttplayers)) return this.sendReply(target.name + ' has not challenged you to a game of Tic-Tac-Toe.');
 
-		this.sendReply('|html|If you accidentally close out the game screen, use <b>/ttt open</b> to reopen it.')
 		game = tttgames[tttplayers[target.userid]];
 		if (game.p2.userid !== user.userid) return this.sendReply(target.name + ' has not challenged you to a game of Tic-Tac-Toe.');
 		tttplayers[user.userid] = tttplayers[target.userid];
@@ -249,7 +246,7 @@ var cmds = {
 	see: function (target, room, user) {
 		if (!(user.userid in tttplayers)) return this.sendReply('You aren\'t playing a game of Tic-Tac-Toe right now.');
 		var game = tttgames[tttplayers[user.userid]];
-		if (game.phase === 'waiting') return this.sendReply('Your request has not been accepted yet. You can only use this command in an active game.');
+		if (game.phase === 'waiting') return this.sendReply('The request has not been accepted yet. You can only use this command in an active game.');
 		game.update();
 	},
 
@@ -267,5 +264,5 @@ exports.commands = {
 	ttt: 'tictactoe',
 	tictactoe: cmds,
 	tttend: 'endttt',
-	endttt: cmds.end,
+	endttt: cmds.end	
 }
