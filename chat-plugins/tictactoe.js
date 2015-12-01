@@ -103,7 +103,7 @@ var TicTacToe = (function () {
 	};
 
 	TicTacToe.prototype.checkWinner = function () {
-		if ((this.boxes['1'] === this.boxes['2'] && this.boxes['2'] === this.boxes['3']) || (this.boxes['6'] === this.boxes['5'] && this.boxes['5'] === this.boxes['6']) || (this.boxes['7'] === this.boxes['8'] && this.boxes['8'] === this.boxes['9']) || (this.boxes['1'] === this.boxes['4'] && this.boxes['4'] === this.boxes['7']) || (this.boxes['2'] === this.boxes['5'] && this.boxes['5'] === this.boxes['8']) || (this.boxes['3'] === this.boxes['4'] && this.boxes['6'] === this.boxes['9']) || (this.boxes['1'] === this.boxes['5'] && this.boxes['5'] === this.boxes['9']) || (this.boxes['3'] === this.boxes['5'] && this.boxes['5'] === this.boxes['7'])) {
+		if ((this.boxes['1'] === this.boxes['2'] && this.boxes['2'] === this.boxes['3']) || (this.boxes['4'] === this.boxes['5'] && this.boxes['5'] === this.boxes['6']) || (this.boxes['7'] === this.boxes['8'] && this.boxes['8'] === this.boxes['9']) || (this.boxes['1'] === this.boxes['4'] && this.boxes['4'] === this.boxes['7']) || (this.boxes['2'] === this.boxes['5'] && this.boxes['5'] === this.boxes['8']) || (this.boxes['3'] === this.boxes['4'] && this.boxes['6'] === this.boxes['9']) || (this.boxes['1'] === this.boxes['5'] && this.boxes['5'] === this.boxes['9']) || (this.boxes['3'] === this.boxes['5'] && this.boxes['5'] === this.boxes['7'])) {
 			this.declareWinner();
 			return true;
 		}
