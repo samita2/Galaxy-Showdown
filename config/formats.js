@@ -919,6 +919,7 @@ exports.Formats = [
 	{
 		name: "VGC 2010",
 		section: "Past VGC",
+                column: 2,
 		gameType: 'doubles',
 		searchShow: true,
 		
@@ -1019,7 +1020,7 @@ exports.Formats = [
 	{
 		name: "Random Haxmons",
 		section: "Random Metagames",
-		column: 2,
+		column: 1,
 
 		searchShow: false,
 		team: 'random',
