@@ -919,6 +919,7 @@ exports.Formats = [
 	{
 		name: "VGC 2010",
 		section: "Past VGC",
+                column: 2,
 		gameType: 'doubles',
 		searchShow: true,
 		
@@ -1019,7 +1020,7 @@ exports.Formats = [
 	{
 		name: "Random Haxmons",
 		section: "Random Metagames",
-		column: 2,
+		column: 1,
 
 		searchShow: false,
 		team: 'random',
@@ -1340,7 +1341,7 @@ exports.Formats = [
 	},
 	{
 		name: "C&E",
-		section: "Other Metagames",
+		section: "Local Metagames",
 
 		searchShow: false,
 		maxLevel: 100,
@@ -1365,7 +1366,7 @@ exports.Formats = [
 			"&bullet; <a href=\"https://www.smogon.com/forums/posts/6431094/\">BW2 Sample Teams</a>"
 		],
 		section: "BW2 Singles",
-		column: 3,
+		column: 4,
 
 		mod: 'gen5',
 		ruleset: ['Pokemon', 'Standard', 'Evasion Abilities Clause', 'Baton Pass Clause', 'Team Preview'],
@@ -1467,7 +1468,7 @@ exports.Formats = [
 		name: "[Gen 5] Doubles OU",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3485044/\">BW2 Doubles Viability Ranking</a>"],
 		section: 'BW2 Doubles',
-		column: 3,
+		column: 4,
 
 		mod: 'gen5',
 		gameType: 'doubles',
@@ -1516,7 +1517,7 @@ exports.Formats = [
 			"&bullet; <a href=\"https://www.smogon.com/forums/posts/6431088/\">DPP Sample Teams</a>"
 		],
 		section: "Past Generations",
-		column: 3,
+		column: 4,
 
 		mod: 'gen4',
 		ruleset: ['Pokemon', 'Standard'],
@@ -1735,5 +1736,2065 @@ exports.Formats = [
 		searchShow: false,
 		debug: true,
 		ruleset: ['Pokemon', 'HP Percentage Mod', 'Cancel Mod']
+	},
+	
+	// Seasonals
+	///////////////////////////////////////////////////////////////////
+
+	// Seasoning Greetings, November 2012
+	{
+		name: "Seasoning's Greetings",
+		column: 3,
+
+		team: 'randomSeasonal',
+		mod: 'gen5',
+		section: 'Seasonal',
+		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod']
+	},
+	// Winter Wonderland, December 2012 and January 2013
+	{
+		name: "Winter Wonderland",
+		team: 'randomSeasonalWW',
+		mod: 'gen5',
+		section: 'Seasonal',
+		onBegin: function() {
+			this.setWeather('Hail');
+			delete this.weatherData.duration;
+		},
+		onModifyMove: function(move) {
+			if (move.id === 'present') {
+				move.name = 'Throw sack present';
+				move.accuracy = 100;
+				switch (this.random(20)) {
+				case 0:
+				case 1:
+				case 2:
+				case 3:
+				case 4:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a bomb!");
+					};
+					move.category = 'Physical';
+					move.basePower = 200;
+					break;
+				case 5:
+					move.onTryHit = function() {
+						this.add('-message', "The present was confusion!");
+					};
+					move.volatileStatus = 'confusion';
+					break;
+				case 6:
+					move.onTryHit = function() {
+						this.add('-message', "The present was Disable!");
+					};
+					move.volatileStatus = 'disable';
+					break;
+				case 7:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a taunt!");
+					};
+					move.volatileStatus = 'taunt';
+					break;
+				case 8:
+					move.onTryHit = function() {
+						this.add('-message', "The present was some seeds!");
+					};
+					move.volatileStatus = 'leechseed';
+					break;
+				case 9:
+					move.onTryHit = function() {
+						this.add('-message', "The present was an embargo!");
+					};
+					move.volatileStatus = 'embargo';
+					break;
+				case 10:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a music box!");
+					};
+					move.volatileStatus = 'perishsong';
+					break;
+				case 11:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a curse!");
+					};
+					move.volatileStatus = 'curse';
+					break;
+				case 12:
+					move.onTryHit = function() {
+						this.add('-message', "The present was Torment!");
+					};
+					move.volatileStatus = 'torment';
+					break;
+				case 13:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a trap!");
+					};
+					move.volatileStatus = 'partiallytrapped';
+					break;
+				case 14:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a root!");
+					};
+					move.volatileStatus = 'ingrain';
+					break;
+				case 15:
+				case 16:
+				case 17:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a makeover!");
+					};
+					var boosts = {};
+					var possibleBoosts = ['atk','def','spa','spd','spe','accuracy'].randomize();
+					boosts[possibleBoosts[0]] = 1;
+					boosts[possibleBoosts[1]] = -1;
+					boosts[possibleBoosts[2]] = -1;
+					move.boosts = boosts;
+					break;
+				case 18:
+					move.onTryHit = function() {
+						this.add('-message', "The present was psychic powers!");
+					};
+					move.volatileStatus = 'telekinesis';
+					break;
+				case 19:
+					move.onTryHit = function() {
+						this.add('-message', "The present was fatigue!");
+					};
+					move.volatileStatus = 'mustrecharge';
+					break;
+				}
+			}
+		},
+		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod']
+	},
+	// Valentine Venture, February 2013
+	{
+		name: "Valentine Venture",
+		team: 'randomSeasonalVV',
+		mod: 'gen5',
+		section: 'Seasonal',
+		gameType: 'doubles',
+		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod']
+	},
+	// Spring Forward, March 2013
+	{
+		name: "Spring Forward",
+		team: 'randomSeasonalSF',
+		mod: 'gen5',
+		section: 'Seasonal',
+		onBegin: function() {
+			if (this.random(100) < 75) {
+				this.add('-message', "March and April showers bring May flowers...");
+				this.setWeather('Rain Dance');
+				delete this.weatherData.duration;
+			}
+			this.debug('Cutting teams down to three.');
+    		this.p1.pokemon = this.p1.pokemon.slice(0,3);
+	        this.p1.pokemonLeft = this.p1.pokemon.length;
+	        this.p2.pokemon = this.p2.pokemon.slice(0,3);
+	        this.p2.pokemonLeft = this.p2.pokemon.length;
+		},
+		onSwitchIn: function(pokemon) {
+			var greenPokemon = {
+				bulbasaur:1, ivysaur:1, venusaur:1, caterpie:1, metapod:1, bellsprout:1, weepinbell:1, victreebel:1, scyther:1,
+				chikorita:1, bayleef:1, meganium:1, spinarak:1, natu:1, xatu:1, bellossom:1, politoed:1, skiploom:1, lavitar:1, 
+				tyranitar:1, celebi:1, treecko:1, grovyle:1, sceptile:1, dustox:1, lotad:1, lombre:1, ludicolo:1, breloom:1, 
+				electrike:1, roselia:1, gulpin:1, vibrava:1, flygon:1, cacnea:1, cacturne:1, cradily:1, keckleon:1, tropius:1, 
+				rayquaza:1, turtwig:1, grotle:1, torterra:1, budew:1, roserade:1, carnivine:1, yanmega:1, leafeon:1, shaymin:1, 
+				shayminsky:1, snivy:1, servine:1, serperior:1, pansage:1, simisage:1, swadloon:1, cottonee:1, whimsicott:1, 
+				petilil:1, lilligant:1, basculin:1, maractus:1, trubbish:1, garbodor:1, solosis:1, duosion:1, reuniclus:1, 
+				axew:1, fraxure:1, golett:1, golurk:1, virizion:1, tornadus:1, tornadustherian:1, burmy:1, 
+				kakuna:1, beedrill:1, sandshrew:1, nidoqueen:1, zubat:1, golbat:1, oddish:1, gloom:1, mankey:1, poliwrath:1, 
+				machoke:1, machamp:1, doduo:1, dodrio:1, grimer:1, muk:1, kingler:1, cubone:1, marowak:1, hitmonlee:1, tangela:1, 
+				mrmime:1, tauros:1, kabuto:1, dragonite:1, mewtwo:1, marill:1, hoppip:1, espeon:1, teddiursa:1, ursaring:1, 
+				cascoon:1, taillow:1, swellow:1, pelipper:1, masquerain:1, azurill:1, minun:1, carvanha:1, huntail:1, bagon:1, 
+				shelgon:1, salamence:1, latios:1, tangrowth:1, seismitoad:1, jellicent:1, elektross:1, druddigon:1, 
+				bronzor:1, bronzong:1, gallade:1
+			};
+			if (pokemon.template.id in greenPokemon) {
+				this.add('-message', pokemon.name + " drank way too much!");
+				pokemon.addVolatile('confusion');
+				pokemon.statusData.time = 0;
+			}
+		},
+		onModifyMove: function(move) {
+			if (move.id === 'barrage') {
+				move.category = 'Special';
+				move.type = 'Grass';
+				move.basePower = 35;
+				move.critRatio = 2;
+				move.accuracy = 100;
+				move.multihit = [3,5],
+				move.onBeforeMove = function() {
+					this.add('-message', "You found a little chocolate egg!");
+				};
+				move.onHit = function (target, source) {
+					this.heal(Math.ceil(source.maxhp / 40), source);
+				};
+			} else if (move.id === 'eggbomb') {
+				move.category = 'Special';
+				move.type = 'Grass';
+				move.basePower = 100;
+				move.willCrit = true;
+				move.accuracy = 100;
+				move.onHit = function (target, source) {
+					this.add('-message', source.name + " ate a big chocolate egg!");
+					this.heal(source.maxhp / 8, source);
+				};
+				// Too much chocolate, you get fat. Also with STAB it's too OP
+				move.self = {boosts: {spe: -2, spa: -1}};
+			} else if (move.id === 'softboiled') {
+				move.heal = [3,4];
+				move.onHit = function(target) {
+					this.add('-message', target.name + " ate a delicious chocolate egg!");
+				};
+			} else {
+				// As luck is everywhere...
+				move.critRatio = 2;
+			}
+		},
+		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod']
+	},
+	// Fools Festival, April 2013
+	{
+		name: "Fools Festival",
+		section: 'Seasonal',
+		mod: 'gen5',
+		team: 'randomSeasonalFF',
+		onBegin: function() {
+			var dice = this.random(100);
+			if (dice < 65) {
+				this.add('-message', "April showers bring May flowers...");
+				this.setWeather('Rain Dance');
+			} else if (dice < 95) {
+				this.add('-message', "What a wonderful spring day! Let's go picnic!");
+				this.setWeather('Sunny Day');
+			} else {
+				this.add('-message', "Bollocks, it's hailing?! In april?! Curse you, spring!!");
+				this.setWeather('Hail');
+			}
+			delete this.weatherData.duration;
+		},
+		onSwitchIn: function(pokemon) {
+			var name = (pokemon.ability === 'illusion' && pokemon.illusion)? pokemon.illusion.toString().substr(4, pokemon.illusion.toString().length) : pokemon.name;
+			var stonedPokemon = {Koffing:1, Weezing:1, Slowpoke:1, Slowbro:1, Slowking:1, Psyduck:1, Spinda:1};
+			var stonerQuotes = ['your face is green!', 'I just realised that Arceus fainted for our sins', 'I can, you know, feel the colors', 
+			"you're my bro", "I'm imaginining a new color!", "I'm smelling the things I see!", 'hehe, hehe, funny', "I'm hungry!" , 'we are pokemanz',        
+			'Did you know that Eevee backwards is eevee?! AMAZING', 'aaaam gonna be the verrrry best like no one evar wasss', 
+			"I feel like someone is watching us through a screen!", "come at me bro"];
+			if (name in stonedPokemon) {
+				var random = this.random(stonerQuotes.length);
+				this.add('-message', name + ": Duuuuuude, " + stonerQuotes[random]);
+				this.boost({spe:-1, def:1, spd:1}, pokemon, pokemon, {fullname:'high'});
+			}
+			// Pokemon switch in messages
+			var msg = '';
+			switch (name) {
+			case 'Ludicolo':
+				msg = "¡Ay, ay, ay! ¡Vámonos de fiesta, ya llegó Ludicolo!";
+				break;
+			case 'Missingno':
+				msg = "Hide yo items, hide yo data, missingno is here!";
+				break;
+			case 'Slowpoke': case 'Slowbro':
+				var didYouHear = ['Black & White are coming out soon!', 'Genesect has been banned to Ubers!',
+				'Smogon is moving to Pokemon Showdown!', "We're having a new thing called Seasonal Ladder!", 'Deoxys is getting Nasty Plot!'];
+				didYouHear = didYouHear.randomize();
+				msg = 'Did you hear? ' + didYouHear[0];
+				break;
+			case 'Spinda':
+				msg = "LOOK AT ME I'M USING SPINDA";
+				break;
+			case 'Whimsicott':
+				msg = 'Oh dear lord, not SubSeed again!';
+				break;
+			case 'Liepard':
+				msg = '#yoloswag';
+				break;
+			case 'Tornadus':
+				msg = "It's HURRICANE time!";
+				break;
+			case 'Riolu':
+				msg = 'Have you ever raged so hard that you smashed your keyboard? Let me show you.';
+				break;
+			case 'Gastly': case 'Haunter': case 'Gengar':
+				msg = 'Welcome to Trolledville, population: you';
+				break;
+			case 'Amoonguss':
+				msg = 'How do you feel about three sleep turns?';
+				break;
+			case 'Shaymin-Sky':
+				msg = 'Do you know what paraflinch is? huehue';
+				break;
+			case 'Ferrothorn':
+				msg = 'inb4 Stealth Rock';
+				break;
+			}
+			if (msg !== '') {
+				this.add('-message', msg);
+			}
+		},
+		onModifyMove: function(move) {
+			var dice = this.random(100);
+			if (dice < 40) {
+				var type = '';
+				switch (move.type.toLowerCase()){
+				case 'rock':
+				case 'ground':
+					type = 'Grass';
+					break;
+				case 'fire':
+				case 'bug':
+					type = 'Water';
+					break;
+				case 'water':
+				case 'grass':
+					type = 'Fire';
+					break;
+				case 'flying':
+					type = 'Fighting';
+					break;
+				case 'fighting':
+					type = 'Flying';
+					break;
+				case 'dark':
+					type = 'Bug';
+					break;
+				case 'dragon':
+				case 'electric':
+					type = 'Ice';
+					break;
+				case 'ghost':
+					type = 'Normal';
+					break;
+				case 'ice':
+					type = 'Electric';
+					break;
+				case 'normal':
+				case 'poison':
+					type = 'Ghost';
+					break;
+				case 'psychic':
+					type = 'Dark';
+					break;
+				case 'steel':
+					type = 'Poison';
+					break;
+				}
+				
+				move.type = type;
+				this.add('-message', 'lol trolled, I changed yo move type');
+			}
+			
+			// Additional changes
+			if (move.id === 'bulkup') {
+				move.onHit = function (target, source, move) {
+					var name = (target.ability === 'illusion' && target.illusion)? target.illusion.toString().substr(4, target.illusion.toString().length) : target.name;
+					this.add('-message', name + ': Do you even lift, bro?!');
+				};
+			} else if (move.id === 'charm' || move.id === 'sweetkiss' || move.id === 'attract') {
+				var malePickUpLines = ['have you been to Fukushima recently? Because you are glowing tonight!', 
+				'did it hurt when you fell to the earth? Because you must be an angel!', 'can I buy you a drink?',
+				'roses are red / lemons are sour / spread your legs / and give me an hour', 
+				"roses are red / violets are red / I'm not good with colors", "Let's go watch cherry bossoms together (´･ω･`)",
+				"Will you be my Denko? (´･ω･`)"];
+				malePickUpLines = malePickUpLines.randomize();
+				var femalePickUpLines = ['Do you go to the gym? You are buff!', "Guy, you make me hotter than July.",
+				"While I stare at you I feel like I just peed myself", "Let's go to my apartment to have midnight coffee", 
+				"Marry me, I wanna have 10 kids of you!", "Go out with me or I'll twist your neck!", "Man, you have some nice abs, can I touch them?"];
+				femalePickUpLines = femalePickUpLines.randomize();
+				move.onTryHit = function (target, source, move) {
+					var pickUpLine = '';
+					if (source.gender === 'M') {
+						pickUpLine = malePickUpLines[0];
+					} else if (source.gender === 'F') {
+						pickUpLine = femalePickUpLines[0];
+					} else {
+						return;
+					}
+					var name = (source.ability === 'illusion' && source.illusion)? source.illusion.toString().substr(4, source.illusion.toString().length) : source.name;
+					var targetName = (target.ability === 'illusion' && target.illusion)? target.illusion.toString().substr(4, target.illusion.toString().length) : target.name;
+					this.add('-message', name + ': Hey, ' + targetName + ', ' + pickUpLine);
+				};
+				move.onMoveFail = function(target, source, move) {
+                    // Returns false so move calls onHit and onMoveFail
+					var femaleRejectLines = ['Uuuh... how about no', "gtfo I'm taken", 'I have to water the plants. On Easter Island. For a year. Bye',
+					'GO AWAY CREEP', 'Do you smell like rotten eggs?', "I wouldn't date you even if you were the last Pokemon on earth."];
+					femaleRejectLines = femaleRejectLines.randomize();
+					var maleRejectLines = ["I'd rather get it on with a dirty daycare Ditto", "I'm not realy sure you're clean", 
+					"Ew, you're disgusting!", "It's not me, it's you. Go away, ugly duckling.", "Not really interested *cough*weirdo*cough*"];
+					maleRejectLines = maleRejectLines.randomize();
+					var answer = '';
+					if (target.gender === 'M') {
+						answer = maleRejectLines[0];
+					} else if (target.gender === 'F') {
+						answer = femaleRejectLines[0];
+					} else {
+						return;
+					}
+					var targetName = (target.ability === 'illusion' && target.illusion)? target.illusion.toString().substr(4, target.illusion.toString().length) : target.name;
+                    if (!target.volatiles['attract']) {
+                        this.add('-message', targetName + ': ' + answer);
+                    }
+                };
+			} else if (move.id === 'taunt') {
+				var quotes = [
+					"Yo mama so fat, she 4x resists Ice- and Fire-type attacks!",
+					"Yo mama so ugly, Captivate raises her opponent's Special Attack!",
+					"Yo mama so dumb, she lowers her Special Attack when she uses Nasty Plot!",
+					"Yo mama so fat, Smogon switched to Pokemon Showdown because PO had an integer overflow bug when you used Grass Knot against her!",
+					"Yo mama so dumb, she thought Sylveon would be Light Type!"
+				];
+				move.onHit = function (target, source) {
+					var sourceName = (source.ability === 'illusion' && source.illusion) ? source.illusion.toString().substr(4, source.illusion.toString().length) : source.name;
+					this.add('-message', sourceName + ' said, "' + quotes.sample() + '"');
+				};
+			}
+		},
+		onFaint: function (pokemon) {
+			// A poem every time a Pokemon faints
+			var haikus = ["You suck a lot / You are a bad trainer / let a mon faint", "they see me driving / round town with the girl i love / and I'm like, haikou",
+			"Ain't no Pokemon tough enough / ain't no bulk decent enough / ain't no recovery good enough / to keep me from fainting you, babe",
+			"Roses are red / violets are blue / you must be on some med / 'coz as a trainer you suck",
+			"You're gonna be the very worst / like no one ever was / to lose all the battles is your test / to faint them all is your cause",
+			'Twinkle twinkle little star / fuck you that was my best sweeper', "I'm wheezy and I'm sleezy / but as a trainer you're measly", 
+			"You're sharp as a rock / you're bright as a hole / you're one to mock / you could be beaten by a maimed mole",
+			"Alas, poor trainer! I knew him, your Pokémon, a fellow of infinite jest, of most excellent fancy."];
+			haikus = haikus.randomize();
+			this.add('-message', haikus[0]);
+		},
+		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod']
+	},
+	{
+		name: "May Mayhem",
+		section: "Seasonal",
+		mod: 'gen5',
+		team: 'randomSeasonalMM',
+		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod'],
+		onBegin: function() {
+			// Shameless plug
+			var date = Date();
+			date = date.split(' ');
+			if (parseInt(date[2]) === 12) {
+				this.add('-message', 'Wish a HAPPY BIRTHDAY to Treecko32!!');
+			}
+			if (parseInt(date[2]) === 16) {
+				this.add('-message', 'Wish a HAPPY BIRTHDAY to Joim!!');
+			}
+		},
+		onSwitchIn: function(pokemon) {
+			var dice = this.random(100);
+			if (dice < 25) {
+				this.add('-message', 'Never gonna give you up, never gonna let you down');
+			}
+		}
+	},
+	// June Jubilee, June 2013
+	{
+		name: "June Jubilee",
+		section: "Seasonal",
+		mod: 'gen5',
+		team: 'randomSeasonalJJ',
+		ruleset: ['Sleep Clause Mod', 'HP Percentage Mod'],
+		onBegin: function() {
+			this.add('-message', "Greetings, trainer! Delibird needs your help! It's lost in the US and it needs to find its way back to the arctic before summer starts! Help your Delibird while travelling north, but you must defeat the opponent before he reaches there first!");
+			this.setWeather('Sunny Day');
+			delete this.weatherData.duration;
+		},
+		onBeforeMove: function(pokemon, target, move) {
+			// Reshiram changes weather with its tail until you reach the arctic
+			if (pokemon.template.speciesid === 'reshiram' && pokemon.side.battle.turn < 15) {
+				var weatherMsg = '';
+				var dice = this.random(100);
+				if (dice < 25) {
+					this.setWeather('Rain Dance');
+					weatherMsg = 'a Drizzle';
+				} else if (dice < 50) {
+					this.setWeather('Sunny Day');
+					weatherMsg = 'a Sunny Day';
+				} else if (dice < 75) {
+					this.setWeather('Hail');
+					weatherMsg = 'Hail';
+				} else {
+					this.setWeather('Sandstorm');
+					weatherMsg = 'a Sandstorm';
+				}
+				this.add('-message', "Reshiram caused " + weatherMsg + " with its tail!");
+				delete this.weatherData.duration;
+			}
+
+			if (!pokemon.side.battle.seasonal) pokemon.side.battle.seasonal = {'none':false, 'drizzle':false, 'hail':false};
+			if (pokemon.side.battle.turn >= 4 && pokemon.side.battle.seasonal.none === false) {
+				this.add('-message', "You are travelling north and you have arrived to North Dakota! There's a clear sky and the temperature is lower here.");
+				this.clearWeather();
+				pokemon.side.battle.seasonal.none = true;
+			}
+			if (pokemon.side.battle.turn >= 8 && pokemon.side.battle.seasonal.drizzle === false) {
+				this.add('-message', "You are travelling further north and you have arrived to Edmonton! It started raining a lot... and it's effing cold.");
+				this.setWeather('Rain Dance');
+				delete this.weatherData.duration;
+				pokemon.side.battle.seasonal.drizzle = true;
+			}
+			if (pokemon.side.battle.turn >= 12 && pokemon.side.battle.seasonal.hail === false) {
+				this.add('-message', "You have arrived to the arctic! Defeat the other trainer so Delibird can be free!");
+				this.setWeather('Hail');
+				delete this.weatherData.duration;
+				pokemon.side.battle.seasonal.hail = true;
+			}
+		},
+		onFaint: function(pokemon) {
+			if (pokemon.template.id === 'delibird') {
+				var name = pokemon.side.name;
+				var winner = '';
+				if (pokemon.side.id === 'p1') {
+					winner = 'p2';
+				} else {
+					winner = 'p1';
+				}
+				this.add('-message', "No!! You let Delibird down. He trusted you. You lost the battle, " + name + ". But you lost something else: your Pokémon's trust.");
+				pokemon.battle.win(winner);
+			}
+		}
+	},
+	// Jolly July, July 2013
+	/*{
+		name: "Jolly July",
+		section: 'Seasonal',
+		mod: 'gen5',
+		team: 'randomSeasonalJuly',
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod'],
+		onBegin: function() {
+			this.add('-message', "You and your faithful favourite Pokémon are travelling around the world, and you will fight this trainer in many places until either win or finish the travel!");
+			// ~learn international independence days with PS~
+			var date = Date();
+			date = date.split(' ');
+			switch (parseInt(date[2])) {
+			case 4:
+				// 4th of July for the US
+				this.add('-message', "FUCK YEAH 'MURICA!");
+				break;
+			case 5:
+				// 5th independence day of Algeria and Venezuela
+				this.add('-message', "¡Libertad para Venezuela o muerte!");
+				break;
+			case 9:
+				// 9th independence day of Argentina and South Sudan
+				this.add('-message', "¡Che, viteh que somos libres!");
+				break;
+			case 10:
+				// Bahamas lol
+				this.add('-message', "Free the beaches!");
+				break;
+			case 20:
+				// Colombia
+				this.add('-message', "¡Independencia para Colombia!");
+				break;
+			case 28:
+				// Perú
+				this.add('-message', "¡Perú libre!");
+				break;
+			}
+		},
+		onBeforeMove: function(pokemon) {
+			// Set all the stuff
+			var dice = this.random(100);
+			if (!pokemon.side.battle.cities) {
+				// Set up the cities you visit around the world
+				pokemon.side.battle.cities = {
+					'N': [
+						'Madrid', 'Paris', 'London', 'Ghent', 'Amsterdam', 'Gdansk',
+						'Munich', 'Rome', 'Rabat', 'Stockholm', 'Moscow', 'Beijing',
+						'Tokyo', 'Dubai', 'New York', 'Vancouver', 'Los Angeles',
+						'Edmonton', 'Houston', 'Mexico DF', 'Barcelona', 'Blanes'
+					],
+					'S': [
+						'Buenos Aires', 'Lima', 'Johanesburg', 'Sydney', 'Melbourne',
+						'Santiago de Chile', 'Bogota', 'Lima', 'Montevideo',
+						'Wellington', 'Canberra', 'Jakarta', 'Kampala', 'Mumbai',
+						'Auckland', 'Pretoria', 'Cape Town'
+					]
+				};
+				pokemon.side.battle.currentPlace = {'hemisphere':'N', 'city':'Townsville'};
+				pokemon.side.battle.cities.N = pokemon.side.battle.cities.N.randomize();
+				pokemon.side.battle.cities.S = pokemon.side.battle.cities.S.randomize();
+				pokemon.side.battle.indexes = {'N':0, 'S':0};
+				// We choose a hemisphere and city to be in at the beginning
+				if (dice < 50) pokemon.side.battle.currentPlace.hemisphere = 'S';
+				pokemon.side.battle.currentPlace.city = pokemon.side.battle.cities[pokemon.side.battle.currentPlace.hemisphere][0];
+				pokemon.side.battle.indexes[pokemon.side.battle.currentPlace.hemisphere]++;
+			}
+
+			// Snarky comments from one trainer to another
+			var diceTwo = this.random(100);
+			if (diceTwo > 75) {
+				var comments = [
+					"I've heard your mom is also travelling around the world catchin' em all, if you get what I mean, %s.",
+					"You fight like a Miltank!", "I'm your Stealth Rock to your Charizard, %s!", 
+					"I bet I could beat you with a Spinda. Or an Unown.", "I'm rubber, you're glue!", 
+					"I've seen Slowpokes with more training prowess, %s.", "You are no match for me, %s!",
+					"%s, have you learned how to battle from Bianca?"
+				];
+				comments = comments.randomize();
+				var otherTrainer = (pokemon.side.id === 'p1')? 'p2' : 'p1';
+				this.add('-message', pokemon.side.name + ': ' + comments[0].replace('%s', pokemon.side.battle[otherTrainer].name));
+			}
+			delete diceTwo;
+
+			// This is the stuff that is calculated every turn once
+			if (!pokemon.side.battle.lastMoveTurn) pokemon.side.battle.lastMoveTurn = 0;
+			if (pokemon.side.battle.lastMoveTurn !== pokemon.side.battle.turn) {
+				var nextChange = this.random(2, 4);
+				if (pokemon.side.battle.lastMoveTurn === 0 || pokemon.side.battle.lastMoveTurn + nextChange <= pokemon.side.battle.turn) {
+					pokemon.side.battle.lastMoveTurn = pokemon.side.battle.turn;
+					if (dice < 50) {
+						if (pokemon.side.battle.currentPlace.hemisphere === 'N') {
+							pokemon.side.battle.currentPlace.hemisphere = 'S';
+							this.add('-fieldstart', 'move: Wonder Room', '[of] Seasonal');
+						} else {
+							pokemon.side.battle.currentPlace.hemisphere = 'N';
+							this.add('-fieldend', 'move: Wonder Room', '[of] Seasonal');
+						}
+					}
+
+					// Let's check if there's cities to visit left
+					if (pokemon.side.battle.indexes.N === pokemon.side.battle.cities['N'].length - 1 
+					&& pokemon.side.battle.indexes.S === pokemon.side.battle.cities['S'].length - 1) {
+						this.add('-message', "You have travelled all around the world, " + pokemon.side.name + "! You won!");
+						pokemon.battle.win(pokemon.side.id);
+						return false;
+					}
+					// Otherwise, move to the next city
+					pokemon.side.battle.currentPlace.city = pokemon.side.battle.cities[pokemon.side.battle.currentPlace.hemisphere][pokemon.side.battle.indexes[pokemon.side.battle.currentPlace.hemisphere]];
+					pokemon.side.battle.indexes[pokemon.side.battle.currentPlace.hemisphere]++;
+					var hemispheres = {'N':'northern', 'S':'southern'};
+					pokemon.side.battle.add('-message', "Travelling around the world, you have arrived to a new city in the " + hemispheres[pokemon.side.battle.currentPlace.hemisphere] + " hemisphere, " + pokemon.side.battle.currentPlace.city + "!");
+				}
+			}
+		},
+		onModifyMove: function(move) {
+			if (move.id === 'fireblast') move.name = 'July 4th Fireworks';
+		}
+	},*/
+	// Average August, August 2013
+	{
+		name: "Average August",
+		section: 'Seasonal',
+		mod: 'gen5',
+		team: 'randomSeasonalAA',
+		gameType: 'doubles',
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod'],
+		onBegin: function() {
+			// What does player 1 lead with?
+			var p1Where = 'boat';
+			var p2Where = 'boat';
+			if (this.p1.pokemon[0].name === 'Kyogre') p1Where = 'pirates';
+			if (this.p2.pokemon[0].name === 'Kyogre') p2Where = 'pirates';
+			var shipNames = [
+				'Zarelrules', 'Joimawesome', 'Treeckonoob', 'MJailBait', 'mikelpuns', 'TTTtttttt', 'Frazzle Dazzle',
+				'TIbot', 'CDXCIV', 'Srs Bsns Trts', 'Leemz', 'Eggymad', 'Snoffles', 'bmelted', 'Poopes', 'Hugonedugen',
+				'Il Haunter', 'chaospwns', 'WaterBro', 'niggie', 'DOOM', 'qhore', 'Jizzmine', 'Aldarown'
+			].randomize();
+			var whereAreThey = (p1Where === 'boat' && p2Where === 'boat')? 'You both were aboard the fantastic ship S. S. ' + shipNames[0] :
+			((p1Where === 'pirates' && p2Where === 'pirates')? 'You are two pirate gangs on a summer sea storm about to raze the ship S. S. ' +  shipNames[0] :
+			((p1Where === 'pirates')? this.p1.name : this.p2.name) + ' leads a pirate boat to raze the ship S. S. ' + shipNames[0]
+			+ ' where ' + ((p1Where === 'pirates')? this.p2.name : this.p1.name)) + ' is enjoying a sea travel,';
+
+			this.add('-message',
+				'Alas, poor trainers! ' + whereAreThey + " when a sudden summer Hurricane made a Wailord hit your transport, and now it's sinking! "
+				+ "There are not enough life boats for everyone nor trainers ain't sharing their Water-type friends, "
+				+ "so you'll have to fight to access a life boat! Good luck! You have to be fast to not to be hit by the Hurricane!"
+			);
+		},
+		onSwitchIn: function(pokemon) {
+			if (pokemon.battle.turn > 0) {
+				var result = true;
+				for (var i=0; i<pokemon.battle.sides.length; i++) {
+					for (var j=0; j<pokemon.battle.sides[i].active.length; j++) {
+						if (pokemon.battle.sides[i].active[j] && !pokemon.battle.sides[i].active[j].volatiles['perishsong']) {
+							result = false;
+						}
+						if (pokemon.battle.sides[i].active[j] && pokemon.battle.sides[i].active[j].ability !== 'soundproof') {
+							pokemon.battle.sides[i].active[j].addVolatile('perishsong');
+						} else {
+							this.add('-immune', pokemon.battle.sides[i].active[j], '[msg]');
+							this.add('-end', pokemon.battle.sides[i].active[j], 'Perish Song');
+						}
+					}
+				}
+				if (result) return false;
+				this.add('-fieldactivate', 'move: Perish Song');
+			}
+		}
+	},
+	// School Schemes, September 2013
+	{
+		name: "School Schemes",
+		section: 'Seasonal',
+		mod: 'gen5',
+		team: 'randomSeasonalSS',
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod']
+	},
+	// Octoberfest, October 2013
+	{
+		name: "Octoberfest",
+		section: 'Seasonal',
+		mod: 'gen5',
+		team: 'randomSeasonalOF',
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod'],
+		onModifyMove: function(move) {
+			if (move.id === 'trick') {
+				delete move.onHit;
+				switch (this.random(17)) {
+				case 0:
+					move.onTryHit = function() {
+						this.add('-message', 'Trick: Kick on the nuts!');
+					};
+					move.category = 'Physical';
+					move.type = 'Normal';
+					move.basePower = 200;
+					break;
+				case 1:
+					move.onTryHit = function() {
+						this.add('-message', 'Trick: Fireworks at your feet!');
+					};
+					move.category = 'Special';
+					move.type = 'Fire';
+					move.basePower = 200;
+					break;
+				case 2:
+					move.onTryHit = function() {
+						this.add('-message', 'Trick: Doused with water!');
+					};
+					move.category = 'Special';
+					move.type = 'Water';
+					move.basePower = 200;
+					break;
+				case 3:
+					move.onTryHit = function() {
+						this.add('-message', 'Trick: Bombed with rotten eggs!');
+					};
+					move.category = 'Special';
+					move.type = 'Poison';
+					move.basePower = 200;
+					break;
+				case 4:
+					move.onTryHit = function() {
+						this.add('-message', 'Trick: You got scared by a real-looking costume!');
+					};
+					move.category = 'Special';
+					move.type = 'Dark';
+					move.basePower = 200;
+					break;
+				case 5:
+					move.onTryHit = function() {
+						this.add('-message', 'Trick: You got hit in the head!');
+					};
+					move.volatileStatus = 'confusion';
+					break;
+				case 6:
+					move.onTryHit = function() {
+						this.add('-message', 'Trick: Your arms were maimed!');
+					};
+					move.volatileStatus = 'disable';
+					break;
+				case 7:
+					move.onTryHit = function() {
+						this.add('-message', "Trick: You've been taunted by those meddling kids!");
+					};
+					move.volatileStatus = 'taunt';
+					break;
+				case 8:
+					move.onTryHit = function() {
+						this.add('-message', 'Treat: You got some yummy seeds!');
+					};
+					move.volatileStatus = 'leechseed';
+					break;
+				case 9:
+					move.onTryHit = function() {
+						this.add('-message', 'Trick: Your car was stolen!');
+					};
+					move.volatileStatus = 'embargo';
+					break;
+				case 10:
+					move.onTryHit = function() {
+						this.add('-message', "Trick: You're haunted and you're going to die!");
+					};
+					move.volatileStatus = 'perishsong';
+					break;
+				case 11:
+					move.onTryHit = function() {
+						this.add('-message', 'Trick: A ghost cursed you!');
+					};
+					move.volatileStatus = 'curse';
+					break;
+				case 12:
+					move.onTryHit = function() {
+						this.add('-message', "Trick: You're tormented by the constant tricking!");
+					};
+					move.volatileStatus = 'torment';
+					break;
+				case 13:
+					move.onTryHit = function() {
+						this.add('-message', 'Treat: Om nom nom roots!');
+					};
+					move.volatileStatus = 'ingrain';
+					break;
+				case 14:
+					move.onTryHit = function() {
+						this.add('-message', 'Treat: Uhm, these candy taste weird...');
+					};
+					var boosts = {};
+					var possibleBoosts = ['atk','def','spa','spd','spe','accuracy','evasion'].randomize();
+					boosts[possibleBoosts[0]] = 2;
+					boosts[possibleBoosts[1]] = -1;
+					boosts[possibleBoosts[2]] = -1;
+					move.boosts = boosts;
+					break;
+				case 15:
+					move.onTryHit = function() {
+						this.add('-message', "Trick: You're tired of running after teenagers with your baseball bat.");
+					};
+					move.volatileStatus = 'mustrecharge';
+					break;
+				case 16:
+					move.onTryHit = function() {
+						this.add('-message', "Treat: You got candy!");
+					};
+					move.heal = [1,2];
+					break;
+				}
+			} else if (move.id === 'present') {
+				move.accuracy = 100;
+				move.basePower = 0;
+				move.category = 'Status';
+				move.volatileStatus = 'confusion';
+				move.pp = 10;
+				move.priority = 0;
+				move.name = 'Offer Beer';
+				move.boosts = {'atk':-1, 'spa':-1, 'def':1, 'spd':1, 'spe':-1, 'accuracy':-1, 'evasion':1};
+				move.onTryHit = function() {
+					this.add('-message', "Oh, why, thank you! This beer is delicious!");
+				};
+				move.effect = {
+					onBeforeMove: function(pokemon, target, move) {
+						if (this.random(10) < 3) {
+							this.useMove('Sing', target);
+							return;
+						}
+					}
+				};
+			}
+		}
+	},
+	// Thankless Thanksgiving, November 2013
+	{
+		name: "Thankless Thanksgiving",
+		section: 'Seasonal',
+		team: 'randomSeasonalTT',
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod']
+	},
+	// Christmas Charade, December 2013
+	{
+		name: "Christmas Charade",
+		section: 'Seasonal',
+		team: 'randomSeasonalCC',
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod'],
+		onBegin: function() {
+			this.setWeather('Hail');
+			delete this.weatherData.duration;
+		},
+		onModifyMove: function(move) {
+			if (move.id === 'present') {
+				move.category = 'Status';
+				move.basePower = 0;
+				delete move.heal;
+				move.accuracy = 100;
+				switch (this.random(19)) {
+				case 0:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a bomb!");
+					};
+					move.category = 'Physical';
+					move.basePower = 250;
+					break;
+				case 1:
+					move.onTryHit = function() {
+						this.add('-message', "The present was confusion!");
+					};
+					move.volatileStatus = 'confusion';
+						break;
+				case 2:
+					move.onTryHit = function() {
+						this.add('-message', "The present was Disable!");
+					};
+					move.volatileStatus = 'disable';
+					break;
+				case 3:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a taunt!");
+					};
+					move.volatileStatus = 'taunt';
+					break;
+				case 4:
+					move.onTryHit = function() {
+						this.add('-message', "The present was some seeds!");
+					};
+					move.volatileStatus = 'leechseed';
+					break;
+				case 5:
+					move.onTryHit = function() {
+						this.add('-message', "The present was an embargo!");
+					};
+					move.volatileStatus = 'embargo';
+					break;
+				case 6:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a music box!");
+					};
+					move.volatileStatus = 'perishsong';
+					break;
+				case 7:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a curse!");
+					};
+					move.volatileStatus = 'curse';
+					break;
+				case 8:
+					move.onTryHit = function() {
+						this.add('-message', "The present was Torment!");
+					};
+					move.volatileStatus = 'torment';
+					break;
+				case 9:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a trap!");
+					};
+					move.volatileStatus = 'partiallytrapped';
+					break;
+				case 10:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a root!");
+					};
+					move.volatileStatus = 'ingrain';
+					break;
+				case 11:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a makeover!");
+					};
+					var boosts = {};
+					var possibleBoosts = ['atk','def','spa','spd','spe','accuracy','evasion'].randomize();
+					boosts[possibleBoosts[0]] = 1;
+					boosts[possibleBoosts[1]] = -1;
+					boosts[possibleBoosts[2]] = -1;
+					move.boosts = boosts;
+					break;
+				case 12:
+					move.onTryHit = function() {
+						this.add('-message', "The present was psychic powers!");
+					};
+					move.volatileStatus = 'telekinesis';
+					break;
+				case 13:
+					move.onTryHit = function() {
+						this.add('-message', "The present was fatigue!");
+					};
+					move.volatileStatus = 'mustrecharge';
+					break;
+				case 14:
+				case 15:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a snowball hit!");
+					};
+					move.category = 'Ice';
+					move.basePower = 250;
+					break;
+				case 16:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a crafty shield!");
+					};
+					move.volatileStatus = 'craftyshield';
+					break;
+				case 17:
+					move.onTryHit = function() {
+						this.add('-message', "The present was an electrification!");
+					};
+					move.volatileStatus = 'electrify';
+					break;
+				case 18:
+					move.onTryHit = function() {
+						this.add('-message', "The present was an ion deluge!");
+					};
+					move.volatileStatus = 'iondeluge';
+					break;
+				}
+			}
+		}
+	},
+	// Winter's Wont, January 2014
+	{
+		name: "Winter's Wont",
+		section: 'Seasonal',
+		//mod: 'inverse',
+		gameType: 'doubles',
+		team: 'randomSeasonalFF',
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod'],
+		onBegin: function() {
+			this.add('-message', "新年快乐");
+		},
+		onModifyMove: function(move) {
+			if (move.id === 'explosion') move.name = 'Firecrackers';
+			else if (move.type === 'Fire') move.name = 'Fireworks';
+		}
+	},
+	// Seasonal Strikes Back, November 2014
+	{
+		name: "Strikes Back",
+		section: 'Seasonal',
+
+		team: 'randomSeasonalSFT',
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod'],
+		onBegin: function() {
+			this.add('-message', "V4 is a big poo-poo!");
+		},
+		onModifyMove: function (move) {
+			// Change present mechanics
+			if (move.id === 'present') {
+				move.category = 'Status';
+				move.basePower = 0;
+				delete move.heal;
+				move.accuracy = 100;
+				switch (this.random(19)) {
+				case 0:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a bomb!");
+					};
+					move.category = 'Physical';
+					move.basePower = 250;
+					break;
+				case 1:
+					move.onTryHit = function() {
+						this.add('-message', "The present was confusion!");
+					};
+					move.volatileStatus = 'confusion';
+						break;
+				case 2:
+					move.onTryHit = function() {
+						this.add('-message', "The present was Disable!");
+					};
+					move.volatileStatus = 'disable';
+					break;
+				case 3:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a taunt!");
+					};
+					move.volatileStatus = 'taunt';
+					break;
+				case 4:
+					move.onTryHit = function() {
+						this.add('-message', "The present was some seeds!");
+					};
+					move.volatileStatus = 'leechseed';
+					break;
+				case 5:
+					move.onTryHit = function() {
+						this.add('-message', "The present was an embargo!");
+					};
+					move.volatileStatus = 'embargo';
+					break;
+				case 6:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a music box!");
+					};
+					move.volatileStatus = 'perishsong';
+					break;
+				case 7:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a curse!");
+					};
+					move.volatileStatus = 'curse';
+					break;
+				case 8:
+					move.onTryHit = function() {
+						this.add('-message', "The present was Torment!");
+					};
+					move.volatileStatus = 'torment';
+					break;
+				case 9:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a trap!");
+					};
+					move.volatileStatus = 'partiallytrapped';
+					break;
+				case 10:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a root!");
+					};
+					move.volatileStatus = 'ingrain';
+					break;
+				case 11:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a makeover!");
+					};
+					var boosts = {};
+					var possibleBoosts = ['atk','def','spa','spd','spe','accuracy','evasion'].randomize();
+					boosts[possibleBoosts[0]] = 1;
+					boosts[possibleBoosts[1]] = -1;
+					boosts[possibleBoosts[2]] = -1;
+					move.boosts = boosts;
+					break;
+				case 12:
+					move.onTryHit = function() {
+						this.add('-message', "The present was psychic powers!");
+					};
+					move.volatileStatus = 'telekinesis';
+					break;
+				case 13:
+					move.onTryHit = function() {
+						this.add('-message', "The present was fatigue!");
+					};
+					move.volatileStatus = 'mustrecharge';
+					break;
+				case 14:
+				case 15:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a snowball hit!");
+					};
+					move.category = 'Ice';
+					move.basePower = 250;
+					break;
+				case 16:
+					move.onTryHit = function() {
+						this.add('-message', "The present was a crafty shield!");
+					};
+					move.volatileStatus = 'craftyshield';
+					break;
+				case 17:
+					move.onTryHit = function() {
+						this.add('-message', "The present was an electrification!");
+					};
+					move.volatileStatus = 'electrify';
+					break;
+				case 18:
+					move.onTryHit = function() {
+						this.add('-message', "The present was an ion deluge!");
+					};
+					move.volatileStatus = 'iondeluge';
+					break;
+				}
+			}
+
+			// Change move type time to time
+			if (this.random(100) < 40) {
+				var type = '';
+				switch (move.type.toLowerCase()){
+				case 'rock':
+				case 'ground':
+					type = 'Grass';
+					break;
+				case 'fire':
+				case 'bug':
+					type = 'Water';
+					break;
+				case 'water':
+				case 'grass':
+					type = 'Fire';
+					break;
+				case 'flying':
+					type = 'Fighting';
+					break;
+				case 'fighting':
+					type = 'Flying';
+					break;
+				case 'dark':
+					type = 'Bug';
+					break;
+				case 'dragon':
+				case 'electric':
+					type = 'Ice';
+					break;
+				case 'ghost':
+					type = 'Normal';
+					break;
+				case 'ice':
+					type = 'Electric';
+					break;
+				case 'normal':
+				case 'poison':
+					type = 'Ghost';
+					break;
+				case 'psychic':
+					type = 'Dark';
+					break;
+				case 'steel':
+					type = 'Poison';
+					break;
+				}
+				
+				move.type = type;
+				this.add('-message', 'lol trolled I changed yer move type hahaha');
+			}
+		},
+		onSwitchIn: function (pokemon) {
+			if (this.random(100) < 33) {
+				this.add('-message', pokemon.name + " drank way too much!");
+				pokemon.addVolatile('confusion');
+				pokemon.statusData.time = 0;
+			}
+		},
+		onFaint: function (pokemon) {
+			// A poem every time a Pokemon faints
+			var haikus = ["You suck a lot / You are a bad trainer / let a mon faint", "they see me driving / round town with the girl i love / and I'm like, haikou",
+			"Ain't no Pokemon tough enough / ain't no bulk decent enough / ain't no recovery good enough / to keep me from fainting you, babe",
+			"Roses are red / violets are blue / you must be on some med / 'coz as a trainer you suck",
+			"You're gonna be the very worst / like no one ever was / to lose all the battles is your test / to faint them all is your cause",
+			'Twinkle twinkle little star / fuck you that was my best sweeper', "I'm wheezy and I'm sleezy / but as a trainer you're measly", 
+			"You're sharp as a rock / you're bright as a hole / you're one to mock / you could be beaten by a maimed mole",
+			"Alas, poor trainer! I knew him, your Pokémon, a fellow of infinite jest, of most excellent fancy."];
+			haikus = haikus.randomize();
+			this.add('-message', haikus[0]);
+		}
+	},
+	// Sleigh Showdown, December 2014
+	{
+		name: "Sleigh Showdown",
+		section: "Seasonal",
+
+		team: 'randomSeasonalSleigh',
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod'],
+		onBegin: function () {
+			this.add('-message', "Yikes! You are a grinch in a reckless, regretless sleigh race, running for Showdownville to ruin christmas. But, to achieve that, you must first defeat your opponent. Fight hard and take care with the obstacles!");
+			this.seasonal = {position: [0, 0], weight: [2500, 2500]};
+		},
+		onModifyMove: function (move) {
+			if (move.type === 'Fire') {
+				move.onHit = function (pokemon, source) {
+					this.add('-message', "The fire melts the snow, slowing down the sleigh!");
+					this.boost({spe: -1}, pokemon, source);
+				};
+			}
+			if (move.type === 'Water') {
+				if (this.random(100) < 25) {
+					this.add('-message', "The cold froze your Water-type attack, making it Ice-type instead!");
+					move.type = 'Ice';
+				}
+			}
+			if (move.type === 'Ice') {
+				move.onHit = function (pokemon, source) {
+					this.add('-message', "The ice makes the surface more slippery, speeding up the sleigh!");
+					this.boost({spe: 1}, pokemon, source);
+				};
+			}
+			if (move.id === 'present') {
+				move.name = "Throw sack present";
+				move.accuracy = 100;
+				move.basePower = 0;
+				move.category = "Status";
+				move.heal = null;
+				move.boosts = null;
+				move.target = 'normal';
+				move.status = null;
+				move.type = "Normal";
+				switch (this.random(9)) {
+					case 0:
+						move.onTryHit = function (target, source) {
+							this.add('-message', "You got an Excadreydle from the sack!");
+							this.seasonal.weight[source.side.n] -= 40.4;
+						};
+						move.boosts = {spe: -1};
+						break;
+					case 1:
+						move.onTryHit = function (target, source) {
+							this.add('-message', "You got a Chandelnukkiyah from the sack!");
+							this.seasonal.weight[source.side.n] -= 34.3;
+						};
+						move.status = 'brn';
+						break;
+					case 2:
+						move.onTryHit = function (target, source) {
+							this.add('-message', "You got a Glalie from the sack! Ka-boom!");
+							this.seasonal.weight[source.side.n] -= 256.5;
+						};
+						move.category = 'Special';
+						move.basePower = 300;
+						break;
+					case 3:
+						move.onTryHit = function (target, source) {
+							this.add('-message', "You got a tree Starmie from the sack!");
+							this.seasonal.weight[source.side.n] -= 80;
+						};
+						move.category = 'Special';
+						move.type = 'Water';
+						move.basePower = 150;
+						break;
+					case 4:
+						move.onTryHit = function (target, source) {
+							this.add('-message', "You got an Abomaxmas tree from the sack!");
+							this.seasonal.weight[source.side.n] -= 40.4;
+						};
+						move.category = 'Physical';
+						move.type = 'Ice';
+						move.basePower = 150;
+						break;
+					case 5:
+						move.onTryHit = function (target, source) {
+							this.add('-message', "You got a Chansey egg nog from the sack!");
+							this.seasonal.weight[source.side.n] -= 34.6;
+						};
+						move.target = 'self';
+						move.heal = [3, 4];
+						break;
+					case 6:
+						move.onTryHit = function (target, source) {
+							this.add('-message', "You got Cryogonal snowflakes from the sack!");
+							this.seasonal.weight[source.side.n] -= 148;
+						};
+						move.category = 'Special';
+						move.type = 'Ice';
+						move.basePower = 200;
+						break;
+					case 7:
+						move.onTryHit = function (target, source) {
+							this.add('-message', "You got Pikachu-powered christmas lights from the sack!");
+							this.seasonal.weight[source.side.n] -= 6;
+						};
+						move.category = 'Special';
+						move.type = 'Electric';
+						move.basePower = 250;
+						break;
+					case 8:
+						move.onTryHit = function (target, source) {
+							this.add('-message', "You got Shaymin-Sky mistletoe from the sack!");
+							this.seasonal.weight[source.side.n] -= 5.2;
+						};
+						move.category = 'Special';
+						move.type = 'Grass';
+						move.basePower = 200;
+						break;
+				}
+			}
+		},
+		onBeforeMove: function (pokemon, target, move) {
+			// Before every move, trainers advance on their sleighs. There might be obstacles.
+			// We add more speed the less loaded the sleigh is.
+			// Then, we get a random number from 0 to 99, then calculate if it's less than (Pokémon's speed * 0.083) + 5.
+			var speed = Math.abs(pokemon.speed) + Math.ceil((2500 - this.seasonal.weight[pokemon.side.n]) / 25);
+			if (this.random(100) < Math.ceil(speed * 0.083) + 5) {
+				var name = pokemon.illusion ? pokemon.illusion.name : pokemon.name;
+				// If an obstacle is found, the trainer won't advance this turn.
+				switch (this.random(6)) {
+				case 0:
+				case 1:
+				case 2:
+					this.add('-message', "" + name + " hit a tree and some snow fell on it!");
+					pokemon.cureStatus();
+					this.damage(Math.ceil(pokemon.maxhp / 10), pokemon, pokemon, "head injuries", true);
+					break;
+				case 3:
+					this.add('-message', "" + name + " hit a snow bank!");
+					pokemon.setStatus('frz', pokemon, null, true);
+					this.add('cant', pokemon, 'frz');
+					return false;
+				case 4:
+					this.add('-message', "" + name + " fell into a traphole!");
+					this.boost({spe: -1}, pokemon, pokemon, move);
+					break;
+				case 5:
+					this.add('-message', "" + name + " hit a heavy wall!");
+					// override status
+					pokemon.setStatus('par', pokemon, null, true);
+					break;
+				}
+			} else {
+				// If no obstacles, the trainer advances as much meters as speed its Pokémon has.
+				this.add('-message', "" + pokemon.side.name + " has advanced down the mountain " + speed + " meters!");
+				this.seasonal.position[pokemon.side.n] += speed;
+			}
+
+			// Showdownville is about 4000 meters away from the mountaintop.
+			if (this.seasonal.position[pokemon.side.n] >= 3500) {
+				this.add('-message', "" + pokemon.side.name + " has arrived to Showdownville first and ruined christmas! The race is won!");
+				this.win(pokemon.side.id);
+			}
+		},
+		onHit: function (target) {
+			// Getting hit thaws the ice if you are frozen.
+			if (target.status === 'frz') target.cureStatus();
+		}
+	},
+	// Spacetime Funtimes, January 2015
+	{
+		name: "Spacetime Funtimes",
+		section: "Seasonal",
+
+		team: 'randomSeasonalSFT',
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod'],
+		onBegin: function () {
+			this.add('message', "Dialga and Palkia have distorted space and time!");
+			// This shouldn't happen.
+			if (!this.seasonal) this.seasonal = {scenario: 'lotr'};
+
+			// Add the message for the scenario.
+			this.add('-message', {
+				'gen1': "It appears that you have travelled to the past! This looks like... 1997!",
+				'lotr': "You find yourselves in middle of an epic battle for Middle Earth!",
+				'redblue': "Wow! You are taking part in the most epic Pokémon fight ever!",
+				'terminator': "You are caught up in the epic apocalyptic battle of the machines against the humans!",
+				'desert': "It's no less than the exodus itself!",
+				'shipwreck': "You're on a giant ship that was rekt by an iceberg. And the fish Pokémon want to eat the sailors!"
+			}[this.seasonal.scenario]);
+
+			// Let's see what's the scenario and change space and time.
+			if (this.seasonal.scenario === 'lotr') {
+				this.addPseudoWeather('wonderroom', this.p1.pokemon[0], null, '[of] Seasonal');
+				delete this.pseudoWeather.wonderroom.duration;
+			} else if (this.seasonal.scenario === 'terminator') {
+				this.addPseudoWeather('trickroom', this.p1.pokemon[0], null, '[of] Seasonal');
+				delete this.pseudoWeather.trickroom.duration;
+			} else if (this.seasonal.scenario === 'gen1') {
+				this.addPseudoWeather('magicroom', this.p1.pokemon[0], null, '[of] Seasonal');
+				delete this.pseudoWeather.magicroom.duration;
+			} else if (this.seasonal.scenario === 'desert') {
+				this.setWeather(['Sandstorm', 'Sunnyday'][this.random(2)]);
+				delete this.weatherData.duration;
+			} else if (this.seasonal.scenario === 'shipwreck') {
+				this.setWeather('raindance');
+				this.addPseudoWeather('watersport', this.p1.pokemon[0], null, '[of] Seasonal');
+				delete this.pseudoWeather.watersport.duration;
+				delete this.weatherData.duration;
+			}
+		},
+		onFaint: function (target, source) {
+			if (this.seasonal.scenario === 'gen1') {
+				if (source && source.removeVolatile) source.removeVolatile('mustrecharge');
+				if (target && target.side) target.side.removeSideCondition('reflect');
+				this.queue = [];
+			}
+		},
+		onModifyMove: function (move) {
+			if (this.seasonal.scenario === 'gen1') {
+				if (move.id === 'blizzard') {
+					move.accuracy = 90;
+				}
+				if (move.id === 'psychic') {
+					move.secondary = {chance: 33, boosts: {spd: -1, spa: -1}};
+				}
+				if (move.id === 'amnesia') {
+					move.boosts = {spa:2, spd:2};
+				}
+				if (move.id === 'hyperbeam') {
+					move.category = 'Physical';
+				}
+			}
+			if (this.seasonal.scenario === 'lotr') {
+				if (move.id === 'growl') {
+					move.name = 'Throw ring to lava';
+					move.category = 'Special';
+					move.basePower = 160;
+					move.type = 'Fire';
+					move.accuracy = true;
+					move.self = {volatileStatus: 'mustrecharge'};
+					move.onTryHit = function () {
+						this.add('-message', 'Frodo throws the one ring into the lava!');
+					};
+				}
+				if (move.id === 'thousandarrows') {
+					move.onBasePower = function (basePower, pokemon, target) {
+						if (target.name === 'Smaug') {
+							this.add('-message', "Bard's arrow pierces through Smaug's diamond-tough skin!");
+							return this.chainModify(3);
+						}
+					};
+				}
+			}
+		},
+		onSwitchIn: function (pokemon) {
+			if (this.seasonal.scenario === 'lotr') {
+				if (pokemon.name === 'Frodo') {
+					this.add('-message', 'The One Ring gives power to Frodo!');
+					this.add('-start', pokemon, 'typechange', 'Ground/Fairy');
+					this.boost({def:2, spd:2, evasion:2}, pokemon);
+					pokemon.typesData = [
+						{type: 'Ground', suppressed: false,  isAdded: false},
+						{type: 'Fairy', suppressed: false,  isAdded: true}
+					];
+				}
+				if (pokemon.name === 'Gandalf') {
+					this.add('-message', 'Fly, you fools!');
+					this.boost({spe:1}, pokemon);
+				}
+				if (pokemon.name === 'Saruman') {
+					this.add('-message', 'Against the power of Mordor there can be no victory.');
+					this.boost({spd:1}, pokemon);
+				}
+				if (pokemon.name === 'Legolas') {
+					this.add('-message', "They're taking the hobbits to Isengard!");
+					this.boost({atk:1, spa:1}, pokemon);
+				}
+				if (pokemon.name === 'Boromir') {
+					this.add('-message', 'One does not simply walk into Mordor.');
+					pokemon.addVolatile('confusion');
+				}
+				if (pokemon.name === 'Aragorn') {
+					this.add('-message', 'Aragorn, son of Arathor, king of Gondor.');
+					this.boost({spd:1}, pokemon);
+				}
+				if (pokemon.name === 'Pippin') {
+					this.add('-message', 'How about second breakfast?');
+					this.boost({def:1, spd:1}, pokemon);
+				}
+				if (pokemon.name === 'Merry') {
+					this.add('-message', "I don't think he knows about second breakfast, Pippin.");
+					this.boost({def:1, spd:1}, pokemon);
+				}
+				if (pokemon.name === 'Samwise') {
+					this.add('-message', 'Mr. Frodo!!');
+					this.add('-start', pokemon, 'typechange', 'Normal/Fairy');
+					this.boost({spe:3}, pokemon);
+					pokemon.typesData = [
+						{type: 'Normal', suppressed: false,  isAdded: false},
+						{type: 'Fairy', suppressed: false,  isAdded: true}
+					];
+				}
+				if (pokemon.name === 'Nazgûl') {
+					this.add('-message', 'One ring to rule them all.');
+				}
+				if (pokemon.name === 'Smaug') {
+					this.add('-message', 'I am fire. I am death.');
+				}
+				if (pokemon.name === 'Treebeard') {
+					this.add('-message', 'Come, my friends. The ents are going to war!');
+					this.boost({spe:2}, pokemon);
+				}
+				if (pokemon.name === 'Bard') {
+					this.add('-message', 'Black arrow! Go now and speed well!');
+					this.boost({accuracy:1, evasion:1}, pokemon);
+				}
+				if (pokemon.name === 'Gollum') {
+					this.add('-message', 'My preciousssss!');
+					this.boost({accuracy:6, evasion:1}, pokemon);
+				}
+				if (pokemon.name === 'Moses') {
+					this.add('-message', 'Let my people go!');
+					this.boost({spd:1}, pokemon);
+				}
+			}
+			if (this.seasonal.scenario === 'gen1') {
+				pokemon.side.removeSideCondition('reflect');
+			}
+		}
+	},
+	// Han vs Hun, February 2015
+	{
+		// Get it? They're Han Chinese!
+		name: "Han vs Hun",
+		section: "Seasonal",
+
+		team: 'randomSeasonalMulan',
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod'],
+		onBegin: function () {
+			this.add('message', "General Shang! The Huns are marching towards the Imperial City! Train your recruits quickly and make your stand!");
+			this.seasonal.songCount = 0;
+			this.seasonal.song = [
+				"Let's get down to business, to defeat the Huns!", "Did they send me daughters, when I asked for sons?",
+				"You're the saddest bunch I ever met.", "But you can bet, before we're through...", "Mister, I'll make a man out of you!",
+				"Tranquil as a forest, but on fire within.", "Once you find your center, you are sure to win!",
+				"You're a spineless, pale, pathetic lot, and you haven't got a clue.", "Somehow, I'll make a man out of you!",
+				"I'm never gonna catch my breath...", "Say goodbye to those who knew me...", "Boy, was I a fool in school for cutting gym...",
+				"This guy's got them scared to death!", "Hope he doesn't see right through me...", "Now I really wish I knew how to swim...",
+				"We must be swift as a coursing river!", "With all the force of a great typhoon!", "With all the strength of a raging fire!",
+				"Mysterious as the dark side of the moon!", "Time is racing towards us, 'til the Huns arrive.",
+				"Heed my every order, and you might survive!", "You're unsuited for the rage of war.", "So pack up, go home, you're through.",
+				"How could I make a man out of you?", "We must be swift as a coursing river!", "With all the force of a great typhoon!",
+				"With all the strength of a raging fire!", "Mysterious as the dark side of the moon!"
+			];
+			this.seasonal.verses = {4: true, 8: true, 14: true, 18: true, 23: true, 27: true};
+			this.seasonal.morale = 0;
+		},
+		onModifyMove: function (move) {
+			if (move.id === 'sing') {
+				move.name = "Train Recruits";
+				move.accuracy = 100;
+				move.target = "self";
+				move.onTryHit = function (target, source, move) {
+					this.attrLastMove('[still]');
+					this.add('-anim', source, "Bulk Up", source);
+					if (this.seasonal.songCount < this.seasonal.song.length) {
+						this.add('-message', '"' + this.seasonal.song[this.seasonal.songCount] + '"');
+						if (this.seasonal.verses[this.seasonal.songCount]) {
+							this.add('-message', "Because of the difficult training, the new recruits are more experienced!");
+							if (this.seasonal.songCount === 27) {
+								this.add('-message', "The recruits are now fully trained!");
+							}
+							this.seasonal.morale++;
+						}
+						this.seasonal.songCount++;
+					} else {
+						this.add('-message', "The soldiers cannot be trained further!");
+					}
+					return null;
+				}
+			} else if (move.id === 'flameburst') {
+				move.name = "Fire Rocket";
+				move.category = 'Physical';
+				move.basePower = 180;
+				move.type = 'Fire';
+				move.accuracy = 85;
+				move.ignoreOffense = true; // Fireworks not affected by boosts from morale
+				move.onTry = function (source, target) {
+					// If the soldier is inexperienced, the rocket can explode in their face. 50% chance at 0 morale, 33% at 1, 17% at 2, 0% afterwards.
+					if (source.name !== 'Li Shang' && (this.random(6) > (this.seasonal.morale + 2))) {
+						this.add('-message', "But " + source.name + "'s inexperience caused the rocket to explode before launch!");
+						this.damage(Math.ceil(source.maxhp / 8), source, source, "the explosion", true);
+						return null;
+					}
+				}
+			}
+		},
+		onSwitchIn: function (pokemon) {
+			this.seasonal.morale = this.seasonal.morale || 0;
+			if (pokemon.name in {'Mulan': 1, 'Yao': 1, 'Ling': 1, 'Chien-Po': 1, 'Mushu': 1}) {
+				var offense = Math.floor(this.seasonal.morale / 2) - 1;
+				var defense = Math.ceil(this.seasonal.morale / 2) - 1;
+				this.boost({atk: offense, spa: offense, def: defense, spd: defense}, pokemon, pokemon, this.getMove('sing'));
+
+				// Make Mushu Dragon/Fire type.
+				if (pokemon.name === 'Mushu') {
+					pokemon.addType('Fire');
+					this.add('-start', pokemon, 'typeadd', 'Fire', '[from] ' + pokemon);
+				}
+			}
+		},
+		onResidual: function () {
+			if (this.seasonal.songCount < this.seasonal.song.length) {
+				this.add('-message', '"' + this.seasonal.song[this.seasonal.songCount] + '"');
+				var pokemon = null;
+				if (this.seasonal.verses[this.seasonal.songCount]) {
+					this.add('-message', "Because of the difficult training, the new recruits are more experienced!");
+					if (this.seasonal.songCount === 27) {
+						this.add('-message', "The recruits are now fully trained!");
+					}
+					if (this.p1.active[0].name in {'Mulan': 1, 'Yao': 1, 'Ling': 1, 'Chien-Po': 1, 'Mushu': 1}) {
+						pokemon = this.p1.active[0];
+					} else if (this.p2.active[0].name in {'Mulan': 1, 'Yao': 1, 'Ling': 1, 'Chien-Po': 1, 'Mushu': 1}) {
+						pokemon = this.p2.active[0];
+					}
+					if (pokemon && pokemon.hp) {
+						var boosts = (this.seasonal.morale % 2 ? {atk: 1, spa: 1} : {def: 1, spd: 1});
+						this.boost(boosts, pokemon, pokemon, this.getMove('sing'));
+					}
+					this.seasonal.morale++;
+				}
+				
+				this.seasonal.songCount++;
+			}
+		}
+	},
+	{
+		name: "You are (not) prepared",
+		section: 'Seasonal',
+		team: 'randomSeasonalMay2015',
+		mod: 'seasonal',
+		gameType: 'triples',
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod'],
+		onBegin: function () {
+			this.add("raw|<b><font color='red'>IMPORTANT!</font></b> All moves on this seasonal are custom. Use the command /seasonaldata or /sdata to know what they do.");
+			this.add("raw|More information can be found <a href='http://www.smogon.com/forums/threads/3491902/page-12#post-6202283'>here</a>");
+		},
+		onModifyMove: function (move) {
+			// Shows legit name after use...
+			var legitNames = {
+				recover: "Cura", softboiled: "Curaga", reflect: "Wild Growth", acupressure: "Power Shield",
+				holdhands: "Rejuvenation", luckychant: "Fairy Ward", followe: "Taunt", meditate: "Sacrifice",
+				helpinghand: "Cooperation", spite: "Slow Down", aromaticmist: "Healing Touch", healbell: "Penance",
+				fakeout: "Stop", endure: "Last Stand", withdraw: "Barkskin", seismictoss: "Punishment",
+				flamethrower: "Flamestrike", fireblast: "Conflagration", thunderbolt: "Moonfire", thunder: "Starfire",
+				toxic: "Corruption", leechseed: "Soul Leech", icebeam: "Ice Lance", freezeshock: "Frostbite",
+				aircutter: "Hurricane", muddywater: "Storm", furyswipes: "Fury", scratch: "Garrote", slash: "Mutilate",
+				smog: "Poison Gas", protect: "Evasion"
+			};
+			if (move.id in legitNames) {
+				move.name = legitNames[move.id];
+			}
+		},
+		onFaint: function (pokemon) {
+			var message = {
+				'Amy': 'French?', 'Princess Leia': 'Why, you stuck up, half-witted, scruffy-looking Nerf herder.',
+				'Scruffy': "Scruffy's gonna die the way he lived. [Turns page of Zero-G Juggs magazine.] Mmhm.",
+				'Yoda': 'Wrath leads to the dark side.', 'Bender': 'DEATH TO ALL HUMANS!', 'Gurren Lagann': 'Later, buddy.',
+				'Lagann': "Eh, I guess I'm no one.", 'Rei Ayanami': 'Man fears the darkness, and so he scrapes away at the edges of it with fire.',
+				'Slurms McKenzie': 'I will keep partying until the end.', 'C3PO': 'Oh, dear!',
+				'Hermes': 'I can still... limbo...', 'Professor Farnsworth': 'Bad news, everyone!', 'Kif': 'Sigh.',
+				'Jar Jar Binks': "Better dead here than deader in the Core. Ye gods, whatta meesa sayin'?",
+				'R2D2': '*beep boop*', 'Asuka Langley': 'Disgusting.', 'Chewy': 'GRARARWOOWRALWRL',
+				'Fry': 'Huh. Did everything just taste purple for a second?', 'Han Solo': 'I should have shot first...',
+				'Leela': 'Yeeee-hAW!', 'Luke Skywalker': 'I could not use the force...',
+				'Nibbler': 'I hereby place an order for one cheese pizza.',
+				'Shinji Ikari': 'It would be better if I never existed. I should just die too.', 'Zoidberg': 'Why not Zoidberg?',
+				'Anti-Spiral': 'If this is how it must be, protect the universe at all costs.', 'Gendo Ikari': 'Everything goes according to the plan.',
+				'Kaworu Nagisa': 'Dying of your own will. That is the one and only absolute freedom there is.',
+				'Jabba the Hut': 'Han, ma bukee.', 'Lilith': '...', 'Lrrr': "But I'm emperor of Omicron Persei 8!",
+				'Mommy': 'Stupid!', 'Bobba Fett': "I see now I've done terrible things.", 'Zapp Brannigan': "Oh, God, I'm pathetic. Sorry. Just go...",
+				'An angel': ',,,', 'Darth Vader': "I'm sorry, son.", 'Emperor Palpatine': 'What the hell is an "Aluminum Falcon"?',
+				'Fender': '*beeps*', 'Storm Trooper': 'But my aim is perfect!'
+			}[pokemon.name];
+			this.add('-message', pokemon.name + ': ' + message);
+		}
+	},
+	{
+		name: "Rainbow Road",
+		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3491902/\">Seasonal Ladder</a>"],
+		section: "Seasonal",
+
+		team: "randomRainbow",
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod'],
+		onBegin: function () {
+			this.add('message', "The last attack on each Pok\u00e9mon is based on their Pok\u00e9dex color.");
+			this.add('-message', "Red/Pink beats Yellow/Green, which beats Blue/Purple, which beats Red/Pink.");
+			this.add('-message', "Using a color move on a Pok\u00e9mon in the same color group is a neutral hit.");
+			this.add('-message', "Use /details [POKEMON] to check its Pok\u00e9dex color.");
+
+			var allPokemon = this.p1.pokemon.concat(this.p2.pokemon);
+			var physicalnames = {
+				'Red': 'Crimson Crash', 'Pink': 'Rose Rush', 'Yellow': 'Saffron Strike', 'Green': 'Viridian Slash',
+				'Blue': 'Blue Bombardment', 'Purple': 'Indigo Impact'
+			};
+			var specialnames = {
+				'Red': 'Scarlet Shine', 'Pink': 'Coral Catapult', 'Yellow': 'Golden Gleam', 'Green': 'Emerald Flash',
+				'Blue': 'Cerulean Surge', 'Purple': 'Violet Radiance'
+			};
+			for (var i = 0; i < allPokemon.length; i++) {
+				var pokemon = allPokemon[i];
+				var color = pokemon.template.color;
+				var category = (pokemon.stats.atk > pokemon.stats.spa ? 'Physical' : 'Special');
+				var last = pokemon.moves.length - 1;
+				var move = (category === 'Physical' ? physicalnames[color] : specialnames[color]);
+				if (pokemon.moves[last]) {
+					pokemon.moves[last] = toId(move);
+					pokemon.moveset[last].move = move;
+					pokemon.baseMoveset[last].move = move;
+				}
+			}
+		},
+		onBeforeTurn: function (pokemon) {
+			var side = pokemon.side;
+			side.item = '';
+
+			var decisions = [];
+			var decision, i;
+			if (side.hadItem || this.random(4) === 0) { // Can never get 2 consecutive turns of items
+				side.hadItem = false;
+				return;
+			}
+			switch (this.random(8)) {
+			case 0:
+				side.item = 'lightning';
+				side.hadItem = true;
+				this.add('message', "Lightning suddenly struck " + side.name + " and shrank their Pok\u00e9mon!");
+				this.add('-start', pokemon, 'shrunken', '[silent]');
+				break;
+			case 1:
+				side.item = 'blooper';
+				side.hadItem = true;
+				this.add('message', "A Blooper came down and splattered ink all over " + side.name + "'s screen!");
+				this.add('-start', pokemon, 'blinded', '[silent]');
+				break;
+			case 2:
+				if (pokemon.isGrounded()) {
+					side.item = 'banana';
+					side.hadItem = true;
+					this.add('message', side.name + " slipped on a banana peel!");
+					this.add('-start', pokemon, 'slipped', '[silent]');
+					pokemon.addVolatile('flinch');
+				}
+				break;
+			case 3:
+				if (!side.sideConditions['goldenmushroom']) {
+					side.item = 'goldmushroom';
+					side.hadItem = true;
+					this.add('message', side.name + " collected a Golden Mushroom, giving them a speed boost!");
+					this.add('-start', pokemon, 'goldenmushroom', '[silent]');
+					side.addSideCondition('goldenmushroom');
+					side.sideConditions['goldenmushroom'].duration = 3;
+					// Get all relevant decisions from the Pokemon and tweak speed.
+					for (i = 0; i < this.queue.length; i++) {
+						if (this.queue[i].pokemon === pokemon) {
+							decision = this.queue[i];
+							decision.speed = pokemon.getStat('spe');
+							decisions.push(decision);
+							// Cancel the decision
+							this.queue.splice(i, 1);
+							i--;
+						}
+					}
+					for (i = 0; i < decisions.length; i++) {
+						this.insertQueue(decisions[i]);
+					}
+				}
+				break;
+			case 4:
+			case 5:
+				if (!side.sideConditions['goldenmushroom']) {
+					side.item = 'mushroom';
+					side.hadItem = true;
+					this.add('message', side.name + " collected a Mushroom, giving them a quick speed boost!");
+					this.add('-start', pokemon, 'mushroom', '[silent]');
+					side.addSideCondition('mushroom');
+					side.sideConditions['mushroom'].duration = 1;
+					// Get all relevant decisions from the Pokemon and tweak speed.
+					for (i = 0; i < this.queue.length; i++) {
+						if (this.queue[i].pokemon === pokemon) {
+							decision = this.queue[i];
+							decision.speed = pokemon.getStat('spe');
+							decisions.push(decision);
+							// Cancel the decision
+							this.queue.splice(i, 1);
+							i--;
+						}
+					}
+					for (i = 0; i < decisions.length; i++) {
+						this.insertQueue(decisions[i]);
+					}
+				}
+				break;
+			default:
+				if (side.pokemonLeft - side.foe.pokemonLeft >= 2) {
+					side.item = 'blueshell';
+					side.hadItem = true;
+					this.add('message', "A Blue Spiny Shell flew over the horizon and crashed into " + side.name + "!");
+					this.damage(pokemon.maxhp / 2, pokemon, pokemon, this.getMove('judgment'), true);
+				}
+			}
+		},
+		onAccuracy: function (accuracy, target, source, move) {
+			if (source.hasAbility('keeneye')) return;
+			var modifier = 1;
+			if (source.side.item === 'blooper' && !source.hasAbility('clearbody')) {
+				modifier *= 0.4;
+			}
+			if (target.side.item === 'lightning') {
+				modifier *= 0.8;
+			}
+			return this.chainModify(modifier);
+		},
+		onDisableMove: function (pokemon) {
+			// Enforce Choice Item locking on color moves
+			// Technically this glitches with Klutz, but Lopunny is Brown and will never appear :D
+			if (!pokemon.ignoringItem() && pokemon.getItem().isChoice && pokemon.lastMove === 'swift') {
+				var moves = pokemon.moveset;
+				for (var i = 0; i < moves.length; i++) {
+					if (moves[i].id !== 'swift') {
+						pokemon.disableMove(moves[i].id, false);
+					}
+				}
+			}
+		},
+		onEffectivenessPriority: -5,
+		onEffectiveness: function (typeMod, target, type, move) {
+			if (move.id !== 'swift') return;
+			// Only calculate color effectiveness once
+			if (target.getTypes()[0] !== type) return 0;
+			var targetColor = target.template.color;
+			var sourceColor = this.activePokemon.template.color;
+			var effectiveness = {
+				'Red': {'Red': 0, 'Pink': 0, 'Yellow': 1, 'Green': 1, 'Blue': -1, 'Purple': -1},
+				'Pink': {'Red': 0, 'Pink': 0, 'Yellow': 1, 'Green': 1, 'Blue': -1, 'Purple': -1},
+				'Yellow': {'Red': -1, 'Pink': -1, 'Yellow': 0, 'Green': 0, 'Blue': 1, 'Purple': 1},
+				'Green': {'Red': -1, 'Pink': -1, 'Yellow': 0, 'Green': 0, 'Blue': 1, 'Purple': 1},
+				'Blue': {'Red': 1, 'Pink': 1, 'Yellow': -1, 'Green': -1, 'Blue': 0, 'Purple': 0},
+				'Purple': {'Red': 1, 'Pink': 1, 'Yellow': -1, 'Green': -1, 'Blue': 0, 'Purple': 0}
+			};
+			return effectiveness[sourceColor][targetColor];
+		},
+		onModifyDamage: function (damage, source, target, effect) {
+			if (source === target || effect.effectType !== 'Move') return;
+			if (target.side.item === 'lightning') return this.chainModify(2);
+			if (source.side.item === 'lightning') return this.chainModify(0.5);
+		},
+		onModifySpe: function (speMod, pokemon) {
+			if (pokemon.side.sideConditions['goldenmushroom'] || pokemon.side.sideConditions['mushroom']) {
+				return this.chainModify(1.75);
+			}
+		},
+		onResidual: function (battle) {
+			var side;
+			for (var i = 0; i < battle.sides.length; i++) {
+				side = battle.sides[i];
+				if (side.sideConditions['goldenmushroom'] && side.sideConditions['goldenmushroom'].duration === 1) {
+					this.add('-message', "The effect of " + side.name + "'s Golden Mushroom wore off.");
+					this.add('-end', side.active[0], 'goldenmushroom', '[silent]');
+					side.removeSideCondition('goldenmushroom');
+				}
+				switch (side.item) {
+				case 'lightning':
+					this.add('-end', side.active[0], 'shrunken', '[silent]');
+					break;
+				case 'blooper':
+					this.add('-end', side.active[0], 'blinded', '[silent]');
+					break;
+				case 'banana':
+					this.add('-end', side.active[0], 'slipped', '[silent]');
+					break;
+				case 'mushroom':
+					this.add('-end', side.active[0], 'mushroom', '[silent]');
+				}
+
+				side.item = '';
+			}
+		},
+		onModifyMove: function (move, pokemon) {
+			if (move.id !== 'swift') return;
+			var physicalnames = {
+				'Red': 'Crimson Crash', 'Pink': 'Rose Rush', 'Yellow': 'Saffron Strike', 'Green': 'Viridian Slash',
+				'Blue': 'Blue Bombardment', 'Purple': 'Indigo Impact'
+			};
+			var specialnames = {
+				'Red': 'Scarlet Shine', 'Pink': 'Coral Catapult', 'Yellow': 'Golden Gleam', 'Green': 'Emerald Flash',
+				'Blue': 'Cerulean Surge', 'Purple': 'Violet Radiance'
+			};
+			var color = pokemon.template.color;
+			move.category = (pokemon.stats.atk > pokemon.stats.spa ? 'Physical' : 'Special');
+			move.name = (move.category === 'Physical' ? physicalnames[color] : specialnames[color]);
+			move.basePower = 100;
+			move.accuracy = 100;
+			move.type = '???';
+			if (move.category === 'Physical') move.flags['contact'] = true;
+		},
+		onPrepareHit: function (pokemon, target, move) {
+			if (move.id !== 'swift') return;
+			var animations = {
+				'Crimson Crash': 'Flare Blitz', 'Scarlet Shine': 'Fusion Flare', 'Rose Rush': 'Play Rough',
+				'Coral Catapult': 'Moonblast', 'Saffron Strike': 'Bolt Strike',	'Golden Gleam': 'Charge Beam',
+				'Viridian Slash': 'Power Whip', 'Emerald Flash': 'Solarbeam', 'Blue Bombardment': 'Waterfall',
+				'Cerulean Surge': 'Hydro Pump', 'Indigo Impact': 'Poison Jab', 'Violet Radiance': 'Gunk Shot'
+			};
+			this.attrLastMove('[anim] ' + animations[move.name]);
+		},
+		onSwitchInPriority: -9,
+		onSwitchIn: function (pokemon) {
+			if (!pokemon.hp) return;
+			this.add('-start', pokemon, pokemon.template.color, '[silent]');
+			if (pokemon.side.item === 'lightning') {
+				this.add('-start', pokemon, 'shrunken', '[silent]');
+			}
+			if (pokemon.side.sideConditions['goldenmushroom']) {
+				this.add('-start', pokemon, 'goldenmushroom', '[silent]');
+			}
+		},
+		onSwitchOut: function (pokemon) {
+			this.add('-end', pokemon, pokemon.template.color, '[silent]');
+		}
+	},
+	{
+		name: "Spoopy Party",
+		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3491902/\">Seasonal Ladder</a>"],
+		section: "Seasonal",
+
+		team: 'randomSpoopy',
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod'],
+		onSwitchIn: function (pokemon) {
+			if (pokemon.species === 'Magikarp') {
+				this.boost({spe:4, spd:2, def:2}, pokemon, pokemon, 'the power of dank');
+			}
+		},
+		onModifyMove: function (move) {
+			if (move.id === 'aquaring') {
+				move.volatileStatus = 'wonderring';
+				move.onHit = function (pokemon) {
+					this.add('-start', pokemon, 'Aqua Ring');
+					this.add('-message', "7.8/10, too much water - IGN");
+				};
+			}
+			if (move.id === 'hyperbeam') {
+				move.type = 'Water';
+				move.accuracy = true;
+				delete move.self;
+				move.onTryHit = function (target, source) {
+					this.add('-message', target.name + "'s fuel cannot melt " + source.name + " beams!");
+				};
+			}
+			if (move.id === 'trickortreat') {
+				switch (this.random(7)) {
+				case 0:
+					move.category = 'Special';
+					move.type = 'Fire';
+					move.basePower = 200;
+					move.onTryHit = function () {
+						this.add('-message', "Pumpkin bomb!");
+					};
+					move.onHit = function () {};
+					break;
+				case 1:
+					move.category = 'Physical';
+					move.type = 'Poison';
+					move.basePower = 25;
+					move.multihit = 4;
+					move.onTryHit = function () {
+						this.add('-message', "Toilet paper missile attack!");
+					};
+					move.onHit = function () {};
+					break;
+				case 2:
+					move.onTryHit = function () {
+						this.add('-message', "Yum! Chocolate!");
+					};
+					move.onHit = function (target, source) {
+						this.heal(Math.ceil(target.maxhp * 0.5));
+					};
+					break;
+				case 3:
+					move.onTryHit = function () {
+						this.add('-message', "This is a rather bland candy.");
+					};
+					move.onHit = function (target, source) {
+						this.heal(Math.ceil(target.maxhp * 0.25));
+						target.setStatus('par');
+						target.addVolatile('confusion');
+					};
+					break;
+				case 4:
+					move.onTryHit = function () {
+						this.add('-message', "You are about to be rotten-egged on!");
+					};
+					move.onHit = function (target, source) {
+						target.setStatus('tox');
+						target.addVolatile('torment');
+					};
+					break;
+				case 5:
+					move.category = 'Special';
+					move.type = 'Dark';
+					move.basePower = 500;
+					move.self = {volatileStatus: 'mustrecharge'};
+					move.onTryHit = function () {
+						this.add('-message', "Ultimate Super Hiper Mega Awesome Beam destroyer of worlds!");
+					};
+					move.onHit = function (target, source) {
+						this.add('-message', source.name + " was caught in the explosion!");
+						source.setStatus('brn');
+						source.addVolatile('disabled');
+						source.addVolatile('confusion');
+					};
+					break;
+				case 6:
+					move.onTryHit = function () {
+						this.add('-message', "Have some refreshment, my fellow.");
+					};
+					move.onHit = function (target, source) {
+						target.addVolatile('aquaring');
+					};
+					break;
+				}
+			}
+		},
+		onResidual: function () {
+			var allpokes = this.p1.active.concat(this.p2.active);
+			var pokemon;
+			for (var i = 0; i < allpokes.length; i++) {
+				pokemon = allpokes[i];
+				if (pokemon.hp && pokemon.volatiles['wonderring']) {
+					this.heal(pokemon.maxhp / 8, pokemon, pokemon, 'dank memes');
+				}
+			}
+		}
 	}
 ];
