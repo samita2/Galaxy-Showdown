@@ -1001,7 +1001,6 @@ exports.commands = {
 
 		target = this.splitTarget(target);
 		let targetUser = this.targetUser;
-		if (targetUser.userid === 'flareninja') return this.errorReply("This user is too powerful.");
 		if (!targetUser || !targetUser.connected) return this.errorReply("User '" + this.targetUsername + "' does not exist.");
 		if (!(targetUser in room.users)) {
 			return this.errorReply("User " + this.targetUsername + " is not in the room " + room.id + ".");
