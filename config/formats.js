@@ -6499,4 +6499,361 @@ exports.Formats = [
 			this.add('-message', pokemon.name + ': ' + message);
 		}
 	},
+	{
+		name: "[Seasonal] Rainbow Road",
+		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3491902/\">Seasonal Ladder</a>"],
+		section: "OM of the Month",
+
+		team: "randomRainbow",
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod'],
+		onBegin: function () {
+			this.add('message', "The last attack on each Pok\u00e9mon is based on their Pok\u00e9dex color.");
+			this.add('-message', "Red/Pink beats Yellow/Green, which beats Blue/Purple, which beats Red/Pink.");
+			this.add('-message', "Using a color move on a Pok\u00e9mon in the same color group is a neutral hit.");
+			this.add('-message', "Use /details [POKEMON] to check its Pok\u00e9dex color.");
+
+			var allPokemon = this.p1.pokemon.concat(this.p2.pokemon);
+			var physicalnames = {
+				'Red': 'Crimson Crash', 'Pink': 'Rose Rush', 'Yellow': 'Saffron Strike', 'Green': 'Viridian Slash',
+				'Blue': 'Blue Bombardment', 'Purple': 'Indigo Impact'
+			};
+			var specialnames = {
+				'Red': 'Scarlet Shine', 'Pink': 'Coral Catapult', 'Yellow': 'Golden Gleam', 'Green': 'Emerald Flash',
+				'Blue': 'Cerulean Surge', 'Purple': 'Violet Radiance'
+			};
+			for (var i = 0; i < allPokemon.length; i++) {
+				var pokemon = allPokemon[i];
+				var color = pokemon.template.color;
+				var category = (pokemon.stats.atk > pokemon.stats.spa ? 'Physical' : 'Special');
+				var last = pokemon.moves.length - 1;
+				var move = (category === 'Physical' ? physicalnames[color] : specialnames[color]);
+				if (pokemon.moves[last]) {
+					pokemon.moves[last] = toId(move);
+					pokemon.moveset[last].move = move;
+					pokemon.baseMoveset[last].move = move;
+				}
+			}
+		},
+		onBeforeTurn: function (pokemon) {
+			var side = pokemon.side;
+			side.item = '';
+
+			var decisions = [];
+			var decision, i;
+			if (side.hadItem || this.random(4) === 0) { // Can never get 2 consecutive turns of items
+				side.hadItem = false;
+				return;
+			}
+			switch (this.random(8)) {
+			case 0:
+				side.item = 'lightning';
+				side.hadItem = true;
+				this.add('message', "Lightning suddenly struck " + side.name + " and shrank their Pok\u00e9mon!");
+				this.add('-start', pokemon, 'shrunken', '[silent]');
+				break;
+			case 1:
+				side.item = 'blooper';
+				side.hadItem = true;
+				this.add('message', "A Blooper came down and splattered ink all over " + side.name + "'s screen!");
+				this.add('-start', pokemon, 'blinded', '[silent]');
+				break;
+			case 2:
+				if (pokemon.isGrounded()) {
+					side.item = 'banana';
+					side.hadItem = true;
+					this.add('message', side.name + " slipped on a banana peel!");
+					this.add('-start', pokemon, 'slipped', '[silent]');
+					pokemon.addVolatile('flinch');
+				}
+				break;
+			case 3:
+				if (!side.sideConditions['goldenmushroom']) {
+					side.item = 'goldmushroom';
+					side.hadItem = true;
+					this.add('message', side.name + " collected a Golden Mushroom, giving them a speed boost!");
+					this.add('-start', pokemon, 'goldenmushroom', '[silent]');
+					side.addSideCondition('goldenmushroom');
+					side.sideConditions['goldenmushroom'].duration = 3;
+					// Get all relevant decisions from the Pokemon and tweak speed.
+					for (i = 0; i < this.queue.length; i++) {
+						if (this.queue[i].pokemon === pokemon) {
+							decision = this.queue[i];
+							decision.speed = pokemon.getStat('spe');
+							decisions.push(decision);
+							// Cancel the decision
+							this.queue.splice(i, 1);
+							i--;
+						}
+					}
+					for (i = 0; i < decisions.length; i++) {
+						this.insertQueue(decisions[i]);
+					}
+				}
+				break;
+			case 4:
+			case 5:
+				if (!side.sideConditions['goldenmushroom']) {
+					side.item = 'mushroom';
+					side.hadItem = true;
+					this.add('message', side.name + " collected a Mushroom, giving them a quick speed boost!");
+					this.add('-start', pokemon, 'mushroom', '[silent]');
+					side.addSideCondition('mushroom');
+					side.sideConditions['mushroom'].duration = 1;
+					// Get all relevant decisions from the Pokemon and tweak speed.
+					for (i = 0; i < this.queue.length; i++) {
+						if (this.queue[i].pokemon === pokemon) {
+							decision = this.queue[i];
+							decision.speed = pokemon.getStat('spe');
+							decisions.push(decision);
+							// Cancel the decision
+							this.queue.splice(i, 1);
+							i--;
+						}
+					}
+					for (i = 0; i < decisions.length; i++) {
+						this.insertQueue(decisions[i]);
+					}
+				}
+				break;
+			default:
+				if (side.pokemonLeft - side.foe.pokemonLeft >= 2) {
+					side.item = 'blueshell';
+					side.hadItem = true;
+					this.add('message', "A Blue Spiny Shell flew over the horizon and crashed into " + side.name + "!");
+					this.damage(pokemon.maxhp / 2, pokemon, pokemon, this.getMove('judgment'), true);
+				}
+			}
+		},
+		onAccuracy: function (accuracy, target, source, move) {
+			if (source.hasAbility('keeneye')) return;
+			var modifier = 1;
+			if (source.side.item === 'blooper' && !source.hasAbility('clearbody')) {
+				modifier *= 0.4;
+			}
+			if (target.side.item === 'lightning') {
+				modifier *= 0.8;
+			}
+			return this.chainModify(modifier);
+		},
+		onDisableMove: function (pokemon) {
+			// Enforce Choice Item locking on color moves
+			// Technically this glitches with Klutz, but Lopunny is Brown and will never appear :D
+			if (!pokemon.ignoringItem() && pokemon.getItem().isChoice && pokemon.lastMove === 'swift') {
+				var moves = pokemon.moveset;
+				for (var i = 0; i < moves.length; i++) {
+					if (moves[i].id !== 'swift') {
+						pokemon.disableMove(moves[i].id, false);
+					}
+				}
+			}
+		},
+		onEffectivenessPriority: -5,
+		onEffectiveness: function (typeMod, target, type, move) {
+			if (move.id !== 'swift') return;
+			// Only calculate color effectiveness once
+			if (target.getTypes()[0] !== type) return 0;
+			var targetColor = target.template.color;
+			var sourceColor = this.activePokemon.template.color;
+			var effectiveness = {
+				'Red': {'Red': 0, 'Pink': 0, 'Yellow': 1, 'Green': 1, 'Blue': -1, 'Purple': -1},
+				'Pink': {'Red': 0, 'Pink': 0, 'Yellow': 1, 'Green': 1, 'Blue': -1, 'Purple': -1},
+				'Yellow': {'Red': -1, 'Pink': -1, 'Yellow': 0, 'Green': 0, 'Blue': 1, 'Purple': 1},
+				'Green': {'Red': -1, 'Pink': -1, 'Yellow': 0, 'Green': 0, 'Blue': 1, 'Purple': 1},
+				'Blue': {'Red': 1, 'Pink': 1, 'Yellow': -1, 'Green': -1, 'Blue': 0, 'Purple': 0},
+				'Purple': {'Red': 1, 'Pink': 1, 'Yellow': -1, 'Green': -1, 'Blue': 0, 'Purple': 0}
+			};
+			return effectiveness[sourceColor][targetColor];
+		},
+		onModifyDamage: function (damage, source, target, effect) {
+			if (source === target || effect.effectType !== 'Move') return;
+			if (target.side.item === 'lightning') return this.chainModify(2);
+			if (source.side.item === 'lightning') return this.chainModify(0.5);
+		},
+		onModifySpe: function (speMod, pokemon) {
+			if (pokemon.side.sideConditions['goldenmushroom'] || pokemon.side.sideConditions['mushroom']) {
+				return this.chainModify(1.75);
+			}
+		},
+		onResidual: function (battle) {
+			var side;
+			for (var i = 0; i < battle.sides.length; i++) {
+				side = battle.sides[i];
+				if (side.sideConditions['goldenmushroom'] && side.sideConditions['goldenmushroom'].duration === 1) {
+					this.add('-message', "The effect of " + side.name + "'s Golden Mushroom wore off.");
+					this.add('-end', side.active[0], 'goldenmushroom', '[silent]');
+					side.removeSideCondition('goldenmushroom');
+				}
+				switch (side.item) {
+				case 'lightning':
+					this.add('-end', side.active[0], 'shrunken', '[silent]');
+					break;
+				case 'blooper':
+					this.add('-end', side.active[0], 'blinded', '[silent]');
+					break;
+				case 'banana':
+					this.add('-end', side.active[0], 'slipped', '[silent]');
+					break;
+				case 'mushroom':
+					this.add('-end', side.active[0], 'mushroom', '[silent]');
+				}
+
+				side.item = '';
+			}
+		},
+		onModifyMove: function (move, pokemon) {
+			if (move.id !== 'swift') return;
+			var physicalnames = {
+				'Red': 'Crimson Crash', 'Pink': 'Rose Rush', 'Yellow': 'Saffron Strike', 'Green': 'Viridian Slash',
+				'Blue': 'Blue Bombardment', 'Purple': 'Indigo Impact'
+			};
+			var specialnames = {
+				'Red': 'Scarlet Shine', 'Pink': 'Coral Catapult', 'Yellow': 'Golden Gleam', 'Green': 'Emerald Flash',
+				'Blue': 'Cerulean Surge', 'Purple': 'Violet Radiance'
+			};
+			var color = pokemon.template.color;
+			move.category = (pokemon.stats.atk > pokemon.stats.spa ? 'Physical' : 'Special');
+			move.name = (move.category === 'Physical' ? physicalnames[color] : specialnames[color]);
+			move.basePower = 100;
+			move.accuracy = 100;
+			move.type = '???';
+			if (move.category === 'Physical') move.flags['contact'] = true;
+		},
+		onPrepareHit: function (pokemon, target, move) {
+			if (move.id !== 'swift') return;
+			var animations = {
+				'Crimson Crash': 'Flare Blitz', 'Scarlet Shine': 'Fusion Flare', 'Rose Rush': 'Play Rough',
+				'Coral Catapult': 'Moonblast', 'Saffron Strike': 'Bolt Strike',	'Golden Gleam': 'Charge Beam',
+				'Viridian Slash': 'Power Whip', 'Emerald Flash': 'Solarbeam', 'Blue Bombardment': 'Waterfall',
+				'Cerulean Surge': 'Hydro Pump', 'Indigo Impact': 'Poison Jab', 'Violet Radiance': 'Gunk Shot'
+			};
+			this.attrLastMove('[anim] ' + animations[move.name]);
+		},
+		onSwitchInPriority: -9,
+		onSwitchIn: function (pokemon) {
+			if (!pokemon.hp) return;
+			this.add('-start', pokemon, pokemon.template.color, '[silent]');
+			if (pokemon.side.item === 'lightning') {
+				this.add('-start', pokemon, 'shrunken', '[silent]');
+			}
+			if (pokemon.side.sideConditions['goldenmushroom']) {
+				this.add('-start', pokemon, 'goldenmushroom', '[silent]');
+			}
+		},
+		onSwitchOut: function (pokemon) {
+			this.add('-end', pokemon, pokemon.template.color, '[silent]');
+		}
+	},
+	{
+		name: "[Seasonal] Spoopy Party",
+		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3491902/\">Seasonal Ladder</a>"],
+		section: "OM of the Month",
+
+		team: 'randomSpoopy',
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod'],
+		onSwitchIn: function (pokemon) {
+			if (pokemon.species === 'Magikarp') {
+				this.boost({spe:4, spd:2, def:2}, pokemon, pokemon, 'the power of dank');
+			}
+		},
+		onModifyMove: function (move) {
+			if (move.id === 'aquaring') {
+				move.volatileStatus = 'wonderring';
+				move.onHit = function (pokemon) {
+					this.add('-start', pokemon, 'Aqua Ring');
+					this.add('-message', "7.8/10, too much water - IGN");
+				};
+			}
+			if (move.id === 'hyperbeam') {
+				move.type = 'Water';
+				move.accuracy = true;
+				delete move.self;
+				move.onTryHit = function (target, source) {
+					this.add('-message', target.name + "'s fuel cannot melt " + source.name + " beams!");
+				};
+			}
+			if (move.id === 'trickortreat') {
+				switch (this.random(7)) {
+				case 0:
+					move.category = 'Special';
+					move.type = 'Fire';
+					move.basePower = 200;
+					move.onTryHit = function () {
+						this.add('-message', "Pumpkin bomb!");
+					};
+					move.onHit = function () {};
+					break;
+				case 1:
+					move.category = 'Physical';
+					move.type = 'Poison';
+					move.basePower = 25;
+					move.multihit = 4;
+					move.onTryHit = function () {
+						this.add('-message', "Toilet paper missile attack!");
+					};
+					move.onHit = function () {};
+					break;
+				case 2:
+					move.onTryHit = function () {
+						this.add('-message', "Yum! Chocolate!");
+					};
+					move.onHit = function (target, source) {
+						this.heal(Math.ceil(target.maxhp * 0.5));
+					};
+					break;
+				case 3:
+					move.onTryHit = function () {
+						this.add('-message', "This is a rather bland candy.");
+					};
+					move.onHit = function (target, source) {
+						this.heal(Math.ceil(target.maxhp * 0.25));
+						target.setStatus('par');
+						target.addVolatile('confusion');
+					};
+					break;
+				case 4:
+					move.onTryHit = function () {
+						this.add('-message', "You are about to be rotten-egged on!");
+					};
+					move.onHit = function (target, source) {
+						target.setStatus('tox');
+						target.addVolatile('torment');
+					};
+					break;
+				case 5:
+					move.category = 'Special';
+					move.type = 'Dark';
+					move.basePower = 500;
+					move.self = {volatileStatus: 'mustrecharge'};
+					move.onTryHit = function () {
+						this.add('-message', "Ultimate Super Hiper Mega Awesome Beam destroyer of worlds!");
+					};
+					move.onHit = function (target, source) {
+						this.add('-message', source.name + " was caught in the explosion!");
+						source.setStatus('brn');
+						source.addVolatile('disabled');
+						source.addVolatile('confusion');
+					};
+					break;
+				case 6:
+					move.onTryHit = function () {
+						this.add('-message', "Have some refreshment, my fellow.");
+					};
+					move.onHit = function (target, source) {
+						target.addVolatile('aquaring');
+					};
+					break;
+				}
+			}
+		},
+		onResidual: function () {
+			var allpokes = this.p1.active.concat(this.p2.active);
+			var pokemon;
+			for (var i = 0; i < allpokes.length; i++) {
+				pokemon = allpokes[i];
+				if (pokemon.hp && pokemon.volatiles['wonderring']) {
+					this.heal(pokemon.maxhp / 8, pokemon, pokemon, 'dank memes');
+				}
+			}
+		}
+	}
 ];
