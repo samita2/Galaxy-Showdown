@@ -3441,7 +3441,7 @@ exports.Formats = [
 		}
 	},
 	{
-		name: "[Seasonal] Rainbow Road",
+		name: "Rainbow Road",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3491902/\">Seasonal Ladder</a>"],
 		section: "Seasonal",
 
@@ -3685,7 +3685,7 @@ exports.Formats = [
 		}
 	},
 	{
-		name: "[Seasonal] Spoopy Party",
+		name: "Spoopy Party",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3491902/\">Seasonal Ladder</a>"],
 		section: "Seasonal",
 
