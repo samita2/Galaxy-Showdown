@@ -517,7 +517,7 @@ exports.Formats = [
 
 		searchShow: false,
 		ruleset: ['HP Percentage Mod', 'Cancel Mod'],
-		validateSet: function (set) {
+		onValidateSet: function (set) {
 			var template = this.getTemplate(set.species);
 			var item = this.getItem(set.item);
 			var problems = [];
