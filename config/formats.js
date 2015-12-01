@@ -1341,7 +1341,7 @@ exports.Formats = [
 	},
 	{
 		name: "C&E",
-		section: "Other Metagames",
+		section: "Local Metagames",
 
 		searchShow: false,
 		maxLevel: 100,
@@ -3443,7 +3443,7 @@ exports.Formats = [
 	{
 		name: "[Seasonal] Rainbow Road",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3491902/\">Seasonal Ladder</a>"],
-		section: "OM of the Month",
+		section: "Seasonal",
 
 		team: "randomRainbow",
 		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod'],
@@ -3687,7 +3687,7 @@ exports.Formats = [
 	{
 		name: "[Seasonal] Spoopy Party",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3491902/\">Seasonal Ladder</a>"],
-		section: "OM of the Month",
+		section: "Seasonal",
 
 		team: 'randomSpoopy',
 		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod'],
