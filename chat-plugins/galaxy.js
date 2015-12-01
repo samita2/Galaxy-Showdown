@@ -26,9 +26,6 @@ var messages = [
 var ipbans = fs.createWriteStream('config/ipbans.txt', {
 	'flags': 'a'
 });
-var badges = fs.createWriteStream('badges.txt', {
-	'flags': 'a'
-});
 
 function display (message, self) {
 	if (self.broadcasting) return self.sendReplyBox(message);
