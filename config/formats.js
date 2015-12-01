@@ -2257,7 +2257,7 @@ exports.Formats = [
 		}
 	},
 	// Jolly July, July 2013
-	{
+	/*{
 		name: "Jolly July",
 		section: 'Seasonal',
 		mod: 'gen5',
@@ -2374,7 +2374,7 @@ exports.Formats = [
 		onModifyMove: function(move) {
 			if (move.id === 'fireblast') move.name = 'July 4th Fireworks';
 		}
-	},
+	},*/
 	// Average August, August 2013
 	{
 		name: "Average August",
