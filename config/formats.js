@@ -1468,7 +1468,7 @@ exports.Formats = [
 		name: "[Gen 5] Doubles OU",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3485044/\">BW2 Doubles Viability Ranking</a>"],
 		section: 'BW2 Doubles',
-		column: 3,
+		column: 4,
 
 		mod: 'gen5',
 		gameType: 'doubles',
@@ -1517,7 +1517,7 @@ exports.Formats = [
 			"&bullet; <a href=\"https://www.smogon.com/forums/posts/6431088/\">DPP Sample Teams</a>"
 		],
 		section: "Past Generations",
-		column: 3,
+		column: 4,
 
 		mod: 'gen4',
 		ruleset: ['Pokemon', 'Standard'],
