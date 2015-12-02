@@ -1361,6 +1361,9 @@ exports.Formats = [
 
 		team: 'randomFinalDestination',
 		ruleset: ['HP Percentage Mod', 'Cancel Mod', 'Final Destination Clause'],
+		onModifyMove: function (move) {
+			move.willCrit = false;
+		}
 	},
 
 	// BW2 Singles
