@@ -1355,6 +1355,13 @@ exports.Formats = [
 		ruleset: ['Pokemon', 'Ability Clause', '-ate Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Team Preview', 'HP Percentage Mod', 'Cancel Mod'],
 		banlist: ['Arena Trap', 'Huge Power', 'Parental Bond', 'Pure Power', 'Shadow Tag', 'Wonder Guard', 'Assist', 'Chatter']
 	},
+	{
+		name: "Final Destination",
+		section: "Local Metagames",
+
+		team: 'randomFinalDestination',
+		ruleset: ['HP Percentage Mod', 'Cancel Mod', 'Final Destination Clause'],
+	},
 
 	// BW2 Singles
 	///////////////////////////////////////////////////////////////////
