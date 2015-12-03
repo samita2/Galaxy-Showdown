@@ -412,6 +412,9 @@ Validator = (function () {
 			// The usual limit of 4 moves is handled elsewhere - currently
 			// in the cartridge-compliant set validator: rulesets.js:pokemon
 			set.moves = set.moves.slice(0, 24);
+			
+			// Sketchmons hack
+			var sketched = false;
 
 			for (let i = 0; i < set.moves.length; i++) {
 				if (!set.moves[i]) continue;
@@ -432,6 +435,10 @@ Validator = (function () {
 				if (banlistTable['illegal']) {
 					let problem = this.checkLearnset(move, template, lsetData);
 					if (problem) {
+						if (banlistTable['allowonesketch'] && !sketched) {
+							sketched = true;
+							continue;
+						}
 						let problemString = name + " can't learn " + move.name;
 						if (problem.type === 'incompatible') {
 							if (isHidden) {
