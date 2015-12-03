@@ -3519,5 +3519,27 @@ exports.Formats = [
 				}
 			}
 		}
+	},
+	{
+		name: "Super Squad Smackdown",
+		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3491902/\">Seasonal Ladder</a>"],
+		section: "Seasonal",
+		team: 'randomSeasonalHero',
+		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod'],
+		onEffectiveness: function (typeMod, target, move, type) {
+			if (this.activePokemon && this.activePokemon.name === 'Magneto' && move.id === 'flashcannon' && type === 'Steel') return 1;
+		},
+		onSwitchInPriority: 10,
+		onSwitchIn: function (pokemon) {
+			switch (pokemon.name) {
+			case 'Iron Man':
+				pokemon.addType('Steel');
+				this.add('-start', pokemon, 'typechange', 'Fire/Steel');
+				break;
+			case 'Spiderman':
+				this.boost({atk: 1, spe: 2}, pokemon, pokemon, 'Spidey Sense');
+				break;
+			}
+		}
 	}
 ];
