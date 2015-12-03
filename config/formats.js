@@ -1028,7 +1028,7 @@ exports.Formats = [
 		section: "Local Metagames",
 
 		ruleset: ['OU'],
-		banlist: ['Sheer Cold', 'Fissure', 'Guillotine', 'Horn Drill'],
+		banlist: ['Uber', 'Soul Dew'],
 		onModifyMovePriority: -100,
 		onModifyMove: function (move) {
 			if (move.accuracy !== true && move.accuracy < 100) move.accuracy = 100;
