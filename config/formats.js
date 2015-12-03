@@ -1456,7 +1456,7 @@ exports.Formats = [
 				itemTable[item] = true;
 			}
 		},
-		validateSet: function (set) {
+		onValidateSet: function (set) {
 			var template = this.getTemplate(set.species || set.name);
 			var item = this.getItem(set.item);
 			if (!item.megaEvolves && item.id !== 'blueorb' && item.id !== 'redorb') return;
