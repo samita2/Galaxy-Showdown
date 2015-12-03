@@ -1446,7 +1446,7 @@ exports.Formats = [
 		mod: 'mixandmega',
 		ruleset: ['Ubers', 'Baton Pass Clause'],
 		banlist: ['Gengarite', 'Shadow Tag', 'Dynamic Punch', 'Zap Cannon'],
-		validateTeam: function (team, format) {
+		onValidateTeam: function (team, format) {
 			var itemTable = {};
 			for (var i = 0; i < team.length; i++) {
 				var item = this.getItem(team[i].item);
