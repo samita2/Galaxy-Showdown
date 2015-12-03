@@ -856,13 +856,230 @@ exports.Formats = [
 		banlist: ['Uber']
 	},
 	
+	// Local Metagames
+	///////////////////////////////////////////////////////////////////
+
+	{
+		name: "1v1 (No Team Preview)",
+		section: 'Local Metagames',
+		column: 2,
+
+		ruleset: ['Pokemon', 'Standard', 'Swagger Clause'],
+		banlist: ['Arceus', 'Blaziken', 'Darkrai', 'Deoxys', 'Deoxys-Attack', 'Dialga', 'Giratina', 'Giratina-Origin', 'Groudon', 'Ho-Oh',
+			'Kyogre', 'Kyurem-White', 'Lugia', 'Mewtwo', 'Palkia', 'Rayquaza', 'Reshiram', 'Shaymin-Sky', 'Xerneas', 'Yveltal',
+			'Zekrom', 'Focus Sash', 'Kangaskhanite', 'Soul Dew'
+		],
+		onBegin: function () {
+			this.p1.pokemon = this.p1.pokemon.slice(0, 1);
+			this.p1.pokemonLeft = this.p1.pokemon.length;
+			this.p2.pokemon = this.p2.pokemon.slice(0, 1);
+			this.p2.pokemonLeft = this.p2.pokemon.length;
+		}
+	},
+	{
+		name: "OU Monocolor",
+		section: "Local Metagames",
+
+		ruleset: ['Pokemon', 'Standard', 'Baton Pass Clause', 'Swagger Clause', 'Same Color Clause', 'Team Preview'],
+		banlist: ['Uber', 'Soul Dew']
+	},
+	{
+		name: "Mega Tier",
+		section: "Local Metagames",
+		mod: 'megatier',
+		ruleset: ['OU']
+	},
+	{
+		name: "Ball Cup",
+		section: "Local Metagames",
+		mod: 'ballcup',
+		ruleset: ['OU']
+	},
+	{
+		name: "Move Equality",
+		section: "Local Metagames",
+		
+		mod: "moveequality",
+		ruleset: ["OU"],
+		banlist: ["Greninja", "Dynamic Punch"]
+	},
+	{
+		name: "Noble Items",
+		section: "Local Metagames",
+		
+		mod: "nobleitems",
+		ruleset: ["OU"],
+	},
+	{
+		name: "Level Balance",
+		section: "Local Metagames",
+		
+		ruleset: ['Pokemon', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause'],
+		banlist: [],
+		onValidateSet: function (set) {
+			var template = this.getTemplate(set.species || set.name);
+			if(!template.isMega || this.getItem(set.item).megaStone) template = this.getTemplate(this.getItem(set.item).megaStone);
+			var levelScale = {
+				LC: 94,
+				'LC Uber': 92,
+				NFE: 90,
+				Limbo: 86,
+				NU: 86,
+				BL3: 84,
+				RU: 82,
+				BL2: 80,
+				UU: 78,
+				BL: 76,
+				OU: 74,
+				Unreleased: 74,
+				Uber: 70
+			};
+			var customScale = {
+				// bad mons
+				caterpie:99,metapod:99,weedle:99,kakuna:99,magikarp:99,pichu:99,cleffa:99,igglybuff:99,tyrogue:99,sentret:99,ledyba:99,hoppip:99,sunkern:99,unown:99,azurill:99,ralts:99,zigzagoon:99,wurmple:99,silcoon:99,cascoon:99,slakoth:99,feebas:99,burmy:99,combee:99,mimejr:99,happiny:99,kricketot:99,tynamo:99,
+				
+				// Eviolite
+				Ferroseed: 95, Misdreavus: 95, Munchlax: 95, Murkrow: 95, Natu: 95,
+				Gligar: 90, Metang: 90, Monferno: 90, Roselia: 90, Seadra: 90, Togetic: 90, Wartortle: 90, Whirlipede: 90,
+				Dusclops: 84, Porygon2: 82, Chansey: 78,
+
+				// Weather or teammate dependent
+				Snover: 95, Vulpix: 95, Ninetales: 78, Tentacruel: 78, Toxicroak: 78,
+			
+				// Banned mega
+				"Kangaskhan-Mega": 72, "Gengar-Mega": 72, "Blaziken-Mega": 72, "Lucario-Mega": 72,
+
+				// Holistic judgment
+				Carvanha: 90, Genesect: 72, Kyurem: 78, Sigilyph: 74, Xerneas: 68
+			};
+			var level = levelScale[template.tier] || 90;
+			var eviolite = (template.evos.length > 0 && set.item === "Eviolite") ? true : false;
+			
+			if (customScale[template.name]) level = customScale[template.name];
+			
+			if (eviolite && !customScale[template.name]) level = levelScale[this.getTemplate(template.evos[0]).tier];
+			else if(eviolite) level = 80;
+			
+			if (set.level) set.forcedLevel = level;
+			return [];
+		}
+	},
+	{
+		name: "Immunimons",
+		section: "Local Metagames",
+
+		ruleset: ['OU'],
+		banlist: [],
+		onTryHit: function (target, source, move) {
+			if (target === source || move.type === '???' || move.id === 'struggle') return;
+			if (target.hasType(move.type)) {
+				this.add('-debug','immunimons immunity [' + move.id + ']');
+				return null;
+			}
+		},
+		onDamage: function (damage, target, source, effect) {
+			if ((source.hasType('Rock') && effect.id === 'stealthrock') || (source.hasType('Ground') && effect.id === 'spikes')) {
+				this.add('-debug','immunimons immunity [' + effect.id + ']');
+				return false;
+			}
+		},
+	},
+	{
+		name: "Reliablemons",
+		section: "Local Metagames",
+
+		ruleset: ['Pokemon', 'Standard', 'Team Preview'],
+		banlist: ['Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite'],
+		onModifyMove: function(move, pokemon) {
+			var moves = pokemon.moves;
+			if (move.id === moves[0]) {
+				var cheese = 0;
+				var crackers = true;
+			} else if (move.id === moves[1] && pokemon.typesData[1]) {
+				var cheese = 1;
+				var crackers = true;
+			} else {
+				var crackers = false;
+			}
+			if (crackers) {
+				move.type = pokemon.typesData[cheese].type;
+			}
+		}
+	},
+	{
+		name: "Startermons",
+		section: 'Local Metagames',
+
+		ruleset: ['Pokemon', 'Standard', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause'],
+		banlist: ['Soul Dew', 'Charizardite X', 'Charizardite Y', 'Venusaurite', 'Blastoisinite', 'Blazikenite', 'Blaziken + Speed Boost'],
+		validateSet: function (set) {
+			var validStarters = {
+				"Bulbasaur":1, "Ivysaur":1, "Venusaur":1, "Charmander":1, "Charmeleon":1, "Charizard":1, "Squirtle":1, "Wartortle":1, "Blastoise":1,
+				"Chikorita":1, "Bayleef":1, "Meganium":1, "Cyndaquil":1, "Quilava":1, "Typhlosion":1, "Totodile":1, "Croconaw":1, "Feraligatr":1,
+				"Treecko":1, "Grovyle":1, "Sceptile":1, "Torchic":1, "Combusken":1, "Blaziken":1, "Mudkip":1, "Marshtomp":1, "Swampert":1,
+				"Turtwig":1, "Grotle":1, "Torterra":1, "Chimchar":1, "Monferno":1, "Infernape":1, "Piplup":1, "Prinplup":1, "Empoleon":1,
+				"Snivy":1, "Servine":1, "Serperior":1, "Tepig":1, "Pignite":1, "Emboar":1, "Oshawott":1, "Dewott":1, "Samurott":1,
+				"Chespin":1, "Quilladin":1, "Chesnaught":1, "Fennekin":1, "Braixen":1, "Delphox":1, "Froakie":1, "Frogadier":1, "Greninja":1,
+				"Pikachu":1, "Raichu":1
+			};
+			if (!(set.species in validStarters)) {
+				return [set.species + " is not a starter."];
+			}
+		},
+		validateTeam: function (team) {
+			var problems = [];
+			var hasOneOfEach = true;
+			var gens = [0, 0, 0, 0, 0, 0];
+			for (var i = 0; i < team.length; i++) {
+				var pokemon = Tools.getTemplate(team[i].species || team[i].name);
+				if (pokemon.num <= 151) ++gens[0];
+				else if (pokemon.num <= 251) ++gens[1];
+				else if (pokemon.num <= 386) ++gens[2];
+				else if (pokemon.num <= 494) ++gens[3];
+				else if (pokemon.num <= 649) ++gens[4];
+				else if (pokemon.num <= 721) ++gens[5];
+			}
+			for (var j in gens) {
+				if (gens[j] > 1) hasOneOfEach = false;
+			}
+			if (!hasOneOfEach) problems.push('You must bring a Pokemon of each gen.');
+			return problems;
+		}
+	},
+	{
+		name: "C&E",
+		section: "Local Metagames",
+
+		searchShow: false,
+		maxLevel: 100,
+		ruleset: ['Team Preview']
+	},
+	{
+		name: "Balanced Hackmons (Doubles)",
+		section: "Local Metagames",
+		gameType: 'doubles',
+
+		ruleset: ['Pokemon', 'Ability Clause', '-ate Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Team Preview', 'HP Percentage Mod', 'Cancel Mod'],
+		banlist: ['Arena Trap', 'Huge Power', 'Parental Bond', 'Pure Power', 'Shadow Tag', 'Wonder Guard', 'Assist', 'Chatter']
+	},
+	{
+		name: "Final Destination",
+		section: "Local Metagames",
+
+		team: 'randomFinalDestination',
+		ruleset: ['HP Percentage Mod', 'Cancel Mod', 'Final Destination Clause'],
+		onModifyMove: function (move) {
+			move.willCrit = false;
+		}
+	},
+	
 	// Past Metagames
 	///////////////////////////////////////////////////////////////////
 
 	{
 		name: "Metagamiate",
 		section: "Past Metagames",
-		column: 2,
+		column: 3,
 
 		ruleset: ['Pokemon', 'Standard', 'Baton Pass Clause', 'Swagger Clause', 'Team Preview'],
 		banlist: ['Gengarite', 'Kangaskhanite', 'Lucarionite', 'Soul Dew',
@@ -940,7 +1157,6 @@ exports.Formats = [
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3529252/\">Inheritance</a>"
 		],
 		section: "Past Metagames",
-		column: 2,
 
 		ruleset: ['Pokemon', 'Species Clause', 'Moody Clause', 'Baton Pass Clause', 'Evasion Moves Clause', 'OHKO Clause',
 			'Swagger Clause', 'Endless Battle Clause', 'Team Preview', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod'
@@ -1109,7 +1325,6 @@ exports.Formats = [
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3509940/\">Highest Stat Meta</a>"
 		],
 		section: "Past Metagames",
-		column: 2,
 
 		ruleset: ['Pokemon', 'Standard', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause'],
 		banlist: ['Uber', 'Soul Dew'],
@@ -1155,7 +1370,6 @@ exports.Formats = [
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3545826/\">Sketchmons</a>"
 		],
 		section: "Past Metagames",
-		column: 2,
 
 		ruleset: ['OU'],
 		banlist: ['Allow One Sketch', "King's Rock", 'Pinsirite', 'Razor Fang', 'Shadow Tag'],
@@ -1190,7 +1404,6 @@ exports.Formats = [
 		name: "No Status",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3542555/\">No Status</a>"],
 		section: "Past Metagames",
-		column: 2,
 
 		ruleset: ['Pokemon', 'Standard', 'Team Preview'],
 		banlist: ['Aegislash', 'Arceus', 'Darkrai', 'Deoxys', 'Deoxys-Attack', 'Dialga', 'Genesect', 'Greninja', 'Groudon', 'Ho-Oh',
@@ -1229,7 +1442,6 @@ exports.Formats = [
 		name: "Mix and Mega",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3540979/\">Mix and Mega</a>"],
 		section: "Past Metagames",
-		column: 2,
 
 		mod: 'mixandmega',
 		ruleset: ['Ubers', 'Baton Pass Clause'],
@@ -1578,231 +1790,6 @@ exports.Formats = [
 		searchShow: true,
 		team: 'randomMetro',
 		ruleset: ['Pokemon', 'HP Percentage Mod']
-	},
-	
-	// Local Metagames
-	///////////////////////////////////////////////////////////////////
-
-	{
-		name: "1v1 (No Team Preview)",
-		section: 'Local Metagames',
-		column: 3,
-
-		ruleset: ['Pokemon', 'Standard', 'Swagger Clause'],
-		banlist: ['Arceus', 'Blaziken', 'Darkrai', 'Deoxys', 'Deoxys-Attack', 'Dialga', 'Giratina', 'Giratina-Origin', 'Groudon', 'Ho-Oh',
-			'Kyogre', 'Kyurem-White', 'Lugia', 'Mewtwo', 'Palkia', 'Rayquaza', 'Reshiram', 'Shaymin-Sky', 'Xerneas', 'Yveltal',
-			'Zekrom', 'Focus Sash', 'Kangaskhanite', 'Soul Dew'
-		],
-		onBegin: function () {
-			this.p1.pokemon = this.p1.pokemon.slice(0, 1);
-			this.p1.pokemonLeft = this.p1.pokemon.length;
-			this.p2.pokemon = this.p2.pokemon.slice(0, 1);
-			this.p2.pokemonLeft = this.p2.pokemon.length;
-		}
-	},
-	{
-		name: "OU Monocolor",
-		section: "Local Metagames",
-
-		ruleset: ['Pokemon', 'Standard', 'Baton Pass Clause', 'Swagger Clause', 'Same Color Clause', 'Team Preview'],
-		banlist: ['Uber', 'Soul Dew']
-	},
-	{
-		name: "Mega Tier",
-		section: "Local Metagames",
-		mod: 'megatier',
-		ruleset: ['OU']
-	},
-	{
-		name: "Ball Cup",
-		section: "Local Metagames",
-		mod: 'ballcup',
-		ruleset: ['OU']
-	},
-	{
-		name: "Move Equality",
-		section: "Local Metagames",
-		
-		mod: "moveequality",
-		ruleset: ["OU"],
-		banlist: ["Greninja", "Dynamic Punch"]
-	},
-	{
-		name: "Noble Items",
-		section: "Local Metagames",
-		
-		mod: "nobleitems",
-		ruleset: ["OU"],
-	},
-	{
-		name: "Level Balance",
-		section: "Local Metagames",
-		
-		ruleset: ['Pokemon', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause'],
-		banlist: [],
-		onValidateSet: function (set) {
-			var template = this.getTemplate(set.species || set.name);
-			if(!template.isMega || this.getItem(set.item).megaStone) template = this.getTemplate(this.getItem(set.item).megaStone);
-			var levelScale = {
-				LC: 94,
-				'LC Uber': 92,
-				NFE: 90,
-				Limbo: 86,
-				NU: 86,
-				BL3: 84,
-				RU: 82,
-				BL2: 80,
-				UU: 78,
-				BL: 76,
-				OU: 74,
-				Unreleased: 74,
-				Uber: 70
-			};
-			var customScale = {
-				// bad mons
-				caterpie:99,metapod:99,weedle:99,kakuna:99,magikarp:99,pichu:99,cleffa:99,igglybuff:99,tyrogue:99,sentret:99,ledyba:99,hoppip:99,sunkern:99,unown:99,azurill:99,ralts:99,zigzagoon:99,wurmple:99,silcoon:99,cascoon:99,slakoth:99,feebas:99,burmy:99,combee:99,mimejr:99,happiny:99,kricketot:99,tynamo:99,
-				
-				// Eviolite
-				Ferroseed: 95, Misdreavus: 95, Munchlax: 95, Murkrow: 95, Natu: 95,
-				Gligar: 90, Metang: 90, Monferno: 90, Roselia: 90, Seadra: 90, Togetic: 90, Wartortle: 90, Whirlipede: 90,
-				Dusclops: 84, Porygon2: 82, Chansey: 78,
-
-				// Weather or teammate dependent
-				Snover: 95, Vulpix: 95, Ninetales: 78, Tentacruel: 78, Toxicroak: 78,
-			
-				// Banned mega
-				"Kangaskhan-Mega": 72, "Gengar-Mega": 72, "Blaziken-Mega": 72, "Lucario-Mega": 72,
-
-				// Holistic judgment
-				Carvanha: 90, Genesect: 72, Kyurem: 78, Sigilyph: 74, Xerneas: 68
-			};
-			var level = levelScale[template.tier] || 90;
-			var eviolite = (template.evos.length > 0 && set.item === "Eviolite") ? true : false;
-			
-			if (customScale[template.name]) level = customScale[template.name];
-			
-			if (eviolite && !customScale[template.name]) level = levelScale[this.getTemplate(template.evos[0]).tier];
-			else if(eviolite) level = 80;
-			
-			if (set.level) set.forcedLevel = level;
-			return [];
-		}
-	},
-	{
-		name: "Immunimons",
-		section: "Local Metagames",
-
-		ruleset: ['OU'],
-		banlist: [],
-		onTryHit: function (target, source, move) {
-			if (target === source || move.type === '???' || move.id === 'struggle') return;
-			if (target.hasType(move.type)) {
-				this.add('-debug','immunimons immunity [' + move.id + ']');
-				return null;
-			}
-		},
-		onDamage: function (damage, target, source, effect) {
-			if ((source.hasType('Rock') && effect.id === 'stealthrock') || (source.hasType('Ground') && effect.id === 'spikes')) {
-				this.add('-debug','immunimons immunity [' + effect.id + ']');
-				return false;
-			}
-		},
-	},
-	{
-		name: "Reliablemons",
-		section: "Local Metagames",
-
-		ruleset: ['Pokemon', 'Standard', 'Team Preview'],
-		banlist: ['Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite'],
-		onModifyMove: function(move, pokemon) {
-			var moves = pokemon.moves;
-			if (move.id === moves[0]) {
-				var cheese = 0;
-				var crackers = true;
-			} else if (move.id === moves[1] && pokemon.typesData[1]) {
-				var cheese = 1;
-				var crackers = true;
-			} else {
-				var crackers = false;
-			}
-			if (crackers) {
-				move.type = pokemon.typesData[cheese].type;
-			}
-		}
-	},
-	{
-		name: "Startermons",
-		section: 'Local Metagames',
-
-		ruleset: ['Pokemon', 'Standard', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause'],
-		banlist: ['Soul Dew', 'Charizardite X', 'Charizardite Y', 'Venusaurite', 'Blastoisinite', 'Blazikenite', 'Blaziken + Speed Boost'],
-		validateSet: function (set) {
-			var validStarters = {
-				"Bulbasaur":1, "Ivysaur":1, "Venusaur":1, "Charmander":1, "Charmeleon":1, "Charizard":1, "Squirtle":1, "Wartortle":1, "Blastoise":1,
-				"Chikorita":1, "Bayleef":1, "Meganium":1, "Cyndaquil":1, "Quilava":1, "Typhlosion":1, "Totodile":1, "Croconaw":1, "Feraligatr":1,
-				"Treecko":1, "Grovyle":1, "Sceptile":1, "Torchic":1, "Combusken":1, "Blaziken":1, "Mudkip":1, "Marshtomp":1, "Swampert":1,
-				"Turtwig":1, "Grotle":1, "Torterra":1, "Chimchar":1, "Monferno":1, "Infernape":1, "Piplup":1, "Prinplup":1, "Empoleon":1,
-				"Snivy":1, "Servine":1, "Serperior":1, "Tepig":1, "Pignite":1, "Emboar":1, "Oshawott":1, "Dewott":1, "Samurott":1,
-				"Chespin":1, "Quilladin":1, "Chesnaught":1, "Fennekin":1, "Braixen":1, "Delphox":1, "Froakie":1, "Frogadier":1, "Greninja":1,
-				"Pikachu":1, "Raichu":1
-			};
-			if (!(set.species in validStarters)) {
-				return [set.species + " is not a starter."];
-			}
-		},
-		validateTeam: function (team) {
-			var problems = [];
-			var hasOneOfEach = true;
-			var gens = [0, 0, 0, 0, 0, 0];
-			for (var i = 0; i < team.length; i++) {
-				var pokemon = Tools.getTemplate(team[i].species || team[i].name);
-				if (pokemon.num <= 151) ++gens[0];
-				else if (pokemon.num <= 251) ++gens[1];
-				else if (pokemon.num <= 386) ++gens[2];
-				else if (pokemon.num <= 494) ++gens[3];
-				else if (pokemon.num <= 649) ++gens[4];
-				else if (pokemon.num <= 721) ++gens[5];
-			}
-			for (var j in gens) {
-				if (gens[j] > 1) hasOneOfEach = false;
-			}
-			if (!hasOneOfEach) problems.push('You must bring a Pokemon of each gen.');
-			return problems;
-		}
-	},
-	{
-		name: "Galaxy LC",
-		section: "Local Metagames",
-
-		maxLevel: 5,
-		ruleset: ['Pokemon', 'Standard', 'Team Preview', 'Little Cup'],
-		banlist: ['Gligar', 'Misdreavus', 'Swirlix', 'Meditite', 'Murkrow', 'Scyther', 'Sneasel', 'Tangela', 'Dragon Rage', 'Sonic Boom', 'Swagger']
-	},
-	{
-		name: "C&E",
-		section: "Local Metagames",
-
-		searchShow: false,
-		maxLevel: 100,
-		ruleset: ['Team Preview']
-	},
-	{
-		name: "Balanced Hackmons (Doubles)",
-		section: "Local Metagames",
-		gameType: 'doubles',
-
-		ruleset: ['Pokemon', 'Ability Clause', '-ate Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Team Preview', 'HP Percentage Mod', 'Cancel Mod'],
-		banlist: ['Arena Trap', 'Huge Power', 'Parental Bond', 'Pure Power', 'Shadow Tag', 'Wonder Guard', 'Assist', 'Chatter']
-	},
-	{
-		name: "Final Destination",
-		section: "Local Metagames",
-
-		team: 'randomFinalDestination',
-		ruleset: ['HP Percentage Mod', 'Cancel Mod', 'Final Destination Clause'],
-		onModifyMove: function (move) {
-			move.willCrit = false;
-		}
 	},
 	
 	// BW2 Singles
