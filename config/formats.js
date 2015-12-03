@@ -1007,6 +1007,23 @@ exports.Formats = [
 		}
 	},
 	{
+		name: "Haxmons",
+		section: "Local Metagames",
+
+		ruleset: ['OU', 'Freeze Clause'],
+		banlist: ["King's Rock", 'Razor Fang', 'Stench'],
+		onModifyMovePriority: -100,
+		onModifyMove: function (move) {
+			if (move.accuracy !== true && move.accuracy < 100) move.accuracy = 0;
+			move.willCrit = true;
+			if (move.secondaries) {
+				for (var i = 0; i < move.secondaries.length; i++) {
+					move.secondaries[i].chance = 100;
+				}
+			}
+		}
+	},
+	{
 		name: "Startermons",
 		section: 'Local Metagames',
 
