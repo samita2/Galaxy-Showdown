@@ -1024,6 +1024,23 @@ exports.Formats = [
 		}
 	},
 	{
+		name: "No Hax",
+		section: "Local Metagames",
+
+		ruleset: ['OU'],
+		banlist: ['Sheer Cold', 'Fissure', 'Guillotine', 'Horn Drill'],
+		onModifyMovePriority: -100,
+		onModifyMove: function (move) {
+			if (move.accuracy !== true && move.accuracy < 100) move.accuracy = 100;
+			move.willCrit = false;
+			if (move.secondaries) {
+				for (var i = 0; i < move.secondaries.length; i++) {
+					move.secondaries[i].chance = 0;
+				}
+			}
+		}
+	},
+	{
 		name: "Startermons",
 		section: 'Local Metagames',
 
