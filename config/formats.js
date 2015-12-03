@@ -1581,6 +1581,39 @@ exports.Formats = [
 			}
 		}
 	},
+	{
+		name: "Linked",
+		section: "Past Metagames",
+
+		mod: 'linked',
+		ruleset: ['OU'],
+		banlist: ["King's Rock", 'Razor Fang'],
+		validateTeam: function (team, format) {
+			var hasChoice = false;
+			for (var i = 0; i < team.length; i++) {
+				var item = toId(team[i].item);
+				if (!item) continue;
+				if (item === 'choiceband' || item === 'choicescarf' || item === 'choicespecs') {
+					if (hasChoice) return ["You are limited to one Choice item."];
+					hasChoice = true;
+				}
+			}
+		},
+		validateSet: function (set) {
+			if (set.moves && set.moves.length >= 2) {
+				var moves = [toId(set.moves[0]), toId(set.moves[1])];
+				if (moves.indexOf('craftyshield') >= 0 || moves.indexOf('detect') >= 0 || moves.indexOf('kingsshield') >= 0 || moves.indexOf('protect') >= 0 || moves.indexOf('spikyshield') >= 0) {
+					return ["Linking protect moves is banned."];
+				}
+				if (moves.indexOf('superfang') >= 0 && (moves.indexOf('nightshade') >= 0 || moves.indexOf('seismictoss') >= 0)) {
+					return ["Linking Super Fang with Night Shade or Seismic Toss is banned."];
+				}
+				if (this.getMove(moves[0]).flags['charge'] || this.getMove(moves[1]).flags['charge']) {
+					return ["Linking two turn moves is banned."];
+				}
+			}
+		}
+	},
 	
 	// Random Metagames
 	///////////////////////////////////////////////////////////////////
