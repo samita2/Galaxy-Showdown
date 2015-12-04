@@ -1534,7 +1534,7 @@ exports.BattleScripts = {
 					(hasType['Dragon'] && !counter['Dragon'] && !hasAbility['Aerilate'] && !hasAbility['Pixilate'] && !hasMove['rest'] && !hasMove['sleeptalk']) ||
 					(hasType['Fire'] && !counter['Fire']) ||
 					(hasType['Ground'] && !counter['Ground'] && (counter.setupType || counter['speedsetup'])) ||
-					(hasType['Psychic'] && !hasType['Flying'] && !!counter['Psychic'] && template.types.length > 1 && counter.stab < 2) ||
+					(hasType['Psychic'] && !!counter['Psychic'] && !hasType['Flying'] && !hasAbility['Pixilate'] && template.types.length > 1 && counter.stab < 2) ||
 					(hasMove['raindance'] && hasType['Water'] && !counter['Water']) ||
 					(movePool.indexOf('technoblast') >= 0 || template.requiredMove && movePool.indexOf(toId(template.requiredMove)) >= 0)) &&
 					(counter['physicalsetup'] + counter['specialsetup'] < 2 && (!counter.setupType || counter.setupType === 'Mixed' || (move.category !== counter.setupType && move.category !== 'Status') || counter[counter.setupType] + counter.Status > 3))) {
@@ -1934,12 +1934,6 @@ exports.BattleScripts = {
 		let customScale = {
 			// Between OU and Uber
 			Aegislash: 74, Blaziken: 74, 'Blaziken-Mega': 74, Genesect: 74, 'Genesect-Burn': 74, 'Genesect-Chill': 74, 'Genesect-Douse': 74, 'Genesect-Shock': 74, Greninja: 74, 'Kangaskhan-Mega': 74, 'Lucario-Mega': 74, 'Mawile-Mega': 74,
-
-			// Not holding Mega Stone
-			Banette: 83, Beedrill: 83, Glalie: 83, Lopunny: 83,
-			Altaria: 81, Ampharos: 81, Charizard: 81, Pinsir: 81,
-			Aerodactyl: 79, Aggron: 79, Blastoise: 79, Gardevoir: 79, Manectric: 79, Medicham: 79, Sceptile: 79, Venusaur: 79,
-			Diancie: 77, Metagross: 77, Sableye: 77,
 
 			// Banned Ability
 			Gothitelle: 77, Ninetales: 77, Politoed: 77, Wobbuffet: 77,
