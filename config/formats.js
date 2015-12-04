@@ -1130,12 +1130,12 @@ exports.Formats = [
 		}
 	},
 	
-	// Past Metagames
+	// Old Metagames
 	///////////////////////////////////////////////////////////////////
 
 	{
 		name: "Metagamiate",
-		section: "Past Metagames",
+		section: "Old Metagames",
 		column: 3,
 
 		ruleset: ['Pokemon', 'Standard', 'Baton Pass Clause', 'Swagger Clause', 'Team Preview'],
@@ -1160,7 +1160,7 @@ exports.Formats = [
 	},
 	{
 		name: "Middle Cup",
-		section: "Past Metagames",
+		section: "Old Metagames",
 
 		ruleset: ['Pokemon', 'Team Preview', 'Standard'],
 		banlist: ['Illegal', 'Eviolite', 'Chansey', 'Frogadier'],
@@ -1175,7 +1175,7 @@ exports.Formats = [
 	},
 	{
 		name: "Alphabet Cup",
-		section: "Past Metagames",
+		section: "Old Metagames",
 
 		ruleset: ['Pokemon', 'Team Preview', 'Standard'],
 		banlist: ['Soul Dew', 'Gengarite', 'Mawilite', 'Salamencite', 'Kangaskhanite', 'Mewtwonite X', 'Mewtwonite Y', 'Swoobat',
@@ -1196,7 +1196,7 @@ exports.Formats = [
 	},
 	{
 		name: "FU",
-		section: "Past Metagames",
+		section: "Old Metagames",
 
 		ruleset: ['PU'],
 		banlist: ['Vigoroth', 'Chatot', 'Fraxure', 'Sticky Web', 'Heat Rock', 'Piloswine', 'Zebstrika', 'Roselia', 'Kadabra', 'Raichu', 'Machoke',
@@ -1213,7 +1213,7 @@ exports.Formats = [
 			"Pok&eacute;mon may use the ability and moves of another, as long as they forfeit their own learnset.",
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3529252/\">Inheritance</a>"
 		],
-		section: "Past Metagames",
+		section: "Old Metagames",
 
 		ruleset: ['Pokemon', 'Species Clause', 'Moody Clause', 'Baton Pass Clause', 'Evasion Moves Clause', 'OHKO Clause',
 			'Swagger Clause', 'Endless Battle Clause', 'Team Preview', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod'
@@ -1370,7 +1370,7 @@ exports.Formats = [
 			"Stealth Rock inflicts damage calculated from the primary type of the user.",
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3511171/\">Same Type Stealth Rock</a>"
 		],
-		section: "Past Metagames",
+		section: "Old Metagames",
 
 		mod: 'stsr',
 		ruleset: ['OU']
@@ -1381,7 +1381,7 @@ exports.Formats = [
 			"All Pok&eacute;mon on a team must share the same highest stat.",
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3509940/\">Highest Stat Meta</a>"
 		],
-		section: "Past Metagames",
+		section: "Old Metagames",
 
 		ruleset: ['Pokemon', 'Standard', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause'],
 		banlist: ['Uber', 'Soul Dew'],
@@ -1412,7 +1412,7 @@ exports.Formats = [
 			"Every move will never miss.",
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3514582/\">No Guard Galaxy</a>"
 		],
-		section: "Past Metagames",
+		section: "Old Metagames",
 
 		ruleset: ['OU'],
 		banlist: ['Dynamic Punch'],
@@ -1426,7 +1426,7 @@ exports.Formats = [
 			"Pok&eacute;mon gain access to one Sketch'd move.",
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3545826/\">Sketchmons</a>"
 		],
-		section: "Past Metagames",
+		section: "Old Metagames",
 
 		ruleset: ['OU'],
 		banlist: ['Allow One Sketch', "King's Rock", 'Pinsirite', 'Razor Fang', 'Shadow Tag'],
@@ -1443,7 +1443,7 @@ exports.Formats = [
 	{
 		name: "Hackmons 1v1",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/oras-1v1-3v3-team-preview.3496773/#post-5121864\">Hackmons 1v1</a>"],
-		section: "Past Metagames",
+		section: "Old Metagames",
 
 		ruleset: ['Pokemon', 'OHKO Clause', 'Endless Battle Clause', 'Team Preview 1v1', 'HP Percentage Mod', 'Cancel Mod'],
 		banlist: ['Wonder Guard', 'Heal Pulse'],
@@ -1460,7 +1460,7 @@ exports.Formats = [
 	{
 		name: "No Status",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3542555/\">No Status</a>"],
-		section: "Past Metagames",
+		section: "Old Metagames",
 
 		ruleset: ['Pokemon', 'Standard', 'Team Preview'],
 		banlist: ['Aegislash', 'Arceus', 'Darkrai', 'Deoxys', 'Deoxys-Attack', 'Dialga', 'Genesect', 'Greninja', 'Groudon', 'Ho-Oh',
@@ -1481,7 +1481,7 @@ exports.Formats = [
 	{
 		name: "MonsJustMons",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3514696/\">MonsJustMons</a>"],
-		section: "Past Metagames",
+		section: "Old Metagames",
 
 		ruleset: ['Pokemon', 'Standard', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause'],
 		banlist: ['Arceus', 'Archeops', 'Darkrai', 'Deoxys', 'Deoxys-Attack', 'Deoxys-Defense', 'Deoxys-Speed', 'Dialga', 'Giratina', 'Giratina-Origin', 'Groudon', 'Ho-Oh',
@@ -1498,7 +1498,7 @@ exports.Formats = [
 	{
 		name: "Mix and Mega",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3540979/\">Mix and Mega</a>"],
-		section: "Past Metagames",
+		section: "Old Metagames",
 
 		mod: 'mixandmega',
 		ruleset: ['Ubers', 'Baton Pass Clause'],
@@ -1626,7 +1626,7 @@ exports.Formats = [
 	{
 		name: "Protean Palace",
 		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3496299/\">Protean Palace</a>"],
-		section: "Past Metagames",
+		section: "Old Metagames",
 
 		ruleset: ['OU'],
 		banlist: [],
@@ -1640,7 +1640,7 @@ exports.Formats = [
 	},
 	{
 		name: "Linked",
-		section: "Past Metagames",
+		section: "Old Metagames",
 
 		mod: 'linked',
 		ruleset: ['OU'],
@@ -1670,6 +1670,17 @@ exports.Formats = [
 				}
 			}
 		}
+	},
+	
+		name: "Stat Switch",
+		section: "Old Metagames",
+
+		mod: 'statswitch',
+		ruleset: ['Pokemon', 'Standard', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause'],
+		banlist: ['Arceus', 'Azumarill', 'Blaziken', 'Darkrai', 'Deoxys', 'Deoxys-Attack', 'Deoxys-Speed', 'Dialga', 'Giratina', 'Giratina-Origin',
+			'Groudon', 'Ho-Oh', 'Kyogre', 'Lugia', 'Mewtwo', 'Palkia', 'Rayquaza', 'Regice', 'Reshiram', 'Xerneas',
+			'Yveltal', 'Zekrom', 'Diancite', 'Gengarite', 'Lucarionite', 'Mawilite', 'Salamencite', 'Soul Dew'
+		]
 	},
 	
 	// Random Metagames
