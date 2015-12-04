@@ -3233,23 +3233,16 @@ exports.Formats = [
 	{
 		name: "Winter's Wont",
 		section: 'Seasonal',
-
+		//mod: 'inverse',
 		gameType: 'doubles',
-		team: 'randomSeasonalWinter',
+		team: 'randomSeasonalFF',
 		ruleset: ['HP Percentage Mod', 'Sleep Clause Mod'],
-		maxLevel: 1000,
-		onBegin: function () {
-			this.setWeather('Hail');
-			delete this.weatherData.duration;
+		onBegin: function() {
+			this.add('-message', "新年快乐");
 		},
-		onModifyPokemon: function (pokemon) {
-			pokemon.negateImmunity['Type'] = true;
-		},
-		onEffectiveness: function (typeMod, target, type, move) {
-			// The effectiveness of Freeze Dry on Water isn't reverted
-			if (move && move.id === 'freezedry' && type === 'Water') return;
-			if (move && !this.getImmunity(move, type)) return 1;
-			return -typeMod;
+		onModifyMove: function(move) {
+			if (move.id === 'explosion') move.name = 'Firecrackers';
+			else if (move.type === 'Fire') move.name = 'Fireworks';
 		}
 	},
 	// Fabulous February, February 2014
