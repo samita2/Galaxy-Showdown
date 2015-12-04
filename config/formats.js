@@ -103,7 +103,7 @@ exports.Formats = [
 		banlist: ['RU', 'BL3']
 	},
 	{
-		name: "PU (suspect test)",
+		name: "PU",
 		desc: [
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3554725/\">np: PU Stage 4</a>",
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3528743/\">PU Viability Ranking</a>"
@@ -284,7 +284,7 @@ exports.Formats = [
 		requirePentagon: true,
 		onValidateSet: function (set) {
 			if (set.item) {
-				var item = this.getItem(set.item);
+				const item = this.getItem(set.item);
 				if (item.megaStone) return ["Mega Stones are not permitted."];
 			}
 		}
@@ -369,9 +369,9 @@ exports.Formats = [
 		banlist: ['Tornadus + Defiant', 'Thundurus + Defiant', 'Landorus + Sheer Force'],
 		requirePentagon: true,
 		onValidateTeam: function (team) {
-			var problems = [];
+			const problems = [];
 			for (let i = 0; i < team.length; i++) {
-				var template = this.getTemplate(team[i].species);
+				let template = this.getTemplate(team[i].species);
 				if (template.color !== 'Red' && template.color !== 'Green' && template.color !== 'White') {
 					problems.push(template.species);
 				}
@@ -416,12 +416,12 @@ exports.Formats = [
 
 		mod: '350cup',
 		ruleset: ['Ubers', 'Evasion Moves Clause'],
-		banlist: ['Abra', 'Cranidos', 'Darumaka', 'Gastly', 'Pawniard', 'Spritzee', 'DeepSeaScale', 'DeepSeaTooth', 'Light Ball', 'Thick Club'],
+		banlist: ['Abra', 'Cranidos', 'Darumaka', 'Gastly', 'Pawniard', 'Smeargle', 'Spritzee', 'DeepSeaScale', 'DeepSeaTooth', 'Light Ball', 'Thick Club'],
 		onValidateSet: function (set) {
-			var template = Tools.getTemplate(set.species);
-			var item = this.getItem(set.item);
+			const template = Tools.getTemplate(set.species);
+			const item = this.getItem(set.item);
 			if (item.name === 'Eviolite' && Object.values(template.baseStats).sum() <= 350) {
-				return ['Eviolite is banned on Pok&eacute;mon with 350 or lower BST.'];
+				return ['Eviolite is banned on Pok\u00E9mon with 350 or lower BST.'];
 			}
 		}
 	},
@@ -436,8 +436,8 @@ exports.Formats = [
 		ruleset: ['Pokemon', 'Standard', 'Baton Pass Clause', 'Team Preview'],
 		banlist: ['Dragon Rage', 'Sonic Boom', 'Swagger'],
 		validateSet: function (set, teamHas) {
-			var species = set.species || set.name;
-			var ability = set.ability;
+			const species = set.species || set.name;
+			const ability = set.ability;
 			let template = Tools.getTemplate(species);
 			if (template.prevo) {
 				return [species + " isn't the first in its evolution family."];
@@ -454,7 +454,7 @@ exports.Formats = [
 			while (template.evos.length) {
 				template = Tools.getTemplate(template.evos[0]);
 			}
-			var level = set.level;
+			const level = set.level;
 			set.species = template.species;
 			set.ability = template.abilities[0];
 			set.level = template.evoLevel;

@@ -486,7 +486,7 @@ Users.cacheGroupData = cacheGroupData;
 User = (function () {
 	function User(connection) {
 		numUsers++;
-		this.mmrCache = {};
+		this.mmrCache = Object.create(null);
 		this.guestNum = numUsers;
 		this.name = 'Guest ' + numUsers;
 		this.named = false;
@@ -502,7 +502,7 @@ User = (function () {
 		if (connection.user) connection.user = this;
 		this.connections = [connection];
 		this.latestHost = '';
-		this.ips = {};
+		this.ips = Object.create(null);
 		this.ips[connection.ip] = 1;
 		// Note: Using the user's latest IP for anything will usually be
 		//       wrong. Most code should use all of the IPs contained in
@@ -510,9 +510,11 @@ User = (function () {
 		this.latestIp = connection.ip;
 
 		this.locked = Users.checkLocked(connection.ip);
-		this.prevNames = {};
-		this.battles = {};
-		this.roomCount = {};
+		this.prevNames = Object.create(null);
+		this.roomCount = Object.create(null);
+
+		// Table of roomid:game
+		this.games = Object.create(null);
 
 		// searches and challenges
 		this.searching = Object.create(null);
@@ -1056,6 +1058,8 @@ User = (function () {
 		oldUser.markInactive();
 	};
 	User.prototype.mergeConnection = function (connection) {
+		// the connection has changed name to this user's username, and so is
+		// being merged into this account
 		this.connected = true;
 		this.connections.push(connection);
 		//console.log('' + this.name + ' merging: connection ' + connection.socket.id);
@@ -1066,6 +1070,7 @@ User = (function () {
 			var room = connection.rooms[i];
 			if (!this.roomCount[i]) {
 				if (room.bannedUsers && (this.userid in room.bannedUsers || this.autoconfirmed in room.bannedUsers)) {
+					// the connection was in a room that this user is banned from
 					room.bannedIps[connection.ip] = room.bannedUsers[this.userid];
 					connection.sendTo(room.id, '|deinit');
 					connection.leaveRoom(room);
@@ -1075,11 +1080,8 @@ User = (function () {
 				this.roomCount[i] = 0;
 			}
 			this.roomCount[i]++;
-			if (room.battle) {
-				room.battle.resendRequest(connection);
-			}
-			if (global.Tournaments && Tournaments.get(room.id)) {
-				Tournaments.get(room.id).updateFor(this, connection);
+			if (room.game && room.game.onUpdateConnection) {
+				room.game.onUpdateConnection(this, connection);
 			}
 		}
 	};
