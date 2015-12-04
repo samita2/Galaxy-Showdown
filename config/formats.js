@@ -1159,24 +1159,6 @@ exports.Formats = [
             }
         }
     },
-    {
-		name: "Trapmons",
-		section: "Local Metagames",
-
-                mod: 'trapmons',
-		ruleset: ['Standard Unreleased', 'Team Preview'],
-		banlist: ['Uber', 'Soul Dew', 'Shed Shell', 'Perish Song'],
-		validateSet: function(set) {
-			if (set.species === 'Regigigas') set.ability = 'Slow Start';
-			else if (set.species === 'Slaking') set.ability = 'Truant';
-			else if (set.species === 'Ditto') set.ability = 'Imposter';
-			else set.ability = 'Shadow Tag';
-			for (var i in set.moves) {
-				var move = this.getMove(string(set.moves[i]));
-				if (move.basePower && move.basePower >= 280) return ['The move ' + move.name + ' is banned because it has 280+ Base Power.'];
-			}
-		}
-	},
 	{
         name: "Nature's Blessing",
         section: "Local Metagames",
