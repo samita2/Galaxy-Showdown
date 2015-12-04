@@ -1081,6 +1081,32 @@ exports.Formats = [
 		}
 	},
 	{
+        name: "Accessorize",
+        desc: ["&bullet; <a href=\"http://www.smogon.com/forums/threads/3546902/\">Accessorize</a>"],
+        section: "Local Metagames",
+
+        mod: 'accessorize',
+        ruleset: ['OU'],
+        onValidateSet: function (set) {
+            var template = this.getTemplate(set.species || set.name);
+            var item = this.getItem(set.item);
+            switch (item.id) {
+            case 'charcoal': case 'spelltag': case 'magnet': case 'sharpbeak': case 'dragonfang': case 'nevermeltice':
+                if (template.baseStats.def <= 5 || template.baseStats.spd <= 5) return ["" + template.species + " does not have enough Def. or Sp. Def. to hold " + item.name + "."];
+                break;
+            case 'mysticwater': case 'hardstone': case 'cherishball': case 'metalcoat': case 'miracleseed': case 'poisonbarb':
+                if (template.baseStats.spe <= 10) return ["" + template.species + " does not have enough Speed to hold " + item.name + "."];
+                break;
+            case 'twistedspoon': case 'silkscarf': case 'blackglasses':
+                if (template.baseStats.def <= 10) return ["" + template.species + " does not have enough Defense to hold " + item.name + "."];
+                break;
+            case 'silverpowder': case 'softsand': case 'blackbelt':
+                if (template.baseStats.spd <= 10) return ["" + template.species + " does not have enough Special Defense to hold " + item.name + "."];
+                break;
+            }
+        }
+        },
+	{
 		name: "Pacifistmons",
 		section: "Local Metagames",
 
