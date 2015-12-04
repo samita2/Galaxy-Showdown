@@ -1682,6 +1682,19 @@ exports.Formats = [
 			'Yveltal', 'Zekrom', 'Diancite', 'Gengarite', 'Lucarionite', 'Mawilite', 'Salamencite', 'Soul Dew'
 		]
 	},
+	{
+		name: "Mediocremons",
+		section: "Old Metagames",
+
+		ruleset: ['OU'],
+		banlist: ['Clefable', 'Kingdra', 'Venomoth', 'Abomasite', 'Mawilite', 'Medichamite', 'Huge Power', 'Pure Power'],
+		onValidateSet: function (set) {
+			var template = this.getTemplate(set.species || set.name);
+			for (var stat in template.baseStats) {
+				if (template.baseStats[stat] >= 100) return [set.species + " has a base stat of 100 or more."];
+			}
+		}
+	},
 	
 	// Random Metagames
 	///////////////////////////////////////////////////////////////////
