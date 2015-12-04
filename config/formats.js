@@ -1081,6 +1081,22 @@ exports.Formats = [
 		}
 	},
 	{
+		name: "PacifistMons",
+		section: "Local Metagames",
+
+		ruleset: ['Pokemon', 'Standard', 'Team Preview'],
+		banlist: ['Heatran', 'Gengarite', 'Taunt', 'Magic Guard'],
+		onValidateSet: function(set) {
+			var problems = [];
+			for (var i in set.moves) {
+				var move = this.getMove(string(set.moves[i]));
+				if (move.heal) problems.push(move.name + ' is banned as it is a healing move.');
+				if (move.category !== 'Status') problems.push(move.name + ' is banned as it is an attacking move.');
+			}
+			return problems;
+		}
+	},
+	{
 		name: "C&E",
 		section: "Local Metagames",
 
