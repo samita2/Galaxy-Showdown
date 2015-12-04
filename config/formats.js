@@ -1123,6 +1123,56 @@ exports.Formats = [
 		}
 	},
 	{
+        name: "Nature's Blessing",
+        section: "Local Metagames",
+
+        ruleset: ['Pokemon', 'Standard', 'Team Preview'],
+        banlist: ['Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite'],
+        onTryHit: function (target, source, move) {
+            if (target !== source && target.item && !target.ignore['Item'] && !(!source.ignore['Ability'] && source.ability === "unnerve")) {
+                var item = Tools.getItem(target.item);
+                if (item.isBerry && item.onSourceModifyDamage && item.naturalGift && move.type === item.naturalGift.type) {
+                    this.add('-immune', target, '[msg]');
+                    return null;
+                }
+            }
+        }
+        },
+        {
+		name: "Gods and Followers",
+		section: "Local Metagames",
+
+		mod: 'godsandfollowers',
+		ruleset: ['Pokemon', 'Sleep Clause Mod', 'Species Clause', 'OHKO Clause', 'Moody Clause', 'Evasion Moves Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause', 'Followers Clause'],
+		banlist: ['Illegal']
+	},
+        {
+        name: "Burning 'Mon",
+        section: "Local Metagames",
+
+        ruleset: ['Pokemon', 'Standard', 'Team Preview'],
+        banlist: ['Mewtwo', 'Lugia', 'Ho-Oh', 'Blaziken', 'Kyogre', 'Rayquaza', 'Deoxys', 'Deoxys-Attack', 'Deoxys-Defense', 'Deoxys-Speed', 'Dialga', 'Palkia', 'Giratina', 'Girainta-Origin', 'Darkrai', 'Shaymin-Sky', 'Arceus', 'Reshiram', 'Kyurem-White', 'Xerneas', 'Yveltal', 'Soul Dew', 'Gengarite', 'Salamencite', 'Red Orb'],
+        onBegin: function () {
+            this.add('-message', "Hah! You better have BURN HEAL!"); //This message is optional. Feel free to get rid of it if you don't want it.
+            for (var i = 0; i < this.p1.pokemon.length; i++) {
+                if (this.p1.pokemon[i].runImmunity('brn')) {
+                    this.p1.pokemon[i].status = 'brn';
+                }
+            }
+            for (var j = 0; j < this.p2.pokemon.length; j++) {
+                if (this.p2.pokemon[j].runImmunity('brn')) {
+                    this.p2.pokemon[j].status = 'brn';
+                }
+            }
+        },
+        onResidualOrder: 999, //This will always occur as the last possible occurence of the turn's residual phase.
+        onResidual: function () {
+            this.p1.pokemon[0].trySetStatus('brn');
+            this.p2.pokemon[0].trySetStatus('brn');
+            //Trust me I tried pokemon.trySetStatus it doesn't work ;_;
+        }
+        },
+	{
 		name: "Unreleased OU",
 		section: "Local Metagames",
 
