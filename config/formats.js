@@ -1123,6 +1123,90 @@ exports.Formats = [
 		}
 	},
 	{
+        name: "Technician Tower",
+        section: "Local Metagames",
+
+        mod: 'technichiantower',
+        ruleset: ['Pokemon', 'Standard', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause'],
+        banlist: ['Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite', 'Mawilite','Heracronite', 'Technician', 'Skill Link'],
+        validateSet: function(set) {
+            for (var i in set.moves) {
+                var move = this.getMove(string(set.moves[i]));
+                if (move.basePower && move.basePower >= 90) return ['The move ' + move.name + ' is banned because it has >90 Base Power.'];
+                if (move.id === 'frustration' && set.happiness < 105) return ['The move Frustration is banned because Pokemon ' + (set.name || set.species) + ' has less than 105 happiness'];
+                if (move.id === 'return' && set.happiness > 150) return ['The move Return is banned because Pokemon ' + (set.name || set.species) +  'has more than 150 happiness'];
+                if (move.basePowerCallback && !(move.id in {'frustration':1,'return':1})) return ['The move ' + move.name + ' is banned because it has a variable BP'];
+                if (move.basePower && move.basePower > 63 && set.ability in {'Pixilate':1,'Aerilate':1,'Refrigerate':1}) return ['The move ' + move.name + ' is banned for Pokemon with an -ate ability.']
+            }
+        },
+        onBasePowerPriority: 8,
+        onBasePower: function (basePower, attacker, defender, move) {
+            if (basePower <= 60) {
+                this.debug('Technician boost');
+                return this.chainModify(1.5);
+            }
+        },
+    },
+    {
+        name: "Acid Rain",
+        section: "Local Metagames",
+     
+        mod: 'acidrain',
+        onBegin: function() {
+            this.setWeather('raindance');
+            delete this.weatherData.duration;
+            this.add('-message', "Eh, close enough.");
+        },
+        ruleset: ['Pokemon', 'Standard', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause'],
+        banlist: ['Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite', 'Weather Ball', 'Castform']
+    },
+    {
+        name: "Playstyle Reversal",
+        section: "Local Metagames",
+
+        ruleset: ['Pokemon', 'Standard', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause'],
+        banlist: ['Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite', 'Mawilite'],
+        onModifyMove: function (move) {
+            if (move && move.self) {
+                if (move.category === "Status") {
+                    move.onHit = function(source) {
+                        return this.boost({atk: 1, spa: 1, def: -1, spd: -1});
+                    }
+                } else {
+                    move.onHit = function(attacker, defender) {
+                        return this.boost({atk: -1, spa: -1, def: 1, spd: 1}, defender, attacker);
+                    }
+                }
+            } else if (move && move.category === "Status") {
+                if (move.target === "self" && move.boosts) {
+                    move.self = {boosts: {atk: -1, spa: -1, def: 1, spd: 1}};
+                } else {
+                    move.self = {boosts: {atk: 1, spa: 1, def: -1, spd: -1}};
+                }
+            } else if (move) {
+                move.self = {boosts: {atk: -1, spa: -1, def: 1, spd: 1}};
+            }
+        }
+    },
+    {
+		name: "Trapmons",
+		section: "Local Metagames",
+
+                mod: 'trapmons',
+		ruleset: ['Standard Unreleased', 'Team Preview'],
+		banlist: ['Uber', 'Soul Dew', 'Shed Shell', 'Perish Song'],
+		validateSet: function(set) {
+			if (set.species === 'Regigigas') set.ability = 'Slow Start';
+			else if (set.species === 'Slaking') set.ability = 'Truant';
+			else if (set.species === 'Ditto') set.ability = 'Imposter';
+			else set.ability = 'Shadow Tag';
+			for (var i in set.moves) {
+				var move = this.getMove(string(set.moves[i]));
+				if (move.basePower && move.basePower >= 280) return ['The move ' + move.name + ' is banned because it has 280+ Base Power.'];
+			}
+		}
+	},
+	{
         name: "Nature's Blessing",
         section: "Local Metagames",
 
