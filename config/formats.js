@@ -1802,7 +1802,7 @@ exports.Formats = [
 			}
 		}
 	},
-	
+	{
 		name: "Stat Switch",
 		section: "Old Metagames",
 
