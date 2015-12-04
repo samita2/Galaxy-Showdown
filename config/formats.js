@@ -1081,7 +1081,7 @@ exports.Formats = [
 		}
 	},
 	{
-		name: "PacifistMons",
+		name: "Pacifistmons",
 		section: "Local Metagames",
 
 		ruleset: ['Pokemon', 'Standard', 'Team Preview'],
@@ -1095,6 +1095,13 @@ exports.Formats = [
 			}
 			return problems;
 		}
+	},
+	{
+		name: "Unreleased OU",
+		section: "Local Metagames",
+
+		ruleset: ['Pokemon', 'Standard Unreleased', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause'],
+		banlist: ['Uber', 'Soul Dew']
 	},
 	{
 		name: "C&E",
