@@ -1033,7 +1033,7 @@ exports.Formats = [
 		onModifyMovePriority: -100,
 		onModifyMove: function (move) {
 			if (move.accuracy !== true && move.accuracy < 100) move.accuracy = 100;
-			move.willCrit = false;
+			if (move.id !== 'stormthrow' && move.id !== 'frostbreath') move.willCrit = false;
 			if (move.secondaries && move.id !== 'fakeout' && move.id !== 'inferno' && move.id !== 'nuzzle' && move.id !== 'zapcannon' && move.id !== 'glaciate' && move.id !== 'electroweb' && move.id !== 'dynamicpunch'  && move.id !== 'acidspray'  && move.id !== 'bulldoze'  && move.id !== 'chatter'  && move.id !== 'flamecharge'  && move.id !== 'icywind' && move.id !== 'lowsweep' && move.id !== 'mudslap' && move.id !== 'mudshot' && move.id !== 'mysticalfire' && move.id !== 'poweruppunch' && move.id !== 'snarl' && move.id !== 'magikarpsrevenge')  {
 				for (var i = 0; i < move.secondaries.length; i++) {
 					move.secondaries[i].chance = 0;
