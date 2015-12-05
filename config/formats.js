@@ -1032,9 +1032,9 @@ exports.Formats = [
 		banlist: ['Uber', 'Soul Dew'],
 		onModifyMovePriority: -100,
 		onModifyMove: function (move) {
-			if (move.accuracy !== true && move.accuracy < 100) move.accuracy = 100;
+			if (move.accuracy !== true && move.accuracy < 100 && move.id !== 'stormthrow') move.accuracy = 100;
 			move.willCrit = false;
-			if (move.secondaries) {
+			if (move.secondaries && move.id !== 'fakeout' || move.id !== 'inferno' || move.id !== 'nuzzle' || move.id !== 'zapcannon') {
 				for (var i = 0; i < move.secondaries.length; i++) {
 					move.secondaries[i].chance = 0;
 				}
