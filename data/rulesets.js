@@ -645,6 +645,44 @@ exports.BattleFormats = {
 			}
 		}
 	},
+	sixmoves: {
+		effectType: 'Banlist',
+		onValidateSet: function(set, format) {
+			var item = this.getItem(set.item);
+			var template = this.getTemplate(set.species);
+			var problems = [];
+
+			if (set.species === set.name) delete set.name;
+			if (template.num == 493) {
+				if (set.ability === 'Multitype' && item.onPlate) {
+					set.species = 'Arceus-'+item.onPlate;
+				} else {
+					set.species = 'Arceus';
+				}
+			}
+			if (template.num == 487) {
+				if (item.id === 'griseousorb') {
+					set.species = 'Giratina-Origin';
+				} else {
+					set.species = 'Giratina';
+				}
+			}
+			if (template.num == 555) set.species = 'Darmanitan';
+			if (template.num == 648) set.species = 'Meloetta';
+			if (template.num == 351) set.species = 'Castform';
+			if (template.num == 421) set.species = 'Cherrim';
+			if (template.num == 647) {
+				if (set.species === 'Keldeo-Resolution' && set.moves.indexOf('Secret Sword') < 0) set.species = 'Keldeo';
+			}
+			if (template.isNonstandard) problems.push(set.species+' is not a real Pokemon.');
+			if (set.moves) for (var i=0; i<set.moves.length; i++) {
+				var move = this.getMove(set.moves[i]);
+				if (move.isNonstandard) problems.push(move.name+' is not a real move.');
+			}
+			if (set.moves && set.moves.length > 6) problems.push((set.name||set.species) + ' has more than six moves.');
+			return problems;
+		}
+	},
 	finaldestinationclause: {
 		effectType: 'Rule',
 		onStart: function () {
