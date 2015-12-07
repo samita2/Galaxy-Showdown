@@ -986,14 +986,6 @@ exports.Formats = [
 		},
 	},
 	{
-		name: "Skillmons OU",
-		section: "Local Metagames",
-
-		mod: 'skillmons',
-		ruleset: ['Pokemon', 'Team Preview', 'Sleep Clause Mod', 'Species Clause', 'Endless Battle Clause', 'Exact HP Mod', 'Baton Pass Clause'],
-		banlist: ['Unreleased', 'Illegal', 'Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite', 'Mawilite', 'Salamencite']
-	},
-	{
 		name: "Reliablemons",
 		section: "Local Metagames",
 
