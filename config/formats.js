@@ -986,6 +986,14 @@ exports.Formats = [
 		},
 	},
 	{
+		name: "Skillmons OU",
+		section: "Local Metagames",
+
+		mod: 'skillmons',
+		ruleset: ['Pokemon', 'Team Preview', 'Sleep Clause Mod', 'Species Clause', 'Endless Battle Clause', 'Exact HP Mod', 'Baton Pass Clause'],
+		banlist: ['Unreleased', 'Illegal', 'Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite', 'Mawilite', 'Salamencite']
+	},
+	{
 		name: "Reliablemons",
 		section: "Local Metagames",
 
@@ -1224,6 +1232,13 @@ exports.Formats = [
 		banlist: ['Arena Trap', 'Huge Power', 'Parental Bond', 'Pure Power', 'Shadow Tag', 'Wonder Guard', 'Assist', 'Chatter']
 	},
 	{
+		name: "Six Moves",
+		section: "ORAS Singles",
+
+		ruleset: ['Pokemon', 'Standard', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause'],
+		banlist: ['Uber', 'Soul Dew', 'Six Moves']
+	},
+	{
 		name: "Final Destination",
 		section: "Local Metagames",
 
@@ -1231,6 +1246,29 @@ exports.Formats = [
 		ruleset: ['HP Percentage Mod', 'Cancel Mod', 'Final Destination Clause'],
 		onModifyMove: function (move) {
 			move.willCrit = false;
+		}
+	},
+	{
+		name: "Mr Bones Wild Ride",
+		section: "Local Metagames",
+
+		team: 'randomMrBonesWildRide',
+		ruleset: ['HP Percentage Mod', 'Cancel Mod'],
+		onBegin: function () {
+			this.add('message', "MR BONES SAYS");
+			this.add('message', "THE RIDE NEVER ENDS");
+			this.setWeather('Sunny Day');
+			delete this.weatherData.duration;
+		},
+		onBeforeMove: function (pokemon, target, move) {
+			var dice = this.random(20);
+			if (dice < 10 && dice > 1) {
+				this.add('c|' + pokemon.name + '|I want to get off MR BONES WILD RIDE');
+			} else if (dice === 1) {
+				this.add('c|' + pokemon.name + '|I have the strangest feeling someone is watching me');
+			} else if (dice === 0) {
+				this.add('c|' + pokemon.name + '|I want to go on something more thrilling than MR BONES WILD RIDE');
+			}
 		}
 	},
 	
