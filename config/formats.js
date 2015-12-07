@@ -1232,13 +1232,6 @@ exports.Formats = [
 		banlist: ['Arena Trap', 'Huge Power', 'Parental Bond', 'Pure Power', 'Shadow Tag', 'Wonder Guard', 'Assist', 'Chatter']
 	},
 	{
-		name: "Six Moves",
-		section: "ORAS Singles",
-
-		ruleset: ['Pokemon', 'Standard', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause'],
-		banlist: ['Uber', 'Soul Dew', 'Six Moves']
-	},
-	{
 		name: "Final Destination",
 		section: "Local Metagames",
 
