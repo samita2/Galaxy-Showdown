@@ -72,7 +72,7 @@ exports.Formats = [
 	{
 		name: "RU",
 		desc: [
-			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3555823/\">np: RU Stage 12</a>",
+			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3557997/\">np: RU Stage 13</a>",
 			"&bullet; <a href=\"https://www.smogon.com/dex/xy/tags/ru/\">RU Banlist</a>",
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3538036/\">RU Viability Ranking</a>"
 		],
@@ -751,7 +751,7 @@ exports.Formats = [
 		desc: [
 			"Pok&eacute;mon gain access to either Attacking moves or Status moves of their typing, but not both at the same time.",
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3547279/\">STABmons</a>",
-			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3548559/\">STABmons Viability Ranking</a>"
+			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3558034/\">STABmons Viability Ranking</a>"
 		],
 		section: "Other Metagames",
 

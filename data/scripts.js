@@ -1043,15 +1043,17 @@ exports.BattleScripts = {
 			if (SpeedSetup[moveid]) counter['speedsetup']++;
 		}
 
+		// Keep track of the available moves
+		for (let i = 0; i < movePool.length; i++) {
+			let move = this.getMove(movePool[i]);
+			if (move.category === 'Physical') counter['physicalpool']++;
+			if (move.category === 'Special') counter['specialpool']++;
+		}
+
 		// Choose a setup type:
 		if (counter['mixedsetup']) {
 			counter.setupType = 'Mixed';
 		} else if (counter['physicalsetup'] || counter['specialsetup']) {
-			for (let i = 0; i < movePool.length; i++) {
-				let move = this.getMove(movePool[i]);
-				if (move.category === 'Physical') counter['physicalpool']++;
-				if (move.category === 'Special') counter['specialpool']++;
-			}
 			let physical = counter.Physical + counter['physicalpool'];
 			let special = counter.Special + counter['specialpool'];
 			if (counter['physicalsetup'] && counter['specialsetup']) {
@@ -1190,7 +1192,7 @@ exports.BattleScripts = {
 					if (!counter.setupType && !counter['speedsetup'] && !hasMove['substitute'] && !hasMove['wish'] && !hasAbility['Speed Boost']) rejected = true;
 					break;
 				case 'focuspunch':
-					if (!hasMove['substitute'] || counter.damagingMoves < 2) rejected = true;
+					if (!hasMove['substitute'] || counter.damagingMoves.length < 2) rejected = true;
 					break;
 				case 'perishsong':
 					if (!hasMove['protect']) rejected = true;
@@ -1223,16 +1225,17 @@ exports.BattleScripts = {
 					break;
 				case 'growth': case 'shellsmash': case 'workup':
 					if (counter.setupType !== 'Mixed' || counter['mixedsetup'] > 1) rejected = true;
-					if (counter.damagingMoves + counter['physicalpool'] + counter['specialpool'] < 2 && !hasMove['batonpass']) rejected = true;
+					if (counter.damagingMoves.length + counter['physicalpool'] + counter['specialpool'] < 2 && !hasMove['batonpass']) rejected = true;
+					if (moveid === 'growth' && !hasMove['sunnyday']) rejected = true;
 					isSetup = true;
 					break;
 				case 'agility': case 'autotomize': case 'rockpolish':
-					if (counter.damagingMoves < 2 && !counter.setupType && !hasMove['batonpass']) rejected = true;
+					if (counter.damagingMoves.length < 2 && !counter.setupType && !hasMove['batonpass']) rejected = true;
 					if (hasMove['rest'] && hasMove['sleeptalk']) rejected = true;
-					isSetup = true;
+					if (!counter.setupType) isSetup = true;
 					break;
 				case 'flamecharge':
-					if (counter.damagingMoves < 3 && !counter.setupType && !hasMove['batonpass']) rejected = true;
+					if (counter.damagingMoves.length < 3 && !counter.setupType && !hasMove['batonpass']) rejected = true;
 					if (hasMove['dracometeor'] || hasMove['overheat']) rejected = true;
 					break;
 
@@ -1260,7 +1263,7 @@ exports.BattleScripts = {
 					if (counter.setupType || !!counter['recovery'] || hasMove['substitute']) rejected = true;
 					break;
 				case 'nightshade': case 'seismictoss':
-					if (counter.stab || counter.setupType) rejected = true;
+					if (counter.stab || counter.setupType || counter.damagingMoves.length > 2) rejected = true;
 					break;
 				case 'protect':
 					if (counter.setupType && (hasAbility['Guts'] || hasAbility['Speed Boost']) && !hasMove['batonpass']) rejected = true;
@@ -1280,12 +1283,12 @@ exports.BattleScripts = {
 					if (counter.setupType || teamDetails.toxicSpikes >= 1) rejected = true;
 					break;
 				case 'trickroom':
-					if (counter.setupType || !!counter['speedsetup'] || counter.damagingMoves < 2) rejected = true;
+					if (counter.setupType || !!counter['speedsetup'] || counter.damagingMoves.length < 2) rejected = true;
 					if (hasMove['lightscreen'] || hasMove['reflect']) rejected = true;
 					break;
 				case 'uturn':
 					if (counter.setupType || !!counter['speedsetup'] || hasMove['batonpass']) rejected = true;
-					if (hasType['Bug'] && counter.stab < 2 && counter.damagingMoves > 2 && !hasMove['technoblast']) rejected = true;
+					if (hasType['Bug'] && counter.stab < 2 && counter.damagingMoves.length > 2 && !hasMove['technoblast']) rejected = true;
 					break;
 				case 'voltswitch':
 					if (counter.setupType || !!counter['speedsetup'] || hasMove['batonpass'] || hasMove['magnetrise'] || hasMove['uturn']) rejected = true;
@@ -1301,7 +1304,7 @@ exports.BattleScripts = {
 					break;
 				case 'suckerpunch':
 					if (counter['Dark'] > 2 || (counter.setupType === 'Special' && hasType['Dark'] && counter.stab < 2)) rejected = true;
-					if (counter.damagingMoves < 2 || hasMove['rest'] && hasMove['sleeptalk']) rejected = true;
+					if (counter.damagingMoves.length < 2 || hasMove['rest'] && hasMove['sleeptalk']) rejected = true;
 					break;
 				case 'dragonclaw':
 					if (hasMove['outrage'] || hasMove['dragontail']) rejected = true;
@@ -1419,7 +1422,7 @@ exports.BattleScripts = {
 					if (counter.setupType || (hasAbility['Refrigerate'] && hasMove['freezedry']) || hasMove['wish']) rejected = true;
 					break;
 				case 'hiddenpower':
-					if ((counter.damagingMoves < 2 && !counter.stab) || (hasMove['rest'] && hasMove['sleeptalk'])) rejected = true;
+					if ((counter.damagingMoves.length < 2 && !counter.stab) || (hasMove['rest'] && hasMove['sleeptalk'])) rejected = true;
 					break;
 				case 'hypervoice':
 					if (hasMove['naturepower'] || hasMove['return']) rejected = true;
@@ -1556,7 +1559,7 @@ exports.BattleScripts = {
 					}
 				}
 			}
-			if (movePool.length && moves.length === 4 && !counter.stab && !hasMove['metalburst'] && !hasMove['mirrorcoat']) {
+			if (moves.length === 4 && !counter.stab && !hasMove['metalburst'] && (counter['physicalpool'] || counter['specialpool'])) {
 				// Move post-processing:
 				if (counter.damagingMoves.length === 0) {
 					// A set shouldn't have no attacking moves
@@ -1940,19 +1943,30 @@ exports.BattleScripts = {
 
 		if (template.name === 'Xerneas' && hasMove['geomancy']) level = 71;
 
-		if (hasMove['bellydrum'] && item === 'Sitrus Berry') {
-			// Prepare HP for Belly Drum to activate Sitrus Berry
-			let hp = Math.floor(Math.floor(2 * template.baseStats.hp + ivs.hp + Math.floor(evs.hp / 4) + 100) * level / 100 + 10);
+		// Prepare optimal HP
+		let hp = Math.floor(Math.floor(2 * template.baseStats.hp + ivs.hp + Math.floor(evs.hp / 4) + 100) * level / 100 + 10);
+		if (hasMove['substitute'] && item === 'Sitrus Berry') {
+			// Two substitutes should activate Sitrus Berry
+			while (hp % 4 > 0) {
+				evs.hp -= 4;
+				hp = Math.floor(Math.floor(2 * template.baseStats.hp + ivs.hp + Math.floor(evs.hp / 4) + 100) * level / 100 + 10);
+			}
+		} else if (hasMove['bellydrum'] && item === 'Sitrus Berry') {
+			// Belly Drum should activate Sitrus Berry
 			if (hp % 2 > 0) evs.hp -= 4;
 		} else {
-			// Prepare HP for Stealth Rock weakness
+			// Maximize number of Stealth Rock switch-ins
 			if (this.getEffectiveness('Rock', template) === 1) {
-				let hp = Math.floor(Math.floor(2 * template.baseStats.hp + ivs.hp + Math.floor(evs.hp / 4) + 100) * level / 100 + 10);
-				if (hp % 4 === 0) evs.hp -= 4;
+				while (hp % 4 === 0) {
+					evs.hp -= 4;
+					hp = Math.floor(Math.floor(2 * template.baseStats.hp + ivs.hp + Math.floor(evs.hp / 4) + 100) * level / 100 + 10);
+				}
 			}
 			if (this.getEffectiveness('Rock', template) === 2) {
-				let hp = Math.floor(Math.floor(2 * template.baseStats.hp + ivs.hp + Math.floor(evs.hp / 4) + 100) * level / 100 + 10);
-				if (hp % 2 === 0) evs.hp -= 4;
+				while (hp % 2 === 0) {
+					evs.hp -= 4;
+					hp = Math.floor(Math.floor(2 * template.baseStats.hp + ivs.hp + Math.floor(evs.hp / 4) + 100) * level / 100 + 10);
+				}
 			}
 		}
 
