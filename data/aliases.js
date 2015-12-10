@@ -32,6 +32,7 @@ exports.BattleAliases = {
 	"inverse": "Inverse Battle",
 	"aaa": "Almost Any Ability",
 	"monorandom": "Monotype Random Battle",
+	"stsr": "Same Type Stealth Rock",
 
 	// mega evos
 	"maero": "Aerodactyl-Mega",
