@@ -1117,7 +1117,7 @@ exports.Formats = [
         name: "Technician Tower",
         section: "Local Metagames",
 
-        mod: 'technichiantower',
+        mod: 'techniciantower',
         ruleset: ['Pokemon', 'Standard', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause'],
         banlist: ['Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite', 'Mawilite','Heracronite', 'Technician', 'Skill Link'],
         validateSet: function(set) {
