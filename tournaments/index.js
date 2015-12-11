@@ -774,9 +774,8 @@ class Tournament {
 			}
 		}
 		delete exports.tournaments[this.room.id];
+	    delete this.room.game;
 	};
-		delete this.room.game;
-	}
 }
 
 function createTournamentGenerator(generator, args, output) {
