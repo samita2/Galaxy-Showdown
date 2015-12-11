@@ -1679,6 +1679,7 @@ User = (function () {
 		// deallocate user
 		this.clearChatQueue();
 		users.delete(this.userid);
+		prevUsers.delete('guest' + this.guestNum);
 	};
 	User.prototype.toString = function () {
 		return this.userid;
