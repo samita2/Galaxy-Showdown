@@ -487,10 +487,20 @@ Validator = (function () {
 						if (eventData.level && set.level < eventData.level) {
 							problems.push(name + " must be at least level " + eventData.level + " because it has a move only available from a specific event.");
 						}
+						// Legendary Pokemon must have at least 3 perfect IVs in gen 6
+						if (set.ivs && eventData.generation >= 6 && (template.eggGroups[0] === 'Undiscovered' || template.species === 'Manaphy') && !template.prevo && !template.nfe &&
+							// exceptions
+							template.species !== 'Unown' && template.baseSpecies !== 'Pikachu' && (template.baseSpecies !== 'Diancie' || !set.shiny)) {
+							let perfectIVs = 0;
+							for (let i in set.ivs) {
+								if (set.ivs[i] >= 31) perfectIVs++;
+							}
+							if (perfectIVs < 3) problems.push(name + " has less than three perfect IVs.");
+						}
 					}
 					isHidden = false;
 				}
-			} else if (template.eventOnly || template.eventOnlyHidden && isHidden) {
+			} else if (banlistTable['illegal'] && (template.eventOnly || template.eventOnlyHidden && isHidden)) {
 				let eventPokemon = !template.learnset && template.baseSpecies !== template.species ? tools.getTemplate(template.baseSpecies).eventPokemon : template.eventPokemon;
 				let legal = false;
 				for (let i = 0; i < eventPokemon.length; i++) {
