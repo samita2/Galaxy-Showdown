@@ -65,11 +65,24 @@ let Room = (function () {
 	};
 	Room.prototype.add = function (message) {
 		if (typeof message !== 'string') throw new Error("Deprecated message type");
+		if (message.startsWith('|uhtmlchange|')) return this.uhtmlchange(message);
 		this.logEntry(message);
 		if (this.logTimes && message.substr(0, 3) === '|c|') {
 			message = '|c:|' + (~~(Date.now() / 1000)) + '|' + message.substr(3);
 		}
 		this.log.push(message);
+		return this;
+	};
+	Room.prototype.uhtmlchange = function (message) {
+		let thirdPipe = message.indexOf('|', 13);
+		let originalStart = '|uhtml|' + message.slice(13, thirdPipe + 1);
+		for (let i = 0; i < this.log.length; i++) {
+			if (this.log[i].startsWith(originalStart)) {
+				this.log[i] = originalStart + message.slice(thirdPipe + 1);
+				break;
+			}
+		}
+		this.send(message);
 		return this;
 	};
 	Room.prototype.logEntry = function () {};
@@ -715,7 +728,7 @@ let GlobalRoom = (function () {
 	GlobalRoom.prototype.checkAutojoin = function (user, connection) {
 		if (!user.named) return;
 		for (let i = 0; i < this.staffAutojoin.length; i++) {
-			let room = Rooms.get(this.staffAutojoin[i]);
+			let room = Rooms(this.staffAutojoin[i]);
 			if (!room) {
 				this.staffAutojoin.splice(i, 1);
 				i--;
