@@ -348,7 +348,7 @@ Users.socketReceive = function (worker, workerid, socketid, message) {
 
 	var roomid = message.substr(0, pipeIndex);
 	var lines = message.substr(pipeIndex + 1);
-	var room = Rooms.get(roomid);
+	var room = Rooms(roomid);
 	if (!room) room = Rooms.lobby || Rooms.global;
 	var user = connection.user;
 	if (!user) return;
@@ -737,16 +737,16 @@ User = (function () {
 		}
 		this.named = false;
 		for (var i in this.roomCount) {
-			Rooms.get(i, 'lobby').onRename(this, oldid, false);
+			Rooms(i).onRename(this, oldid, false);
 		}
 		return true;
 	};
 	User.prototype.updateIdentity = function (roomid) {
 		if (roomid) {
-			return Rooms.get(roomid, 'lobby').onUpdateIdentity(this);
+			return Rooms(roomid).onUpdateIdentity(this);
 		}
 		for (var i in this.roomCount) {
-			Rooms.get(i, 'lobby').onUpdateIdentity(this);
+			Rooms(i).onUpdateIdentity(this);
 		}
 	};
 	User.prototype.filterName = function (name) {
@@ -767,7 +767,7 @@ User = (function () {
 	 */
 	User.prototype.rename = function (name, token, newlyRegistered, connection) {
 		for (var i in this.roomCount) {
-			var room = Rooms.get(i);
+			var room = Rooms(i);
 			if (room && room.rated && (this.userid === room.rated.p1 || this.userid === room.rated.p2)) {
 				this.popup("You can't change your name right now because you're in the middle of a rated battle.");
 				return false;
@@ -1020,13 +1020,13 @@ User = (function () {
 		var joining = !this.named;
 		this.named = (this.userid.substr(0, 5) !== 'guest');
 		for (var i in this.roomCount) {
-			Rooms.get(i, 'lobby').onRename(this, oldid, joining);
+			Rooms(i).onRename(this, oldid, joining);
 		}
 		return true;
 	};
 	User.prototype.merge = function (oldUser) {
 		for (var i in oldUser.roomCount) {
-			Rooms.get(i, 'lobby').onLeave(oldUser);
+			Rooms(i).onLeave(oldUser);
 		}
 
 		if (this.locked === '#dnsbl' && !oldUser.locked) this.locked = false;
@@ -1148,7 +1148,7 @@ User = (function () {
 
 		this.isStaff = (this.group in {'%':1, '@':1, '&':1, '~':1});
 		if (!this.isStaff) {
-			var staffRoom = Rooms.get('staff');
+			var staffRoom = Rooms('staff');
 			this.isStaff = (staffRoom && staffRoom.auth && staffRoom.auth[this.userid]);
 		}
 		if (this.confirmed) {
@@ -1171,7 +1171,7 @@ User = (function () {
 		this.group = group.charAt(0);
 		this.isStaff = (this.group in {'%':1, '@':1, '&':1, '~':1});
 		if (!this.isStaff) {
-			var staffRoom = Rooms.get('staff');
+			var staffRoom = Rooms('staff');
 			this.isStaff = (staffRoom && staffRoom.auth && staffRoom.auth[this.userid]);
 		}
 		Rooms.global.checkAutojoin(this);
@@ -1247,7 +1247,7 @@ User = (function () {
 				if (this.roomCount[i] > 0) {
 					// should never happen.
 					Monitor.debug('!! room miscount: ' + i + ' not left');
-					Rooms.get(i, 'lobby').onLeave(this);
+					Rooms(i).onLeave(this);
 				}
 			}
 			this.roomCount = {};
@@ -1412,7 +1412,7 @@ User = (function () {
 		return true;
 	};
 	User.prototype.joinRoom = function (room, connection) {
-		room = Rooms.get(room);
+		room = Rooms(room);
 		if (!room) return false;
 		if (!this.can('bypassall')) {
 			// check if user has permission to join
@@ -1444,7 +1444,7 @@ User = (function () {
 		return true;
 	};
 	User.prototype.leaveRoom = function (room, connection, force) {
-		room = Rooms.get(room);
+		room = Rooms(room);
 		if (room.id === 'global' && !force) {
 			// you can't leave the global room except while disconnecting
 			return false;
