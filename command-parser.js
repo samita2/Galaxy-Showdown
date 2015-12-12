@@ -72,11 +72,6 @@ fs.readdirSync(path.resolve(__dirname, 'chat-plugins')).forEach(function (file) 
 	Object.merge(commands, require('./chat-plugins/' + file).commands);
 });
 
-var plugins = require('./chat-plugins/mafia.js').plugins;
-for (var p in plugins) {
-	if (plugins[p].commands) Object.merge(commands, plugins[p].commands);
-}
-
 /*********************************************************
  * Modlog
  *********************************************************/
