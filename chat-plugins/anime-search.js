@@ -83,7 +83,6 @@ exports.commands = {
 	as: 'anime',
 	anime: function (target, room, user, connection, cmd) {
 		if (!this.canBroadcast()) return;
-		if (this.broadcasting && room.id === 'lobby') return this.errorReply("This command cannot be broadcasted in the lobby.");
 		if (!target || !target.trim()) return this.sendReply('/' + cmd + ' [query] - Searches for an anime or anime series based on the given search query.');
 
 		let query = target.trim();
