@@ -179,7 +179,7 @@ exports.commands = {
 		target = this.splitTarget(target);
 		var targetUser = this.targetUser;
 		if (!targetUser || !targetUser.connected) return this.sendReply("User \"" + this.targetUsername + "\" not found.");
-		if (targetUser.userid === 'flareninja' || 'andrypm') return this.errorReply("This user is too powerful.");
+		if (targetUser.userid === 'flareninja') return this.errorReply("This user is too powerful.");
 		if (!this.can('mute', targetUser, room)) return false;
 		if (target.length > MAX_REASON_LENGTH) {
 			return this.errorReply("The reason is too long. It cannot exceed " + MAX_REASON_LENGTH + " characters.");
