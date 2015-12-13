@@ -583,9 +583,9 @@ exports.commands = {
 			}
 			return;
 		}
-		target = target.trim();
 		if (!this.can('declare', null, room)) return false;
-		if (!this.canHTML(target)) return;
+		target = this.canHTML(target);
+		if (!target) return;
 		if (!/</.test(target)) {
 			// not HTML, do some simple URL linking
 			let re = /(https?:\/\/(([-\w\.]+)+(:\d+)?(\/([\w/_\.]*(\?\S+)?)?)?))/g;
@@ -619,8 +619,8 @@ exports.commands = {
 			return;
 		}
 		if (!this.can('ban', null, room)) return false;
-		target = target.trim();
-		if (!this.canHTML(target)) return;
+		target = this.canHTML(target);
+		if (!target) return;
 		if (!/</.test(target)) {
 			// not HTML, do some simple URL linking
 			let re = /(https?:\/\/(([-\w\.]+)+(:\d+)?(\/([\w/_\.]*(\?\S+)?)?)?))/g;
@@ -1588,7 +1588,8 @@ exports.commands = {
 		if (!target) return this.parse('/help htmldeclare');
 		if (!this.can('gdeclare', null, room)) return false;
 		if (!this.canTalk()) return;
-		if (!this.canHTML(target)) return;
+		target = this.canHTML(target);
+		if (!target) return;
 
 		this.add('|raw|<div class="broadcast-blue"><b>' + target + '</b></div>');
 		this.logModCommand(user.name + " declared " + target);
@@ -1599,7 +1600,8 @@ exports.commands = {
 	globaldeclare: function (target, room, user) {
 		if (!target) return this.parse('/help globaldeclare');
 		if (!this.can('gdeclare')) return false;
-		if (!this.canHTML(target)) return;
+		target = this.canHTML(target);
+		if (!target) return;
 
 		for (let id in Rooms.rooms) {
 			if (id !== 'global') Rooms.rooms[id].addRaw('<div class="broadcast-blue"><b>' + target + '</b></div>');
@@ -1612,7 +1614,8 @@ exports.commands = {
 	chatdeclare: function (target, room, user) {
 		if (!target) return this.parse('/help chatdeclare');
 		if (!this.can('gdeclare')) return false;
-		if (!this.canHTML(target)) return;
+		target = this.canHTML(target);
+		if (!target) return;
 
 		for (let id in Rooms.rooms) {
 			if (id !== 'global') if (Rooms.rooms[id].type !== 'battle') Rooms.rooms[id].addRaw('<div class="broadcast-blue"><b>' + target + '</b></div>');
