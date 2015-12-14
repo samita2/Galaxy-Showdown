@@ -2183,7 +2183,7 @@ exports.commands = {
 
 	ebat: 'editbattle',
 	editbattle: function (target, room, user) {
-		if (!this.can('forcewin')) return false;
+		if (!this.can('hotpatch')) return false;
 		if (!target) return this.parse('/help editbattle');
 		if (!room.battle) {
 			this.errorReply("/editbattle - This is not a battle room.");
