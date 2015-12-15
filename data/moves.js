@@ -2836,6 +2836,8 @@ exports.BattleMovedex = {
 					basePower: 140,
 					category: "Special",
 					flags: {},
+					effectType: 'Move',
+					isFutureMove: true,
 					type: 'Steel'
 				}
 			};
@@ -5018,6 +5020,8 @@ exports.BattleMovedex = {
 					category: "Special",
 					flags: {},
 					ignoreImmunity: false,
+					effectType: 'Move',
+					isFutureMove: true,
 					type: 'Psychic'
 				}
 			};
@@ -15097,7 +15101,7 @@ exports.BattleMovedex = {
 		accuracy: 100,
 		basePower: 60,
 		category: "Special",
-		desc: "Has a 10% chance to confuse the target.",
+		desc: "Has a 20% chance to confuse the target.",
 		shortDesc: "20% chance to confuse the target.",
 		id: "waterpulse",
 		name: "Water Pulse",
