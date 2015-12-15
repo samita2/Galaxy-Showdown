@@ -141,9 +141,10 @@ function handleBoughtItem(item, user, cost) {
 		var msg = '**' + user.name + " has bought " + item + ".**";
 		Rooms.rooms.staff.add('|c|~Shop Alert|' + msg);
 		Rooms.rooms.staff.update();
-		for (var i in Users.users) {
-			if (Users.users[i].group === '~' || Users.users[i].group === '&') {
-				Users.users[i].send('|pm|~Shop Alert|' + Users.users[i].getIdentity() + '|' + msg);
+		for (var user of Users.users) {
+			user = user[1];
+			if (user.group === '~' || user.group === '&') {
+				user.send('|pm|~Shop Alert|' + user.getIdentity() + '|' + msg);
 			}
 		}
 	}
