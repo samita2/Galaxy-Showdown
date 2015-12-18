@@ -2005,8 +2005,6 @@ exports.Formats = [
 		section: "BW2 Singles",
 
 		mod: 'gen5',
-		searchShow: false,
-		challengeShow: false,
 		team: 'random',
 		ruleset: ['Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod', 'Cancel Mod']
 	},
@@ -2212,7 +2210,6 @@ exports.Formats = [
 		section: "Past Generations",
 
 		mod: 'gen2',
-		searchShow: false,
 		team: 'random',
 		ruleset: ['Pokemon', 'Standard']
 	},
