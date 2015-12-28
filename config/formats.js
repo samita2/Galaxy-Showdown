@@ -2017,24 +2017,6 @@ exports.Formats = [
 			}
 		}
 	},
-	{
-		name: "[Gen 5] OU (No Hax)",
-		section: "No Hax",
-
-		mod: 'gen5',
-		ruleset: ['Pokemon', 'Standard', 'Evasion Abilities Clause', 'Baton Pass Clause', 'Team Preview'],
-		banlist: ['Uber', 'Drizzle ++ Swift Swim', 'Drought ++ Chlorophyll', 'Sand Stream ++ Sand Rush', 'Soul Dew'],
-		onModifyMovePriority: -100,
-		onModifyMove: function (move) {
-			if (move.accuracy !== true && move.accuracy < 100) move.accuracy = 100;
-			if (move.id !== 'stormthrow' && move.id !== 'frostbreath') move.willCrit = false;
-			if (move.secondaries && move.id !== 'fakeout' && move.id !== 'inferno' && move.id !== 'zapcannon' && move.id !== 'glaciate' && move.id !== 'electroweb' && move.id !== 'dynamicpunch'  && move.id !== 'acidspray'  && move.id !== 'bulldoze'  && move.id !== 'chatter'  && move.id !== 'flamecharge'  && move.id !== 'icywind' && move.id !== 'lowsweep' && move.id !== 'mudslap' && move.id !== 'mudshot' && move.id !== 'mysticalfire' && move.id !== 'snarl' && move.id !== 'magikarpsrevenge' && move.id !== 'rocktomb')  {
-				for (var i = 0; i < move.secondaries.length; i++) {
-					move.secondaries[i].chance = 0;
-				}
-			}
-		}
-	},
 	
 	
 	// BW2 Singles
