@@ -432,7 +432,7 @@ exports.commands = {
 		if (!adRoom) return this.errorReply("That room does not exist.  Check spelling?");
 		var adv = (
 			parts[0] + '<br />' +
-			'<button name="joinRoom" value="' + adRoom + '" target="_blank">Click to join ' + parts[1] + '!</button>'
+			'<center><button name="joinRoom" value="' + adRoom + '" target="_blank">Click to join ' + parts[1] + '!</button></center>'
 		);
 		this.add('|raw|<div class="broadcast-blue"><b>' + adv + '</b></div>');
 		this.logModCommand(user.name + ' declared ' + adv);
