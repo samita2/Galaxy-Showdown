@@ -34,7 +34,12 @@ exports.BattleAliases = {
 	"aaa": "Almost Any Ability",
 	"monorandom": "Monotype Random Battle",
 	"stsr": "Same Type Stealth Rock",
-	"bwou": "[Gen 5] OU"
+	"bwou": "[Gen 5] OU",
+	"dppou": "[Gen 4] OU",
+	"rseou": "[Gen 3] OU",
+	"gscou": "[Gen 2] OU",
+	"rbyou": "[Gen 1] OU"
+	
 
 	// mega evos
 	"maero": "Aerodactyl-Mega",
