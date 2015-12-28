@@ -434,7 +434,7 @@ exports.commands = {
 			parts[0] + '<br />' +
 			'<center><button name="joinRoom" value="' + adRoom + '" target="_blank">Click to join ' + parts[1] + '!</button></center>'
 		);
-		this.add('|raw|<div class="broadcast-blue"><b>' + adv + '</b></div>');
+		this.add('|raw|<div class="infobox"><b>' + adv + '</b></div>');
 		this.logModCommand(user.name + ' declared ' + adv);
 	},
 	hideuser: function(target, room, user, connection, cmd) {
