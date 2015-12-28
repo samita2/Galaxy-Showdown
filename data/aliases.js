@@ -34,7 +34,7 @@ exports.BattleAliases = {
 	"aaa": "Almost Any Ability",
 	"monorandom": "Monotype Random Battle",
 	"stsr": "Same Type Stealth Rock",
-	"bwou": "[Gen 5] OU",
+	"bw2ou": "[Gen 5] OU",
 	"dppou": "[Gen 4] OU",
 	"rseou": "[Gen 3] OU",
 	"gscou": "[Gen 2] OU",
