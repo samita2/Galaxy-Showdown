@@ -38,7 +38,7 @@ exports.BattleAliases = {
 	"dppou": "[Gen 4] OU",
 	"rseou": "[Gen 3] OU",
 	"gscou": "[Gen 2] OU",
-	"rbyou": "[Gen 1] OU"
+	"rbyou": "[Gen 1] OU",
 	
 
 	// mega evos
