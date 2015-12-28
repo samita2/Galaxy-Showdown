@@ -1002,23 +1002,6 @@ exports.Formats = [
 		}
 	},
 	{
-		name: "No Hax",
-		section: "Local Metagames",
-
-		ruleset: ['OU'],
-		banlist: ['Uber', 'Soul Dew'],
-		onModifyMovePriority: -100,
-		onModifyMove: function (move) {
-			if (move.accuracy !== true && move.accuracy < 100) move.accuracy = 100;
-			if (move.id !== 'stormthrow' && move.id !== 'frostbreath') move.willCrit = false;
-			if (move.secondaries && move.id !== 'fakeout' && move.id !== 'inferno' && move.id !== 'nuzzle' && move.id !== 'zapcannon' && move.id !== 'glaciate' && move.id !== 'electroweb' && move.id !== 'dynamicpunch'  && move.id !== 'acidspray'  && move.id !== 'bulldoze'  && move.id !== 'chatter'  && move.id !== 'flamecharge'  && move.id !== 'icywind' && move.id !== 'lowsweep' && move.id !== 'mudslap' && move.id !== 'mudshot' && move.id !== 'mysticalfire' && move.id !== 'poweruppunch' && move.id !== 'snarl' && move.id !== 'magikarpsrevenge' && move.id !== 'rocktomb')  {
-				for (var i = 0; i < move.secondaries.length; i++) {
-					move.secondaries[i].chance = 0;
-				}
-			}
-		}
-	},
-	{
 		name: "Startermons",
 		section: 'Local Metagames',
 
@@ -1908,6 +1891,133 @@ exports.Formats = [
 		team: 'randomMetro',
 		ruleset: ['Pokemon', 'HP Percentage Mod']
 	},
+	
+	// No Hax
+	///////////////////////////////////////////////////////////////////
+
+        {
+		name: "OU (No Hax)",
+		section: "No Hax",
+		column: 4,
+
+		ruleset: ['OU'],
+		banlist: ['Uber', 'Soul Dew', 'Shadow Tag'],
+		onModifyMovePriority: -100,
+		onModifyMove: function (move) {
+			if (move.accuracy !== true && move.accuracy < 100) move.accuracy = 100;
+			if (move.id !== 'stormthrow' && move.id !== 'frostbreath') move.willCrit = false;
+			if (move.secondaries && move.id !== 'fakeout' && move.id !== 'inferno' && move.id !== 'nuzzle' && move.id !== 'zapcannon' && move.id !== 'glaciate' && move.id !== 'electroweb' && move.id !== 'dynamicpunch'  && move.id !== 'acidspray'  && move.id !== 'bulldoze'  && move.id !== 'chatter'  && move.id !== 'flamecharge'  && move.id !== 'icywind' && move.id !== 'lowsweep' && move.id !== 'mudslap' && move.id !== 'mudshot' && move.id !== 'mysticalfire' && move.id !== 'poweruppunch' && move.id !== 'snarl' && move.id !== 'magikarpsrevenge' && move.id !== 'rocktomb')  {
+				for (var i = 0; i < move.secondaries.length; i++) {
+					move.secondaries[i].chance = 0;
+				}
+			}
+		}
+	},
+	{
+		name: "Ubers (No Hax)",
+		section: "No Hax",
+		column: 4,
+
+		ruleset: ['Pokemon', 'Standard', 'Swagger Clause', 'Team Preview', 'Mega Rayquaza Clause'],
+		banlist: [],
+		onModifyMovePriority: -100,
+		onModifyMove: function (move) {
+			if (move.accuracy !== true && move.accuracy < 100) move.accuracy = 100;
+			if (move.id !== 'stormthrow' && move.id !== 'frostbreath') move.willCrit = false;
+			if (move.secondaries && move.id !== 'fakeout' && move.id !== 'inferno' && move.id !== 'nuzzle' && move.id !== 'zapcannon' && move.id !== 'glaciate' && move.id !== 'electroweb' && move.id !== 'dynamicpunch'  && move.id !== 'acidspray'  && move.id !== 'bulldoze'  && move.id !== 'chatter'  && move.id !== 'flamecharge'  && move.id !== 'icywind' && move.id !== 'lowsweep' && move.id !== 'mudslap' && move.id !== 'mudshot' && move.id !== 'mysticalfire' && move.id !== 'poweruppunch' && move.id !== 'snarl' && move.id !== 'magikarpsrevenge' && move.id !== 'rocktomb')  {
+				for (var i = 0; i < move.secondaries.length; i++) {
+					move.secondaries[i].chance = 0;
+				}
+			}
+		}
+	},
+	{
+		name: "UU (No Hax)",
+		section: "No Hax",
+
+		ruleset: ['OU'],
+		banlist: ['OU', 'BL', 'Drizzle', 'Drought'],
+		onModifyMovePriority: -100,
+		onModifyMove: function (move) {
+			if (move.accuracy !== true && move.accuracy < 100) move.accuracy = 100;
+			if (move.id !== 'stormthrow' && move.id !== 'frostbreath') move.willCrit = false;
+			if (move.secondaries && move.id !== 'fakeout' && move.id !== 'inferno' && move.id !== 'nuzzle' && move.id !== 'zapcannon' && move.id !== 'glaciate' && move.id !== 'electroweb' && move.id !== 'dynamicpunch'  && move.id !== 'acidspray'  && move.id !== 'bulldoze'  && move.id !== 'chatter'  && move.id !== 'flamecharge'  && move.id !== 'icywind' && move.id !== 'lowsweep' && move.id !== 'mudslap' && move.id !== 'mudshot' && move.id !== 'mysticalfire' && move.id !== 'poweruppunch' && move.id !== 'snarl' && move.id !== 'magikarpsrevenge' && move.id !== 'rocktomb')  {
+				for (var i = 0; i < move.secondaries.length; i++) {
+					move.secondaries[i].chance = 0;
+				}
+			}
+		}
+	},
+	{
+		name: "RU (No Hax)",
+		section: "No Hax",
+
+		ruleset: ['UU'],
+		banlist: ['UU', 'BL2'],
+		onModifyMovePriority: -100,
+		onModifyMove: function (move) {
+			if (move.accuracy !== true && move.accuracy < 100) move.accuracy = 100;
+			if (move.id !== 'stormthrow' && move.id !== 'frostbreath') move.willCrit = false;
+			if (move.secondaries && move.id !== 'fakeout' && move.id !== 'inferno' && move.id !== 'nuzzle' && move.id !== 'zapcannon' && move.id !== 'glaciate' && move.id !== 'electroweb' && move.id !== 'dynamicpunch'  && move.id !== 'acidspray'  && move.id !== 'bulldoze'  && move.id !== 'chatter'  && move.id !== 'flamecharge'  && move.id !== 'icywind' && move.id !== 'lowsweep' && move.id !== 'mudslap' && move.id !== 'mudshot' && move.id !== 'mysticalfire' && move.id !== 'poweruppunch' && move.id !== 'snarl' && move.id !== 'magikarpsrevenge' && move.id !== 'rocktomb')  {
+				for (var i = 0; i < move.secondaries.length; i++) {
+					move.secondaries[i].chance = 0;
+				}
+			}
+		}
+	}, 
+	{
+		name: "NU (No Hax)",
+		section: "No Hax",
+
+		ruleset: ['RU'],
+		banlist: ['RU', 'BL3'],
+		onModifyMovePriority: -100,
+		onModifyMove: function (move) {
+			if (move.accuracy !== true && move.accuracy < 100) move.accuracy = 100;
+			if (move.id !== 'stormthrow' && move.id !== 'frostbreath') move.willCrit = false;
+			if (move.secondaries && move.id !== 'fakeout' && move.id !== 'inferno' && move.id !== 'nuzzle' && move.id !== 'zapcannon' && move.id !== 'glaciate' && move.id !== 'electroweb' && move.id !== 'dynamicpunch'  && move.id !== 'acidspray'  && move.id !== 'bulldoze'  && move.id !== 'chatter'  && move.id !== 'flamecharge'  && move.id !== 'icywind' && move.id !== 'lowsweep' && move.id !== 'mudslap' && move.id !== 'mudshot' && move.id !== 'mysticalfire' && move.id !== 'poweruppunch' && move.id !== 'snarl' && move.id !== 'magikarpsrevenge' && move.id !== 'rocktomb')  {
+				for (var i = 0; i < move.secondaries.length; i++) {
+					move.secondaries[i].chance = 0;
+				}
+			}
+		}
+	}, 
+	{
+		name: "PU (No Hax)",
+		section: "No Hax",
+
+		ruleset: ['NU'],
+		banlist: ['NU', 'BL4', 'Chatter'],
+		onModifyMovePriority: -100,
+		onModifyMove: function (move) {
+			if (move.accuracy !== true && move.accuracy < 100) move.accuracy = 100;
+			if (move.id !== 'stormthrow' && move.id !== 'frostbreath') move.willCrit = false;
+			if (move.secondaries && move.id !== 'fakeout' && move.id !== 'inferno' && move.id !== 'nuzzle' && move.id !== 'zapcannon' && move.id !== 'glaciate' && move.id !== 'electroweb' && move.id !== 'dynamicpunch'  && move.id !== 'acidspray'  && move.id !== 'bulldoze'  && move.id !== 'chatter'  && move.id !== 'flamecharge'  && move.id !== 'icywind' && move.id !== 'lowsweep' && move.id !== 'mudslap' && move.id !== 'mudshot' && move.id !== 'mysticalfire' && move.id !== 'poweruppunch' && move.id !== 'snarl' && move.id !== 'magikarpsrevenge' && move.id !== 'rocktomb')  {
+				for (var i = 0; i < move.secondaries.length; i++) {
+					move.secondaries[i].chance = 0;
+				}
+			}
+		}
+	},
+	{
+		name: "LC (No Hax)",
+		section: "No Hax",
+
+		maxLevel: 5,
+		ruleset: ['Pokemon', 'Standard', 'Team Preview', 'Little Cup'],
+		banlist: ['LC Uber', 'Gligar', 'Misdreavus', 'Scyther', 'Sneasel', 'Tangela', 'Dragon Rage', 'Sonic Boom', 'Swagger'],
+		onModifyMovePriority: -100,
+		onModifyMove: function (move) {
+			if (move.accuracy !== true && move.accuracy < 100) move.accuracy = 100;
+			if (move.id !== 'stormthrow' && move.id !== 'frostbreath') move.willCrit = false;
+			if (move.secondaries && move.id !== 'fakeout' && move.id !== 'inferno' && move.id !== 'nuzzle' && move.id !== 'zapcannon' && move.id !== 'glaciate' && move.id !== 'electroweb' && move.id !== 'dynamicpunch'  && move.id !== 'acidspray'  && move.id !== 'bulldoze'  && move.id !== 'chatter'  && move.id !== 'flamecharge'  && move.id !== 'icywind' && move.id !== 'lowsweep' && move.id !== 'mudslap' && move.id !== 'mudshot' && move.id !== 'mysticalfire' && move.id !== 'poweruppunch' && move.id !== 'snarl' && move.id !== 'magikarpsrevenge' && move.id !== 'rocktomb')  {
+				for (var i = 0; i < move.secondaries.length; i++) {
+					move.secondaries[i].chance = 0;
+				}
+			}
+		}
+	},
+	
 	
 	// BW2 Singles
 	///////////////////////////////////////////////////////////////////
