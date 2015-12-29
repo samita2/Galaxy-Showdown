@@ -217,7 +217,14 @@ BattlePokemon = (function () {
 				if (!move.id) continue;
 				if (move.id === 'hiddenpower') {
 					if (!this.set.ivs || Object.values(this.set.ivs).every(31)) {
-						this.set.ivs = this.battle.getType(move.type).HPivs;
+						if (this.battle.gen && this.battle.gen === 2) {
+							this.set.ivs = this.battle.getType(move.type).HPdvs;
+							for (let i in this.set.ivs) {
+								this.set.ivs[i] *= 2;
+							}
+						} else {
+							this.set.ivs = this.battle.getType(move.type).HPivs;
+						}
 					}
 					move = this.battle.getMove('hiddenpower');
 				}
