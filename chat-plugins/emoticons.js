@@ -183,6 +183,8 @@ var emotes = {
 	'mRd': 'https://qph.is.quoracdn.net/main-qimg-28fc438ca99507a43a04a6c1f52dd0f7?convert_to_webp=true',
 	'suCSs': 'https://qph.is.quoracdn.net/main-qimg-9e1888c10006773fa294d19315a40552?convert_to_webp=true',
 	'freGA': 'http://i.imgur.com/7ujf8fL.jpg?1',
+	'SupaHot': 'http://i.imgur.com/pxjv34R.jpg?1',
+	'LukeNoo': 'http://i.imgur.com/tAyqMrf.jpg?1',
 	'mOn': 'http://i.imgur.com/4daPYQ5.png',
 	'piKa': 'http://i.imgur.com/viGgYqN.png',
 	'faCe': 'http://i.imgur.com/E0oDNFB.gif'
