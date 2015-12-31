@@ -335,28 +335,6 @@ exports.commands = {
 	},
 	tellhelp: ["/tell [username], [message] - Send a message to an offline user that will be received when they log in."],
 
-        pb: 'permaban',
-	pban: 'permaban',
-	permban: 'permaban',
-	permaban: function(target, room, user) {
-		if (!target) return this.sendReply('/permaban [username] - Permanently bans the user from the server. Bans placed by this command do not reset on server restarts. Requires: & ~');
-		if (!this.can('pban')) return false;
-		target = this.splitTarget(target);
-		var targetUser = this.targetUser;
-		if (targetUser.userid === 'flareninja') return this.errorReply("This user is too powerful.");
-		if (!targetUser) {
-			return this.sendReply('User ' + this.targetUsername + ' not found.');
-		}
-		if (Users.checkBanned(targetUser.latestIp) && !target && !targetUser.connected) {
-			var problem = " but was already banned";
-			return this.privateModCommand('(' + targetUser.name + " would be banned by " + user.name + problem + '.) (' + targetUser.latestIp + ')');
-		}
-		targetUser.popup(user.name + " has permanently banned you.");
-		this.addModCommand(targetUser.name + " was permanently banned by " + user.name + ".");
-		this.add('|unlink|hide|' + this.getLastIdOf(targetUser));
-		targetUser.ban();
-		ipbans.write('\n' + targetUser.latestIp);
-	},
 	gdeclarered: 'gdeclare',
 	gdeclaregreen: 'gdeclare',
 	gdeclare: function(target, room, user, connection, cmd) {
@@ -684,14 +662,6 @@ exports.commands = {
 		} catch (e) {
 			this.sendReply("This room's modlog can't be destroyed.");
 		}
-	},
-	
-	pbl: 'pbanlist',
-	permabanlist: 'pbanlist',
-	pbanlist: function(target, room, user, connection) {
-		if (!this.canBroadcast() || !user.can('lock')) return this.sendReply('/pbanlist - Access Denied.');
-		var pban = fs.readFileSync('config/pbanlist.txt', 'utf8');
-		return user.send('|popup|' + pban);
 	},
 	
 	/*********************************************************
