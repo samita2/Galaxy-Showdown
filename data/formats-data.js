@@ -111,7 +111,7 @@ exports.BattleFormatsData = {
 		tier: "NFE"
 	},
 	butterfree: {
-		randomBattleMoves: ["quiverdance","roost","bugbuzz","substitute","sleeppowder","psychic","shadowball"],
+		randomBattleMoves: ["sleeppowder","quiverdance","bugbuzz","psychic","gigadrain","substitute"],
 		randomDoubleBattleMoves: ["quiverdance","bugbuzz","substitute","sleeppowder","psychic","shadowball","protect"],
 		eventPokemon: [
 			{"generation":3,"level":30,"moves":["morningsun","psychic","sleeppowder","aerialace"]}
@@ -273,9 +273,15 @@ exports.BattleFormatsData = {
 			{"generation":6,"level":10,"gender":"F","isHidden":false,"moves":["playnice","charm","nuzzle","sweetkiss"],"pokeball":"cherishball"},
 			{"generation":6,"level":50,"gender":"M","nature":"Naughty","isHidden":false,"moves":["thunderbolt","quickattack","irontail","electroball"],"pokeball":"cherishball"},
 			{"generation":6,"level":10,"shiny":true,"isHidden":false,"moves":["teeterdance","playnice","tailwhip","nuzzle"],"pokeball":"cherishball"},
-			{"generation":6,"level":10,"isHidden":true,"moves":["fakeout","encore","volttackle","endeavor"],"pokeball":"cherishball"}
+			{"generation":6,"level":10,"isHidden":true,"moves":["fakeout","encore","volttackle","endeavor"],"pokeball":"cherishball"},
+			{"generation":6,"level":99,"isHidden":false,"moves":["happyhour","playnice","holdhands","flash"],"pokeball":"cherishball"}
 		],
 		tier: "NFE"
+	},
+	pikachucosplay: {
+		gen: 6,
+		unobtainableShiny: true,
+		tier: "PU"
 	},
 	pikachurockstar: {
 		randomBattleMoves: ["meteormash","wildcharge","knockoff","brickbreak"],
@@ -1504,7 +1510,8 @@ exports.BattleFormatsData = {
 		randomBattleMoves: ["reflect","lightscreen","aromatherapy","grasswhistle","leechseed","toxic","gigadrain","synthesis"],
 		eventPokemon: [
 			{"generation":3,"level":10,"gender":"M","moves":["tackle","growl","razorleaf"]},
-			{"generation":3,"level":5,"moves":["tackle","growl","ancientpower","frenzyplant"]}
+			{"generation":3,"level":5,"moves":["tackle","growl","ancientpower","frenzyplant"]},
+			{"generation":6,"level":5,"isHidden":false,"moves":["tackle","growl"],"pokeball":"cherishball"}
 		],
 		tier: "LC"
 	},
@@ -1524,7 +1531,8 @@ exports.BattleFormatsData = {
 		randomBattleMoves: ["eruption","fireblast","flamethrower","hiddenpowergrass","hiddenpowerice"],
 		eventPokemon: [
 			{"generation":3,"level":10,"gender":"M","moves":["tackle","leer","smokescreen"]},
-			{"generation":3,"level":5,"moves":["tackle","leer","reversal","blastburn"]}
+			{"generation":3,"level":5,"moves":["tackle","leer","reversal","blastburn"]},
+			{"generation":6,"level":5,"isHidden":false,"moves":["tackle","leer"],"pokeball":"cherishball"}
 		],
 		tier: "LC"
 	},
@@ -1545,7 +1553,8 @@ exports.BattleFormatsData = {
 		randomBattleMoves: ["aquajet","waterfall","crunch","icepunch","superpower","dragondance","swordsdance"],
 		eventPokemon: [
 			{"generation":3,"level":10,"gender":"M","moves":["scratch","leer","rage"]},
-			{"generation":3,"level":5,"moves":["scratch","leer","crunch","hydrocannon"]}
+			{"generation":3,"level":5,"moves":["scratch","leer","crunch","hydrocannon"]},
+			{"generation":6,"level":5,"isHidden":false,"moves":["scratch","leer"],"pokeball":"cherishball"}
 		],
 		tier: "LC"
 	},
@@ -1958,7 +1967,8 @@ exports.BattleFormatsData = {
 		randomBattleMoves: ["rapidspin","iceshard","icepunch","aerialace","spikes","destinybond"],
 		randomDoubleBattleMoves: ["fakeout","iceshard","icepunch","aerialace","brickbreak","protect"],
 		eventPokemon: [
-			{"generation":3,"level":10,"gender":"M","moves":["present"]}
+			{"generation":3,"level":10,"gender":"M","moves":["present"]},
+			{"generation":6,"level":10,"isHidden":false,"moves":["present","happyhour"],"pokeball":"cherishball"}
 		],
 		tier: "PU"
 	},
@@ -2247,8 +2257,8 @@ exports.BattleFormatsData = {
 		tier: "NFE"
 	},
 	beautifly: {
-		randomBattleMoves: ["quiverdance","bugbuzz","gigadrain","hiddenpowerrock","psychic","aircutter"],
-		randomDoubleBattleMoves: ["quiverdance","bugbuzz","gigadrain","hiddenpowerrock","psychic","aircutter","tailwind","stringshot","protect"],
+		randomBattleMoves: ["quiverdance","bugbuzz","aircutter","psychic","gigadrain","hiddenpowerrock"],
+		randomDoubleBattleMoves: ["quiverdance","bugbuzz","gigadrain","hiddenpowerrock","aircutter","tailwind","stringshot","protect"],
 		tier: "PU"
 	},
 	cascoon: {
@@ -2369,8 +2379,8 @@ exports.BattleFormatsData = {
 		tier: "LC"
 	},
 	masquerain: {
-		randomBattleMoves: ["quiverdance","bugbuzz","airslash","hydropump","roost","substitute","batonpass","stickyweb"],
-		randomDoubleBattleMoves: ["hydropump","bugbuzz","airslash","quiverdance","substitute","tailwind","roost","strugglebug","protect"],
+		randomBattleMoves: ["quiverdance","bugbuzz","airslash","hydropump","roost","batonpass","stickyweb"],
+		randomDoubleBattleMoves: ["hydropump","bugbuzz","airslash","quiverdance","tailwind","roost","strugglebug","protect"],
 		tier: "PU"
 	},
 	shroomish: {
@@ -3238,7 +3248,8 @@ exports.BattleFormatsData = {
 			{"generation":5,"level":50,"moves":["wish","healingwish","swift","return"],"pokeball":"cherishball"},
 			{"generation":6,"level":10,"shiny":true,"moves":["wish","swift","healingwish","moonblast"],"pokeball":"cherishball"},
 			{"generation":6,"level":15,"shiny":true,"moves":["wish","confusion","helpinghand","return"],"pokeball":"cherishball"},
-			{"generation":6,"level":100,"moves":["heartstamp","playrough","wish","cosmicpower"],"pokeball":"cherishball"}
+			{"generation":6,"level":100,"moves":["heartstamp","playrough","wish","cosmicpower"],"pokeball":"cherishball"},
+			{"generation":6,"level":25,"shiny":true,"moves":["wish","confusion","swift","happyhour"],"pokeball":"cherishball"}
 		],
 		eventOnly: true,
 		tier: "OU"
@@ -3810,10 +3821,12 @@ exports.BattleFormatsData = {
 		eventPokemon: [
 			{"generation":4,"level":5,"moves":["tailglow","bubble","watersport"]},
 			{"generation":4,"level":1,"moves":["tailglow","bubble","watersport"]},
+			{"generation":4,"level":1,"shiny":true,"moves":["tailglow","bubble","watersport"]},
 			{"generation":4,"level":50,"moves":["acidarmor","whirlpool","waterpulse","heartswap"],"pokeball":"cherishball"},
 			{"generation":4,"level":50,"moves":["heartswap","waterpulse","whirlpool","acidarmor"],"pokeball":"cherishball"},
 			{"generation":4,"level":50,"moves":["heartswap","whirlpool","waterpulse","acidarmor"],"pokeball":"cherishball"},
-			{"generation":4,"level":50,"nature":"Impish","moves":["aquaring","waterpulse","watersport","heartswap"],"pokeball":"cherishball"}
+			{"generation":4,"level":50,"nature":"Impish","moves":["aquaring","waterpulse","watersport","heartswap"],"pokeball":"cherishball"},
+			{"generation":6,"level":1,"moves":["tailglow","bubble","watersport","heartswap"],"pokeball":"cherishball"}
 		],
 		eventOnly: true,
 		tier: "OU"
@@ -3857,7 +3870,8 @@ exports.BattleFormatsData = {
 			{"generation":4,"level":100,"moves":["judgment","roaroftime","spacialrend","shadowforce"],"pokeball":"cherishball"},
 			{"generation":5,"level":100,"moves":["recover","hyperbeam","perishsong","judgment"]},
 			{"generation":6,"level":100,"moves":["judgment","blastburn","hydrocannon","earthpower"],"pokeball":"cherishball"},
-			{"generation":6,"level":100,"shiny":true,"moves":["judgment","blastburn","hydrocannon","earthpower"],"pokeball":"cherishball"}
+			{"generation":6,"level":100,"shiny":true,"moves":["judgment","blastburn","hydrocannon","earthpower"],"pokeball":"cherishball"},
+			{"generation":6,"level":100,"moves":["judgment","perishsong","hyperbeam","recover"],"pokeball":"cherishball"}
 		],
 		eventOnly: true,
 		tier: "Uber"
