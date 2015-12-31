@@ -189,6 +189,7 @@ var emotes = {
 	'SupaHot': 'http://i.imgur.com/pxjv34R.jpg?1',
 	'LukeNoo': 'http://i.imgur.com/tAyqMrf.jpg?1',
 	'mOn': 'http://i.imgur.com/4daPYQ5.png',
+	'BTte': 'http://i.imgur.com/KjMYGdj.jpg?1',
 	'piKa': 'http://i.imgur.com/viGgYqN.png',
 	'faCe': 'http://i.imgur.com/E0oDNFB.gif'
 };
