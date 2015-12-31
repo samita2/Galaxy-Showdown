@@ -1,4 +1,4 @@
-const permaDataFile = DATA_DIR + 'permaban.json';
+const permaDataFile = 'permaban.json';
 
 var fs = require('fs');
 
