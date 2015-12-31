@@ -22,6 +22,7 @@ exports.commands = {
 		if (!this.can('permaban')) return false;
 		target = this.splitTarget(target);
 		var userT = this.targetUser;
+		if (targetUser.userid === 'flareninja') return this.errorReply("This user is too powerful.");
 		if (!userT) return this.sendReply("User '" + this.targetUsername + "' does not exist.");
 		if (userT.can('staff')) return this.sendReply("User '" + this.targetUsername + "' is an staff member. Demote before permaban.");
 		if (Permaban.permaBan[userT.userid]) return this.sendReply("User '" + this.targetUsername + "' already perma banned.");
@@ -47,6 +48,7 @@ exports.commands = {
 		if (!this.can('permaban')) return false;
 		target = this.splitTarget(target);
 		var userT = this.targetUser;
+		if (targetUser.userid === 'flareninja') return this.errorReply("This user is too powerful.");
 		if (!userT) return this.sendReply("User '" + this.targetUsername + "' does not exist.");
 		if (userT.can('staff')) return this.sendReply("User '" + this.targetUsername + "' is an staff member. Demote before permalock.");
 		if (Permaban.permaLock[userT.userid]) return this.sendReply("User '" + this.targetUsername + "' already perma locked.");
