@@ -28,6 +28,9 @@ var emotes = {
 	'feelstea': 'http://i.imgur.com/M0f2zgJ.jpg?1',
 	'feelsfra': 'http://i.imgur.com/ZIcl9Zy.jpg',
 	'feelsslo': 'http://i.imgur.com/iQuToJf.jpg?1',
+	'feelsdrg': 'http://i.imgur.com/UZzWcA3.png',
+	'feelscool': 'http://i.imgur.com/qdGngVl.jpg?1',
+	'feelstired': 'http://i.imgur.com/EgYViOs.jpg',
 	'feelsackbr': 'http://i.imgur.com/BzZJedC.jpg?1',
 	'feelsjig': 'http://i.imgur.com/hSzqy5z.png?1',
 	'feelsshrk': 'http://i.imgur.com/amTG3jF.jpg',
@@ -183,7 +186,10 @@ var emotes = {
 	'mRd': 'https://qph.is.quoracdn.net/main-qimg-28fc438ca99507a43a04a6c1f52dd0f7?convert_to_webp=true',
 	'suCSs': 'https://qph.is.quoracdn.net/main-qimg-9e1888c10006773fa294d19315a40552?convert_to_webp=true',
 	'freGA': 'http://i.imgur.com/7ujf8fL.jpg?1',
+	'SupaHot': 'http://i.imgur.com/pxjv34R.jpg?1',
+	'LukeNoo': 'http://i.imgur.com/tAyqMrf.jpg?1',
 	'mOn': 'http://i.imgur.com/4daPYQ5.png',
+	'BTte': 'http://i.imgur.com/KjMYGdj.jpg?1',
 	'piKa': 'http://i.imgur.com/viGgYqN.png',
 	'faCe': 'http://i.imgur.com/E0oDNFB.gif'
 };

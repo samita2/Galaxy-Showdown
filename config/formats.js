@@ -1800,7 +1800,7 @@ exports.Formats = [
 		column: 1,
 
 		team: 'random',
-		ruleset: ['Pokemon', 'HP Percentage Mod', 'Sleep Clause Mod', 'Freeze Clause'],
+		ruleset: ['Pokemon', 'HP Percentage Mod', 'Sleep Clause Mod', 'Freeze Clause', 'Cancel Mod'],
 		onModifyMovePriority: -100,
 		onModifyMove: function (move) {
 			if (move.accuracy !== true && move.accuracy < 100) move.accuracy = 0;
@@ -1818,7 +1818,7 @@ exports.Formats = [
 		mod: 'inverse',
 
 		team: 'random',
-		ruleset: ['Pokemon', 'HP Percentage Mod', 'Sleep Clause Mod']
+		ruleset: ['Pokemon', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod']
 	},
 	{
 		name: "Random Sky Battle",
@@ -1827,7 +1827,7 @@ exports.Formats = [
 
 		searchShow: true,
 		team: 'randomSky',
-		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod']
+		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod', 'Cancel Mod']
 	},
 	{
 		name: "Random Ubers",
@@ -1836,7 +1836,7 @@ exports.Formats = [
 
 		searchShow: true,
 		team: 'randomUber',
-		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod']
+		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod', 'Cancel Mod']
 	},
 	{
 		name: "Random LC",
@@ -1845,7 +1845,7 @@ exports.Formats = [
 
 		searchShow: true,
 		team: 'randomLC',
-		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod']
+		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod', 'Cancel Mod']
 	},
 	{
 		name: "Random CAP",
@@ -1854,7 +1854,7 @@ exports.Formats = [
 
 		searchShow: true,
 		team: 'randomCap',
-		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod']
+		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod', 'Cancel Mod']
 	},
 	{
 		name: "Random MonoGen",
@@ -1863,7 +1863,7 @@ exports.Formats = [
 
 		searchShow: true,
 		team: 'randomMonoGen',
-		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod']
+		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod', 'Cancel Mod']
 	},
 	{
 		name: "Challenge Cup 2-vs-2",
@@ -1873,7 +1873,7 @@ exports.Formats = [
 		gameType: 'doubles',
 		team: 'randomCC',
 		searchShow: true,
-		ruleset: ['Pokemon', 'Team Preview 2v2', 'HP Percentage Mod'],
+		ruleset: ['Pokemon', 'Team Preview 2v2', 'HP Percentage Mod', 'Cancel Mod'],
 		onBegin: function () {
 			this.debug('Cutting down to 2');
 			this.p1.pokemon = this.p1.pokemon.slice(0, 2);
@@ -1889,7 +1889,7 @@ exports.Formats = [
 
 		searchShow: true,
 		team: 'randomMetro',
-		ruleset: ['Pokemon', 'HP Percentage Mod']
+		ruleset: ['Pokemon', 'HP Percentage Mod', 'Cancel Mod']
 	},
 	
 	// No Hax
