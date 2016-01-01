@@ -269,7 +269,7 @@ exports.commands = {
 
 		'': function (target, room, user) {
 			this.parse('/help poll');
-		}
+		},
 	},
 	pollhelp: function(target, room, user) {
 		if (!this.canBroadcast()) return;
