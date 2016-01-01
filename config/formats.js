@@ -1112,14 +1112,6 @@ exports.Formats = [
         }
         },
         {
-		name: "Gods and Followers",
-		section: "Local Metagames",
-
-		mod: 'godsandfollowers',
-		ruleset: ['Pokemon', 'Sleep Clause Mod', 'Species Clause', 'OHKO Clause', 'Moody Clause', 'Evasion Moves Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Team Preview', 'Swagger Clause', 'Baton Pass Clause', 'Followers Clause'],
-		banlist: ['Illegal']
-	},
-        {
         name: "Burning 'Mon",
         section: "Local Metagames",
 
