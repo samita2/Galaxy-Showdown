@@ -660,10 +660,18 @@ exports.BattleFormats = {
 			}
 		},
 	},
-	finaldestinationclause: {
+    finaldestinationclause: {
 		effectType: 'Rule',
 		onStart: function () {
 			this.add('rule', 'Final Destination Clause: No items. Xerneas only. Final Destination.');
+		},
+	},
+	godsandfollowersclause: {
+		effectType: 'Rule',
+		onStart: function () {
+			for (let i = 0; i < this.sides.length; i++) {
+				this.sides[i].god = this.sides[i].pokemon[0];
+			}
 		},
 	},
 };
