@@ -53,7 +53,7 @@ var emotes = {
 	'WutFace': 'https://static-cdn.jtvnw.net/emoticons/v1/28087/1.0',
 	'BabyRage': 'https://static-cdn.jtvnw.net/emoticons/v1/22639/1.0',
 	'TriHard': 'http://static-cdn.jtvnw.net/emoticons/v1/171/1.0',
-	'BORT': 'http://static-cdn.jtvnw.net/emoticons/v1/243/1.0',
+	'BORt': 'http://static-cdn.jtvnw.net/emoticons/v1/243/1.0',
 	'ACKbar': 'http://static-cdn.jtvnw.net/emoticons/v1/72752/1.0',
 	'ANELE': 'http://static-cdn.jtvnw.net/emoticons/v1/3792/1.0',
 	'ArgieB8': 'http://static-cdn.jtvnw.net/emoticons/v1/51838/1.0',
@@ -190,6 +190,7 @@ var emotes = {
 	'LukeNoo': 'http://i.imgur.com/tAyqMrf.jpg?1',
 	'mOn': 'http://i.imgur.com/4daPYQ5.png',
 	'BTte': 'http://i.imgur.com/KjMYGdj.jpg?1',
+	'GAy': 'http://i.imgur.com/Tms3DPi.png?1',
 	'piKa': 'http://i.imgur.com/viGgYqN.png',
 	'faCe': 'https://qph.is.quoracdn.net/main-qimg-e88588d1f672c2cd982317fc68bbac3b?convert_to_webp=true'
 };
