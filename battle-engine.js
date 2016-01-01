@@ -207,7 +207,7 @@ BattlePokemon = (function () {
 			this.typesData.push({
 				type: this.types[i],
 				suppressed: false,
-				isAdded: false
+				isAdded: false,
 			});
 		}
 
@@ -235,7 +235,7 @@ BattlePokemon = (function () {
 					maxpp: (move.noPPBoosts ? move.pp : move.pp * 8 / 5),
 					target: (move.nonGhostTarget && !this.hasType('Ghost') ? move.nonGhostTarget : move.target),
 					disabled: false,
-					used: false
+					used: false,
 				});
 				this.moves.push(move.id);
 			}
@@ -588,7 +588,7 @@ BattlePokemon = (function () {
 			pokemon: source,
 			damage: damage,
 			move: move.id,
-			thisTurn: true
+			thisTurn: true,
 		};
 	};
 	BattlePokemon.prototype.getLockedMove = function () {
@@ -604,7 +604,7 @@ BattlePokemon = (function () {
 		if (lockedMove === 'recharge') {
 			return [{
 				move: 'Recharge',
-				id: 'recharge'
+				id: 'recharge',
 			}];
 		}
 		let moves = [];
@@ -615,7 +615,7 @@ BattlePokemon = (function () {
 				if (lockedMove === move.id) {
 					return [{
 						move: move.move,
-						id: move.id
+						id: move.id,
 					}];
 				}
 				continue;
@@ -636,13 +636,13 @@ BattlePokemon = (function () {
 				pp: move.pp,
 				maxpp: move.maxpp,
 				target: move.target,
-				disabled: move.disabled
+				disabled: move.disabled,
 			});
 		}
 		if (lockedMove) {
 			return [{
 				move: this.battle.getMove(lockedMove).name,
-				id: lockedMove
+				id: lockedMove,
 			}];
 		}
 		if (hasValidMove) return moves;
@@ -754,7 +754,7 @@ BattlePokemon = (function () {
 			this.typesData.push({
 				type: pokemon.typesData[i].type,
 				suppressed: false,
-				isAdded: pokemon.typesData[i].isAdded
+				isAdded: pokemon.typesData[i].isAdded,
 			});
 		}
 		for (let statName in this.stats) {
@@ -779,7 +779,7 @@ BattlePokemon = (function () {
 				target: moveData.target,
 				disabled: false,
 				used: false,
-				virtual: true
+				virtual: true,
 			});
 			this.moves.push(toId(moveName));
 		}
@@ -808,7 +808,7 @@ BattlePokemon = (function () {
 			this.typesData.push({
 				type: this.types[i],
 				suppressed: false,
-				isAdded: false
+				isAdded: false,
 			});
 		}
 		if (!dontRecalculateStats) {
@@ -841,7 +841,7 @@ BattlePokemon = (function () {
 			spd: 0,
 			spe: 0,
 			accuracy: 0,
-			evasion: 0
+			evasion: 0,
 		};
 
 		if (this.battle.gen === 1 && this.baseMoves.indexOf('mimic') >= 0 && !this.transformed) {
@@ -905,7 +905,7 @@ BattlePokemon = (function () {
 		this.battle.faintQueue.push({
 			target: this,
 			source: source,
-			effect: effect
+			effect: effect,
 		});
 		return d;
 	};
@@ -950,7 +950,7 @@ BattlePokemon = (function () {
 		if (this.disabledMoves[moveid] && !this.disabledMoves[moveid].isHidden) return;
 		this.disabledMoves[moveid] = {
 			isHidden: !!isHidden,
-			sourceEffect: sourceEffect
+			sourceEffect: sourceEffect,
 		};
 	};
 	// returns the amount of damage actually healed
@@ -1291,7 +1291,7 @@ BattlePokemon = (function () {
 		this.typesData = [{
 			type: newType,
 			suppressed: false,
-			isAdded: false
+			isAdded: false,
 		}];
 
 		return true;
@@ -1304,7 +1304,7 @@ BattlePokemon = (function () {
 		}).concat([{
 			type: newType,
 			suppressed: false,
-			isAdded: true
+			isAdded: true,
 		}]);
 
 		return true;
@@ -1434,7 +1434,7 @@ BattleSide = (function () {
 		let data = {
 			name: this.name,
 			id: this.id,
-			pokemon: []
+			pokemon: [],
 		};
 		for (let i = 0; i < this.pokemon.length; i++) {
 			let pokemon = this.pokemon[i];
@@ -1448,7 +1448,7 @@ BattleSide = (function () {
 					def: pokemon.baseStats['def'],
 					spa: pokemon.baseStats['spa'],
 					spd: pokemon.baseStats['spd'],
-					spe: pokemon.baseStats['spe']
+					spe: pokemon.baseStats['spe'],
 				},
 				moves: pokemon.moves.map(function (move) {
 					if (move === 'hiddenpower') {
@@ -1459,7 +1459,7 @@ BattleSide = (function () {
 				baseAbility: pokemon.baseAbility,
 				item: pokemon.item,
 				pokeball: pokemon.pokeball,
-				canMegaEvo: !!pokemon.canMegaEvo
+				canMegaEvo: !!pokemon.canMegaEvo,
 			});
 		}
 		return data;
@@ -1559,7 +1559,7 @@ BattleSide = (function () {
 						choice: 'move',
 						pokemon: pokemon,
 						targetLoc: this.battle.runEvent('LockMoveTarget', pokemon) || 0,
-						move: lockedMove
+						move: lockedMove,
 					});
 					continue;
 				}
@@ -1575,7 +1575,7 @@ BattleSide = (function () {
 					choice: 'move',
 					pokemon: pokemon,
 					targetLoc: 0,
-					move: moveid
+					move: moveid,
 				});
 			}
 			break;
@@ -1596,14 +1596,14 @@ BattleSide = (function () {
 				decisions.push({
 					choice: this.foe.currentRequest === 'switch' ? 'instaswitch' : 'switch',
 					pokemon: this.active[canSwitchOut[i]],
-					target: this.pokemon[canSwitchIn[i]]
+					target: this.pokemon[canSwitchIn[i]],
 				});
 			}
 			for (let i = 0; i < willPass.length; i++) {
 				decisions.push({
 					choice: 'pass',
 					pokemon: this.active[willPass[i]],
-					priority: 102
+					priority: 102,
 				});
 			}
 			break;
@@ -1613,7 +1613,7 @@ BattleSide = (function () {
 			decisions.push({
 				choice: 'team',
 				side: this,
-				team: [0, 1, 2, 3, 4, 5].slice(0, this.pokemon.length)
+				team: [0, 1, 2, 3, 4, 5].slice(0, this.pokemon.length),
 			});
 		}
 
@@ -1710,7 +1710,7 @@ Battle = (function () {
 			Math.floor(Math.random() * 0x10000),
 			Math.floor(Math.random() * 0x10000),
 			Math.floor(Math.random() * 0x10000),
-			Math.floor(Math.random() * 0x10000)
+			Math.floor(Math.random() * 0x10000),
 		];
 	};
 
@@ -2343,7 +2343,7 @@ Battle = (function () {
 					TryMove: 1,
 					Hit: 1,
 					Boost: 1,
-					DragOut: 1
+					DragOut: 1,
 				};
 				if (eventid in AttackingEvents) {
 					if (eventid !== 'ModifyPokemon') {
@@ -3413,7 +3413,7 @@ Battle = (function () {
 				basePower: move,
 				type: '???',
 				category: 'Physical',
-				flags: {}
+				flags: {},
 			};
 		}
 
@@ -3782,7 +3782,7 @@ Battle = (function () {
 					'megaEvo': 6.9,
 					'residual': -100,
 					'team': 102,
-					'start': 101
+					'start': 101,
 				};
 				if (decision.choice in priorities) {
 					decision.priority = priorities[decision.choice];
@@ -4295,7 +4295,7 @@ Battle = (function () {
 				if (i >= side.active.length) return false;
 				if (!pokemon || pokemon.fainted) {
 					decisions.push({
-						choice: 'pass'
+						choice: 'pass',
 					});
 					continue;
 				}
@@ -4305,7 +4305,7 @@ Battle = (function () {
 						choice: 'move',
 						pokemon: pokemon,
 						targetLoc: this.runEvent('LockMoveTarget', pokemon) || 0,
-						move: lockedMove
+						move: lockedMove,
 					});
 					continue;
 				}
@@ -4322,7 +4322,7 @@ Battle = (function () {
 						choice: 'move',
 						pokemon: pokemon,
 						targetLoc: 0,
-						move: moveid
+						move: moveid,
 					});
 					continue;
 				}
@@ -4342,7 +4342,7 @@ Battle = (function () {
 					decisions.push({
 						choice: 'pass',
 						pokemon: side.active[i],
-						priority: 102
+						priority: 102,
 					});
 					continue;
 				}
@@ -4379,7 +4379,7 @@ Battle = (function () {
 				decisions.push({
 					choice: 'team',
 					side: side,
-					team: dataArr
+					team: dataArr,
 				});
 				break;
 			}
@@ -4426,7 +4426,7 @@ Battle = (function () {
 				decisions.push({
 					choice: (side.currentRequest === 'switch' ? 'instaswitch' : 'switch'),
 					pokemon: side.pokemon[i],
-					target: side.pokemon[data]
+					target: side.pokemon[data],
 				});
 				break;
 
@@ -4443,7 +4443,7 @@ Battle = (function () {
 
 				decisions.push({
 					choice: 'shift',
-					pokemon: side.pokemon[i]
+					pokemon: side.pokemon[i],
 				});
 				break;
 
@@ -4464,7 +4464,7 @@ Battle = (function () {
 				if (data.substr(-5) === ' mega') {
 					decisions.push({
 						choice: 'megaEvo',
-						pokemon: pokemon
+						pokemon: pokemon,
 					});
 					data = data.substr(0, data.length - 5);
 				}
@@ -4547,7 +4547,7 @@ Battle = (function () {
 					choice: 'move',
 					pokemon: pokemon,
 					targetLoc: targetLoc,
-					move: moveid
+					move: moveid,
 				});
 				break;
 			}
@@ -4561,7 +4561,7 @@ Battle = (function () {
 				decisions.push({
 					choice: 'pass',
 					priority: 102,
-					pokemon: side.active[i]
+					pokemon: side.active[i],
 				});
 			}
 		}
@@ -4769,7 +4769,7 @@ Battle = (function () {
 						p2: this.p2.name,
 						p1team: this.p1.team,
 						p2team: this.p2.team,
-						log: this.log
+						log: this.log,
 					};
 					this.send('log', JSON.stringify(log));
 				}
