@@ -191,7 +191,7 @@ var emotes = {
 	'mOn': 'http://i.imgur.com/4daPYQ5.png',
 	'BTte': 'http://i.imgur.com/KjMYGdj.jpg?1',
 	'piKa': 'http://i.imgur.com/viGgYqN.png',
-	'faCe': 'http://i.imgur.com/E0oDNFB.gif'
+	'faCe': 'https://qph.is.quoracdn.net/main-qimg-e88588d1f672c2cd982317fc68bbac3b?convert_to_webp=true'
 };
 
 var emotesKeys = Object.keys(emotes);
