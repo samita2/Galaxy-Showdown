@@ -359,8 +359,7 @@ spr: 'sprite',
 		var alt = '';
 		var type = toId(target[1]);
 		var sprite = target[0].trim();
-		var url;
-		else url = 'http://www.pokestadium.com/img/sprites/official-art/';
+		var url = 'http://www.pokestadium.com/img/sprites/official-art/';
 
 		if (Number(sprite[sprite.length - 1]) && !toId(sprite[sprite.length - 2])) {
 			alt = '-' + sprite[sprite.length - 1];
