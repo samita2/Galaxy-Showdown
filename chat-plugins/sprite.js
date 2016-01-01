@@ -379,9 +379,9 @@ spr: 'sprite',
 						sprite = Tools.data.Pokedex[correction[0].id].species.toLowerCase();
 					}
 				}
-			} else {
+			} /*else {
 				return this.sendReply("There isn\'t any Pokémon called '" + sprite + "'...");
-			}
+			}*/
 		}
 		var self = this;
 		require('request').get(url + sprite + alt + '.png').on('error', function () {
@@ -418,9 +418,9 @@ spr: 'sprite',
 						sprite = Tools.data.Pokedex[correction[0].id].species.toLowerCase();
 					}
 				}
-			} else {
+			} /*else {
 				return this.sendReply("There isn\'t any Pokémon called '" + sprite + "'...");
-			}
+			}*/
 		}
 		var self = this;
 		require('request').get(url + sprite + alt + '.gif').on('error', function () {
