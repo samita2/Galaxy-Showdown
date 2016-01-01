@@ -354,7 +354,7 @@ spr: 'sprite',
 	artspr: 'artsprite',
         artsprite: function (target, room, user, connection, cmd) {
 		if (!this.canBroadcast()) return;
-		if (!toId(target)) return this.sendReply('/xysprite [Pokémon] - Allows you to view the sprite of a Pokémon');
+		if (!toId(target)) return this.sendReply('/artsprite [Pokémon] - Allows you to view the sprite of a Pokémon');
 		target = target.toLowerCase().split(',');
 		var alt = '';
 		var type = toId(target[1]);
@@ -393,7 +393,7 @@ spr: 'sprite',
 	},
     model: function (target, room, user, connection, cmd) {
 		if (!this.canBroadcast()) return;
-		if (!toId(target)) return this.sendReply('/sprite [Pokémon] - Allows you to view the sprite of a Pokémon');
+		if (!toId(target)) return this.sendReply('/model [Pokémon] - Allows you to view the sprite of a Pokémon');
 		target = target.toLowerCase().split(',');
 		var alt = '';
 		var type = toId(target[1]);
