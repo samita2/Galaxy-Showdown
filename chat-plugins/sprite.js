@@ -391,8 +391,7 @@ spr: 'sprite',
 			self.sendReply('|html|<img src = "' + url + sprite + alt + '.png">');
 		});
 	},
-    movespr: 'movesprite',
-    movesprite: function (target, room, user, connection, cmd) {
+    model: function (target, room, user, connection, cmd) {
 		if (!this.canBroadcast()) return;
 		if (!toId(target)) return this.sendReply('/sprite [Pokémon] - Allows you to view the sprite of a Pokémon');
 		target = target.toLowerCase().split(',');
