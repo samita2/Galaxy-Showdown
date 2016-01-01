@@ -400,6 +400,7 @@ spr: 'sprite',
 		var url;
 		if (type === 'shiny') url = 'http://www.pokestadium.com/img/sprites/main-series/firered-leafgreen/shiny/';
 		else if (type === 'back') url = 'http://www.pokestadium.com/img/sprites/main-series/firered-leafgreen/back/';
+		else if (type === 'shinyback') url = 'http://www.pokestadium.com/img/sprites/main-series/firered-leafgreen/shiny/back/';
 		else url = 'http://www.pokestadium.com/img/sprites/main-series/firered-leafgreen/';
 
 		if (Number(sprite[sprite.length - 1]) && !toId(sprite[sprite.length - 2])) {
@@ -442,6 +443,7 @@ spr: 'sprite',
 		var sprite = target[0].trim();
 		var url;
 		if (type === 'shiny') url = 'http://www.pokestadium.com/img/sprites/main-series/emerald/animated/shiny/';
+		else if (type === 'shinyback') url = 'http://www.pokestadium.com/img/sprites/main-series/emerald/animated/shiny/back/';
 		else url = 'http://www.pokestadium.com/img/sprites/main-series/emerald/animated/';
 
 		if (Number(sprite[sprite.length - 1]) && !toId(sprite[sprite.length - 2])) {
