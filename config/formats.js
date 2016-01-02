@@ -845,11 +845,20 @@ exports.Formats = [
 		}
 	},
 	{
-		name: "OU Monocolor",
+		name: "Monocolor",
 		section: "Local Metagames",
 
-		ruleset: ['Pokemon', 'Standard', 'Baton Pass Clause', 'Swagger Clause', 'Same Color Clause', 'Team Preview'],
-		banlist: ['Uber', 'Soul Dew']
+		ruleset: ['OU'],
+		banlist: [],
+		onValidateTeam: function (team) {
+			if (!team[0]) return;
+			let color = this.getTemplate(team[0].species).color;
+			if (!color) return ["Your team must share the same color."];
+			for (let i = 1; i < team.length; i++) {
+				let template = this.getTemplate(team[i].species);
+				if (template.color !== color) return ["Your team must share the same color."];
+			}
+		},
 	},
 	{
 		name: "Mega Tier",
