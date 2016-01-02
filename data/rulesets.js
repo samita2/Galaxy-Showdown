@@ -627,27 +627,6 @@ exports.BattleFormats = {
 			}
 		},
 	},
-	samecolorclause: {
-		effectType: 'Rule',
-		onStart: function() {
-			this.add('rule', 'Same Color Clause: Pokemon in a team must share the same color');
-		},
-		onValidateTeam: function(team, format, teamHas) {
-		var TeamColor = {};
-			for (var i=0; i<team.length; i++) {
-				var template = this.getTemplate(team[i].species);
-				var color = template.color;
-				TeamColor[color] = (TeamColor[color]||0) + 1;
-				
-			}
-			for (var color in TeamColor) {
-				if (TeamColor[color] >= team.length) {
-					return;
-				}
-			}
-			return ["Your team must share a color."];
-		},
-	},
 	megarayquazaclause: {
 		effectType: 'Rule',
 		onStart: function () {
