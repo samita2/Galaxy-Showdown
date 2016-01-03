@@ -4,15 +4,17 @@
 ********************************/
 'use strict';
 
-var fs = require('fs');
-var serialize = require('node-serialize');
-var trainerCards = {};
+let fs = require('fs');
+let serialize = require('node-serialize');
+let trainerCards = {};
 
 function loadTrainerCards() {
 	try {
 		trainerCards = serialize.unserialize(fs.readFileSync('config/trainercards.json', 'utf8'));
 		Object.merge(CommandParser.commands, trainerCards);
-	} catch (e) {};
+	} catch (e) {
+		Rooms('staff').add("TRAINER CARDS failed to be loaded.").update();
+	}
 }
 setTimeout(function(){loadTrainerCards();},1000);
 
@@ -27,17 +29,17 @@ exports.commands = {
 	tc: 'trainercard',
 	trainercard: function (target, room, user) {
 		if (!target) target = 'help';
-		var parts = target.split(',');
-		for (var u in parts) parts[u] = parts[u].trim();
+		let parts = target.split(',');
+		for (let u in parts) parts[u] = parts[u].trim();
 
 		switch (parts[0]) {
 			case 'add':
 				if (!this.can('pban')) return false;
 				if (!parts[2]) return this.sendReply("Usage: /trainercard add, [command name], [html]");
-				var commandName = toId(parts[1]);
+				let commandName = toId(parts[1]);
 				if (CommandParser.commands[commandName]) return this.sendReply("/trainercards - The command \"" + commandName + "\" already exists.");
 				try {
-					var html = parts.splice(2, parts.length).join(',');
+					let html = parts.splice(2, parts.length).join(',');
 					trainerCards[commandName] = new Function('target', 'room', 'user', "if (!room.disableTrainerCards) if (!this.canBroadcast()) return; this.sendReplyBox('" + html.replace(/'/g, "\\'") + "');");
 					saveTrainerCards();
 					this.sendReply("The trainer card \"" + commandName + "\" has been added.");
@@ -54,7 +56,7 @@ exports.commands = {
 			case 'remove':
 				if (!this.can('pban')) return false;
 				if (!parts[1]) return this.sendReply("Usage: /trainercard remove, [command name]");
-				var commandName = toId(parts[1]);
+				let commandName = toId(parts[1]);
 				if (!trainerCards[commandName]) return this.sendReply("/trainercards - The command \"" + commandName + "\" does not exist, or was added manually.");
 				delete CommandParser.commands[commandName];
 				delete trainerCards[commandName];
@@ -68,8 +70,8 @@ exports.commands = {
 
 			case 'list':
 				if (!this.can('trainercard')) return false;
-				var output = "<b>There's a total of " + Object.size(trainerCards) + " trainer cards added with this command:</b><br />";
-				for (var tc in trainerCards) {
+				let output = "<b>There's a total of " + Object.size(trainerCards) + " trainer cards added with this command:</b><br />";
+				for (let tc in trainerCards) {
 					output += tc + "<br />";
 				}
 				this.sendReplyBox(output);
