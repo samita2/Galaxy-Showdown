@@ -8,6 +8,11 @@ var moment = require('moment');
 var fs = require('fs');
 var confirmDeleteElo = false;
 var request = require('request');
+var selectors;
+
+function writeIconCSS() {
+	fs.appendFile('config/custom.css', selectors);
+}
 
 var messages = [
 	"has vanished into nothingness!",
@@ -785,6 +790,37 @@ exports.commands = {
 			if (room.id !== 'lobby') this.sendReply('The Tournament Ladder has been reset.');
 		}.bind(this));
 	},
+	seticon: function (target, room, user) {
+		if (!this.can('ban')) return this.errorReply("Access denied.");
+
+		var args = target.split(',');
+		if (args.length < 3) return this.parse('/help seticon');
+		var username = toId(args.shift());
+		var image = 'background: rgba(0, 0, 0, 0) url("' + args.shift().trim() + '") right no-repeat;';
+		selectors = '\n\n' + '  #' + toId(args.shift()) + '-userlist-user-' + username;
+		args.forEach(function (room) {
+			selectors += ', #' + toId(room) + '-userlist-user-' + username;
+		});
+		selectors += ' { \n' + '    ' + image +  '\n  }';
+
+		this.privateModCommand("(" + user.name + " has set an icon to " + username + ")");
+		writeIconCSS();
+	},
+	seticonhelp: ["/iconcss [username], [image], [room 1], [room 2], etc. - Sets an icon to a user in chosen rooms."],
+	
+	ccset: function (target, room, user) {
+                if (!this.can('declare')) return false;
+                var args = target.split(',');
+                if (args.length < 2) return this.errorReply('/ccset [username], [color] - Sets an custom color to a user for all rooms.');
+                var username = toId(args.shift());
+                var image = 'color:' + args.shift().trim() + '';
+                selectors = '\n\n' + '.chat.chatmessage-' + username +   '  strong';
+                selectors += ' { \n' + '    ' + image +  ' !important;\n  }';
+ 
+                this.privateModCommand("(" + user.name + " has set an custom color to " + username + ")");
+                writeIconCSS();
+        },
+        setcchelp: ["/ccset [username], [color] - Sets an custom color to a user for all rooms."],
 };
 	
 	
