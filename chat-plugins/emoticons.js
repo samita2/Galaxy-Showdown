@@ -1,10 +1,10 @@
 'use strict';
 
-var color = require('../config/color');
+let color = require('../config/color');
 
 exports.parseEmoticons = parseEmoticons;
 
-var emotes = {
+let emotes = {
 	'#freewolf': 'http://i.imgur.com/ybxWXiG.png',
 	'feelsbd': 'http://i.imgur.com/YyEdmwX.png',
 	'feelsbn': 'http://i.imgur.com/wp51rIg.png',
@@ -195,16 +195,16 @@ var emotes = {
 	'faCe': 'https://qph.is.quoracdn.net/main-qimg-e88588d1f672c2cd982317fc68bbac3b?convert_to_webp=true',
 };
 
-var emotesKeys = Object.keys(emotes);
-var patterns = [];
-var metachars = /[[\]{}()*+?.\\|^$\-,&#\s]/g;
+let emotesKeys = Object.keys(emotes);
+let patterns = [];
+let metachars = /[[\]{}()*+?.\\|^$\-,&#\s]/g;
 
-for (var i in emotes) {
+for (let i in emotes) {
 	if (emotes.hasOwnProperty(i)) {
 		patterns.push('(' + i.replace(metachars, '\\$&') + ')');
 	}
 }
-var patternRegex = new RegExp(patterns.join('|'), 'g');
+let patternRegex = new RegExp(patterns.join('|'), 'g');
 
 /**
  * Parse emoticons in message.
@@ -218,8 +218,8 @@ var patternRegex = new RegExp(patterns.join('|'), 'g');
 function parseEmoticons(message, room, user, pm) {
 	if (typeof message !== 'string' || (!pm && room.disableEmoticons)) return false;
 
-	var match = false;
-	var len = emotesKeys.length;
+	let match = false;
+	let len = emotesKeys.length;
 
 
 	while (len--) {
@@ -236,7 +236,7 @@ function parseEmoticons(message, room, user, pm) {
 
 	// add emotes
 	message = message.replace(patternRegex, function (match) {
-		var emote = emotes[match];
+		let emote = emotes[match];
 		return typeof emote === 'string' ? '<img src="' + emote + '" title="' + match + '" />' : match;
 	});
 
@@ -246,10 +246,10 @@ function parseEmoticons(message, room, user, pm) {
 	// **bold**
 	message = message.replace(/\*\*([^< ](?:[^<]*?[^< ])?)\*\*/g, '<b>$1</b>');
 
-	var group = user.getIdentity().charAt(0);
+	let group = user.getIdentity().charAt(0);
 	if (room.auth) group = room.auth[user.userid] || group;
 
-	var style = "background:none;border:0;padding:0 5px 0 0;font-family:Verdana,Helvetica,Arial,sans-serif;font-size:9pt;cursor:pointer";
+	let style = "background:none;border:0;padding:0 5px 0 0;font-family:Verdana,Helvetica,Arial,sans-serif;font-size:9pt;cursor:pointer";
 
 	message = "<div class='chat'>" + "<small>" + group + "</small>" + "<button name='parseCommand' value='/user " + user.name + "' style='" + style + "'>" + "<b><font color='" + color(user.userid) + "'>" + user.name + ":</font></b>" + "</button><em class='mine'>" + message + "</em></div>";
 	if (pm) return message;
@@ -265,21 +265,22 @@ function parseEmoticons(message, room, user, pm) {
  * @return {String} emotes table
  */
 function create_table() {
-	var emotes_name = Object.keys(emotes);
-	var emotes_list = [];
-	var emotes_group_list = [];
-	var len = emotes_name.length;
+	let emotes_name = Object.keys(emotes);
+	let emotes_list = [];
+	let emotes_group_list = [];
+	let len = emotes_name.length;
+	let i;
 
-	for (var i = 0; i < len; i++) {
+	for (i = 0; i < len; i++) {
 		emotes_list.push("<td>" +
 			"<img src='" + emotes[emotes_name[i]] + "'' title='" + emotes_name[i] + "' height='50' width='50' />" +
 			emotes_name[i] + "</td>");
 	}
 
-	var emotes_list_right = emotes_list.splice(len / 2, len / 2);
+	let emotes_list_right = emotes_list.splice(len / 2, len / 2);
 
-	for (var i = 0; i < len / 2; i++) {
-		var emote1 = emotes_list[i],
+	for (i = 0; i < len / 2; i++) {
+		let emote1 = emotes_list[i],
 			emote2 = emotes_list_right[i];
 		if (emote2) {
 			emotes_group_list.push("<tr>" + emote1 + emote2 + "</tr>");
@@ -291,7 +292,7 @@ function create_table() {
 	return "<div class='infobox'><center><b><u>List of Emoticons</u></b></center>" + "<div class='infobox-limited'><table border='1' cellspacing='0' cellpadding='5' width='100%'>" + "<tbody>" + emotes_group_list.join("") + "</tbody>" + "</table></div></div>";
 }
 
-var emotes_table = create_table();
+let emotes_table = create_table();
 
 exports.commands = {
 	blockemote: 'blockemoticons',
