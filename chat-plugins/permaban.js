@@ -1,6 +1,8 @@
+'use strict';
+
 const permaDataFile = 'permaban.json';
 
-var fs = require('fs');
+let fs = require('fs');
 
 global.Permaban = {
 	permaLock: {},
@@ -21,7 +23,7 @@ exports.commands = {
 	permaban: function (target, room, user) {
 		if (!this.can('permaban')) return false;
 		target = this.splitTarget(target);
-		var userT = this.targetUser;
+		let userT = this.targetUser;
 		if (!userT) return this.sendReply("User '" + this.targetUsername + "' does not exist.");
 		if (userT.can('staff')) return this.sendReply("User '" + this.targetUsername + "' is an staff member. Demote before permaban.");
 		if (Permaban.permaBan[userT.userid]) return this.sendReply("User '" + this.targetUsername + "' already perma banned.");
@@ -35,7 +37,7 @@ exports.commands = {
 	unpermaban: 'permaunban',
 	permaunban: function (target, room, user) {
 		if (!this.can('permaban')) return false;
-		var userT = toId(target);
+		let userT = toId(target);
 		if (!Permaban.permaBan[userT]) return this.sendReply("User '" + target + "' is not perma banned.");
 		delete Permaban.permaBan[userT];
 		this.addModCommand(target + " was removed from the blacklist by " + user.name);
@@ -46,7 +48,7 @@ exports.commands = {
 	permalock: function (target, room, user) {
 		if (!this.can('permaban')) return false;
 		target = this.splitTarget(target);
-		var userT = this.targetUser;
+		let userT = this.targetUser;
 		if (!userT) return this.sendReply("User '" + this.targetUsername + "' does not exist.");
 		if (userT.can('staff')) return this.sendReply("User '" + this.targetUsername + "' is an staff member. Demote before permalock.");
 		if (Permaban.permaLock[userT.userid]) return this.sendReply("User '" + this.targetUsername + "' already perma locked.");
@@ -60,7 +62,7 @@ exports.commands = {
 	unpermalock: 'permaunlock',
 	permaunlock: function (target, room, user) {
 		if (!this.can('permaban')) return false;
-		var userT = toId(target);
+		let userT = toId(target);
 		if (!Permaban.permaLock[userT]) return this.sendReply("User '" + target + "' is not perma locked.");
 		delete Permaban.permaLock[userT];
 		this.addModCommand(target + " was removed from the permalock list by " + user.name);
@@ -70,8 +72,8 @@ exports.commands = {
 	
 	permalist: function (target, room, user) {
 		if (!this.can('permaban')) return false;
-		var banstr = '<b>Banned Users:<b> ' + Object.keys(Permaban.permaBan).sort().join(", ");
-		var lockstr = '<b>Locked Users:</b> ' + Object.keys(Permaban.permaLock).sort().join(", ");
+		let banstr = '<b>Banned Users:<b> ' + Object.keys(Permaban.permaBan).sort().join(", ");
+		let lockstr = '<b>Locked Users:</b> ' + Object.keys(Permaban.permaLock).sort().join(", ");
 		this.sendReplyBox(banstr + '<br /><br />' + lockstr);
 		
 	},
