@@ -26,7 +26,7 @@ var shopDisplay = getShopDisplay(shop);
  * @returns {String}
  */
 function currencyName(amount) {
-	var name = " galaxy points";
+	var name = " Galaxy Point";
 	return amount === 1 ? name : name + "s";
 }
 
