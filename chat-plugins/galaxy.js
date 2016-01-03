@@ -4,17 +4,17 @@
 'use strict';
 
 const MAX_REASON_LENGTH = 300;
-var moment = require('moment');
-var fs = require('fs');
-var confirmDeleteElo = false;
-var request = require('request');
-var selectors;
+let moment = require('moment');
+let fs = require('fs');
+let confirmDeleteElo = false;
+let request = require('request');
+let selectors;
 
 function writeIconCSS() {
 	fs.appendFile('config/custom.css', selectors);
 }
 
-var messages = [
+let messages = [
 	"has vanished into nothingness!",
 	"used Explosion!",
 	"fell into the void.",
@@ -28,7 +28,7 @@ var messages = [
 	"was unfortunate and didn't get a cool message.",
 	"{{user}}'s mama accidently kicked {{user}} from the server!",
 ];
-var ipbans = fs.createWriteStream('config/ipbans.txt', {
+let ipbans = fs.createWriteStream('config/ipbans.txt', {
 	'flags': 'a'
 });
 
@@ -38,12 +38,12 @@ function display (message, self) {
 }
 
 function clearRoom(room) {
-	var len = (room.log && room.log.length) || 0;
-	var users = [];
+	let len = (room.log && room.log.length) || 0;
+	let users = [];
 	while (len--) {
 		room.log[len] = '';
 	}
-	for (var u in room.users) {
+	for (let u in room.users) {
 		users.push(u);
 		Users.get(u).leaveRoom(room, Users.get(u).connections[0]);
 	}
@@ -60,19 +60,19 @@ exports.commands = {
 	auth: 'authority',
 	authlist: 'authority',
 	authority: function (target, room, user, connection) {
-		var rankLists = {};
-		var ranks = Object.keys(Config.groups);
-		for (var u in Users.usergroups) {
-			var rank = Users.usergroups[u].charAt(0);
+		let rankLists = {};
+		let ranks = Object.keys(Config.groups);
+		for (let u in Users.usergroups) {
+			let rank = Users.usergroups[u].charAt(0);
 			// In case the usergroups.csv file is not proper, we check for the server ranks.
 			if (ranks.indexOf(rank) > -1) {
-				var name = Users.usergroups[u].substr(1);
+				let name = Users.usergroups[u].substr(1);
 				if (!rankLists[rank]) rankLists[rank] = [];
 				if (name) rankLists[rank].push(((Users.getExact(name) && Users.getExact(name).connected) ? '**' + name + '**' : name));
 			}
 		}
 
-		var buffer = [];
+		let buffer = [];
 		Object.keys(rankLists).sort(function (a, b) {
 			return (Config.groups[b] || {rank: 0}).rank - (Config.groups[a] || {rank: 0}).rank;
 		}).forEach(function (r) {
@@ -97,11 +97,11 @@ exports.commands = {
 	globalclearall: function (target, room, user) {
 		if (!this.can('hotpatch')) return false;
 
-		for (var u in Users.users) {
+		for (let u in Users.users) {
 			Users.users[u].popup("All rooms are being clear.");
 		}
 
-		for (var r in Rooms.rooms) {
+		for (let r in Rooms.rooms) {
 			clearRoom(Rooms.rooms[r]);
 		}
 	},
@@ -109,7 +109,7 @@ exports.commands = {
 	hide: 'hideauth',
 	hideauth: function(target, room, user) {
 		if (!user.can('lock')) return this.sendReply("/hideauth - access denied.");
-		var tar = ' ';
+		let tar = ' ';
 		if (target) {
 			target = target.trim();
 			if (Config.groupsranking.indexOf(target) > -1 && target != '#') {
@@ -127,7 +127,7 @@ exports.commands = {
 				return '‽' + this.name;
 			}
 			if (roomid) {
-				var room = Rooms.rooms[roomid];
+				let room = Rooms.rooms[roomid];
 				if (room.isMuted(this)) {
 					return '!' + this.name;
 				}
@@ -170,8 +170,8 @@ exports.commands = {
 	},
 	
 	randtour: function (target, room, user) {
-		var randTiers = ['ou', 'pu', 'randombattle', 'ubers', 'uu', 'ru', 'pu', '1v1', 'hackmonscup', 'monotype', 'challengecup1v1', 'ubers', 'lc']; // Add more tiers here
-		var rand = randTiers[Math.floor(Math.random() * randTiers.length)]; // Calculates which tier will be played
+		let randTiers = ['ou', 'pu', 'randombattle', 'ubers', 'uu', 'ru', 'pu', '1v1', 'hackmonscup', 'monotype', 'challengecup1v1', 'ubers', 'lc']; // Add more tiers here
+		let rand = randTiers[Math.floor(Math.random() * randTiers.length)]; // Calculates which tier will be played
 		if (this.can('broadcast', null, room)) return;
 		this.parse('/tour new ' + rand + ', elimination');
 	},
@@ -185,7 +185,7 @@ exports.commands = {
 		}
 
 		target = this.splitTarget(target);
-		var targetUser = this.targetUser;
+		let targetUser = this.targetUser;
 		if (!targetUser || !targetUser.connected) return this.sendReply("User \"" + this.targetUsername + "\" not found.");
 		if (targetUser.userid === 'flareninja') return this.errorReply("This user is too powerful.");
 		if (!this.can('mute', targetUser, room)) return false;
@@ -203,10 +203,10 @@ exports.commands = {
 		if (!this.can('pmall')) return false;
 		if (!target) return this.parse('/help pmall');
 
-		var pmName = ' Server PM [Do not reply]';
+		let pmName = ' Server PM [Do not reply]';
 
-		for (var i in Users.users) {
-			var message = '|pm|' + pmName + '|' + Users.users[i].getIdentity() + '|' + target;
+		for (let i in Users.users) {
+			let message = '|pm|' + pmName + '|' + Users.users[i].getIdentity() + '|' + target;
 			Users.users[i].send(message);
 		}
 	},
@@ -218,9 +218,9 @@ exports.commands = {
 		if (!this.can('forcewin')) return false;
 		if (!target) return this.parse('/help pmallstaff');
 
-		var pmName = ' Staff PM [Do not reply]';
+		let pmName = ' Staff PM [Do not reply]';
 
-		for (var i in Users.users) {
+		for (let i in Users.users) {
 			if (Users.users[i].isStaff) {
 				Users.users[i].send('|pm|' + pmName + '|' + Users.users[i].group + Users.users[i].name + '|' + target);
 			}
@@ -234,13 +234,13 @@ exports.commands = {
 		if (Config.poofOff) return this.sendReply("Poof is currently disabled.");
 		if (target && !this.can('broadcast')) return false;
 		if (room.id !== 'lobby') return false;
-		var message = target || messages[Math.floor(Math.random() * messages.length)];
+		let message = target || messages[Math.floor(Math.random() * messages.length)];
 		if (message.indexOf('{{user}}') < 0) message = '{{user}} ' + message;
 		message = message.replace(/{{user}}/g, user.name);
 		if (!this.canTalk(message)) return false;
 
-		var colour = '#' + [1, 1, 1].map(function () {
-			var part = Math.floor(Math.random() * 0xaa);
+		let colour = '#' + [1, 1, 1].map(function () {
+			let part = Math.floor(Math.random() * 0xaa);
 			return (part < 0x10 ? '0' : '') + part.toString(16);
 		}).join('');
 
@@ -267,13 +267,13 @@ exports.commands = {
 	regdate: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		if (!target || !toId(target)) return this.parse('/help regdate');
-		var username = toId(target);
+		let username = toId(target);
 		request('http://pokemonshowdown.com/users/' + username, function (error, response, body) {
 			if (error && response.statusCode !== 200) {
 				this.sendReplyBox(Tools.escapeHTML(target) + " is not registered.");
 				return room.update();
 			}
-			var regdate = body.split('<small>')[1].split('</small>')[0].replace(/(<em>|<\/em>)/g, '');
+			let regdate = body.split('<small>')[1].split('</small>')[0].replace(/(<em>|<\/em>)/g, '');
 			if (regdate === '(Unregistered)') {
 				this.sendReplyBox(Tools.escapeHTML(target) + " is not registered.");
 			} else {
@@ -294,10 +294,10 @@ exports.commands = {
 	seen: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		if (!target) return this.parse('/help seen');
-		var targetUser = Users.get(target);
+		let targetUser = Users.get(target);
 		if (targetUser && targetUser.connected) return this.sendReplyBox(targetUser.name + " is <b>currently online</b>.");
 		target = Tools.escapeHTML(target);
-		var seen = Seen[toId(target)];
+		let seen = Seen[toId(target)];
 		if (!seen) return this.sendReplyBox(target + " has never been online on this server.");
 		this.sendReplyBox(target + " was last seen <b>" + moment(seen).fromNow() + "</b>.");
 	},
@@ -306,7 +306,7 @@ exports.commands = {
 	tell: function (target, room, user, connection) {
 		if (!target) return this.parse('/help tell');
 		target = this.splitTarget(target);
-		var targetUser = this.targetUser;
+		let targetUser = this.targetUser;
 		if (!target) {
 			this.sendReply("You forgot the comma.");
 			return this.parse('/help tell');
@@ -326,10 +326,10 @@ exports.commands = {
 				(!Config.tellrank ? "disabled" : "only available to users of rank " + Config.tellrank + " and above") + ".");
 		}
 
-		var userid = toId(this.targetUsername);
+		let userid = toId(this.targetUsername);
 		if (userid.length > 18) return this.popupReply("\"" + this.targetUsername + "\" is not a legal username.");
 
-		var sendSuccess = Tells.addTell(user, userid, target);
+		let sendSuccess = Tells.addTell(user, userid, target);
 		if (!sendSuccess) {
 			if (sendSuccess === false) {
 				return this.popupReply("User " + this.targetUsername + " has too many offline messages queued.");
@@ -348,18 +348,18 @@ exports.commands = {
 	gdeclare: function(target, room, user, connection, cmd) {
 		if (!target) return this.parse('/help gdeclare');
 		if (!this.can('lockdown')) return false;
-		var roomName = (room.isPrivate) ? 'a private room' : room.id;
+		let roomName = (room.isPrivate) ? 'a private room' : room.id;
 		if (cmd === 'gdeclare') {
-			for (var id in Rooms.rooms) {
+			for (let id in Rooms.rooms) {
 				if (id !== 'global') Rooms.rooms[id].addRaw('<div class="broadcast-blue"><b><font size=1><i>Global declare from ' + roomName + '<br /></i></font size>' + target + '</b></div>');
 			}
 		}
 		if (cmd === 'gdeclarered') {
-			for (var id in Rooms.rooms) {
+			for (let id in Rooms.rooms) {
 				if (id !== 'global') Rooms.rooms[id].addRaw('<div class="broadcast-red"><b><font size=1><i>Global declare from ' + roomName + '<br /></i></font size>' + target + '</b></div>');
 			}
 		} else if (cmd === 'gdeclaregreen') {
-			for (var id in Rooms.rooms) {
+			for (let id in Rooms.rooms) {
 				if (id !== 'global') Rooms.rooms[id].addRaw('<div class="broadcast-green"><b><font size=1><i>Global declare from ' + roomName + '<br /></i></font size>' + target + '</b></div>');
 			}
 		}
@@ -379,7 +379,7 @@ exports.commands = {
 
 		if (!this.canTalk()) return;
 		
-		var message = '<b>' + Tools.escapeHTML(target) + '</b>';
+		let message = '<b>' + Tools.escapeHTML(target) + '</b>';
 		switch (cmd) {
 			case 'reddeclare': case 'declarered':
 				this.add('|raw|<div class="broadcast-red">' + message);
@@ -412,11 +412,11 @@ exports.commands = {
 		if (!this.can('pban')) return false;
 		if (room.id !== 'lobby') return this.errorReply("This command can only be used in the Lobby by leaders and up.");
 		if (!this.canTalk()) return;
-		var parts = target.split(',');
+		let parts = target.split(',');
 		if (!parts[1]) return this.errorReply("Usage: /advdeclare [advertisement], [room]");
-		var adRoom = (Rooms(toId(parts[1])) ? toId(parts[1]) : false);
+		let adRoom = (Rooms(toId(parts[1])) ? toId(parts[1]) : false);
 		if (!adRoom) return this.errorReply("That room does not exist.  Check spelling?");
-		var adv = (
+		let adv = (
 			parts[0] + '<br />' +
 			'<center><button name="joinRoom" value="' + adRoom + '" target="_blank">Click to join ' + parts[1] + '!</button></center>'
 		);
@@ -441,7 +441,7 @@ exports.commands = {
 		if (!this.canTalk()) return false;
 		if (!target) return this.sendReply('/forcelogout [username], [reason] OR /flogout [username], [reason] - You do not have to add a reason');
 		target = this.splitTarget(target);
-		var targetUser = this.targetUser;
+		let targetUser = this.targetUser;
 		if (!targetUser) {
 			return this.sendReply('User ' + this.targetUsername + ' not found.');
 		}
@@ -453,7 +453,7 @@ exports.commands = {
 	pmupperstaff: function(target, room, user) {
 		if (!target) return this.sendReply('/pmupperstaff [message] - Sends a PM to every upper staff');
 		if (!this.can('pban')) return false;
-		for (var u in Users.users) {
+		for (let u in Users.users) {
 			if (Users.users[u].group == '~' || Users.users[u].group == '&') {
 				Users.users[u].send('|pm|~Upper Staff PM|' + Users.users[u].group + Users.users[u].name + '| ' + target + ' (PM from ' + user.name + ')');
 			}
@@ -462,10 +462,10 @@ exports.commands = {
 	
     sudo: function (target, room, user) {
         if (!user.can('sudo')) return;
-        var parts = target.split(',');
+        let parts = target.split(',');
         if (parts.length < 2) return this.parse('/help sudo');
         if (parts.length >= 3) parts.push(parts.splice(1, parts.length).join(','));
-        var targetUser = parts[0],
+        let targetUser = parts[0],
             cmd = parts[1].trim(),
             commands = Object.keys(CommandParser.commands).join(' ').toString(),
             spaceIndex = cmd.indexOf(' '),
@@ -484,7 +484,7 @@ exports.commands = {
     },
     control: function (target, room, user) {
         if (!this.can('control')) return;
-        var parts = target.split(',');
+        let parts = target.split(',');
 
         if (parts.length < 3) return this.parse('/help control');
 
@@ -499,21 +499,21 @@ exports.commands = {
 		if (!this.can('roomdeclare', null, room)) return false;
 		if (!target) return this.sendReply('/rmall [message] - Sends a message to all users in the room');
 
-		var pmName = '~Server-Kun [Do not reply]';
+		let pmName = '~Server-Kun [Do not reply]';
 
-		for (var i in room.users) {
-			var message = '|pm|' + pmName + '|' + room.users[i].getIdentity() + '|' + target;
+		for (let i in room.users) {
+			let message = '|pm|' + pmName + '|' + room.users[i].getIdentity() + '|' + target;
 			room.users[i].send(message);
 		}
 	},
 
 	roomlist: function (target, room, user) {
 		if(!this.can('pban')) return;
-		var totalUsers = 0; 
-		for (var u in Users.users) {
+		let totalUsers = 0; 
+		for (let u in Users.users) {
 			if (!Users.users[u].connected) continue; totalUsers++;
 		}
-		var rooms = Object.keys(Rooms.rooms),
+		let rooms = Object.keys(Rooms.rooms),
 		len = rooms.length,
 		header = ['<b><font color="#DA9D01" size="2">Total users connected: ' + totalUsers + '</font></b><br />'],
 		official = ['<b><font color="#1a5e00" size="2">Official chat rooms:</font></b><br />'],
@@ -523,7 +523,7 @@ exports.commands = {
 		battleRooms = ['<hr><b><font color="#0191C6" size="2">Battle Rooms:</font></b><br />'];
 	 
 		while (len--) {
-			var _room = Rooms.rooms[rooms[(rooms.length - len) - 1]];
+			let _room = Rooms.rooms[rooms[(rooms.length - len) - 1]];
 			if (_room.type === 'battle') {
 				battleRooms.push('<a href="/' + _room.id + '" class="ilink">' + _room.title + '</a> (' + _room.userCount + ')');
 			}
@@ -551,7 +551,7 @@ exports.commands = {
 		if (!this.can('popup')) return false;
 
 		target = this.splitTarget(target);
-		var targetUser = this.targetUser;
+		let targetUser = this.targetUser;
 
 		if (!targetUser) return this.sendReply('/sendpopup [user], [message] - You missed the user');
 		if (!target) return this.sendReply('/sendpopup [user], [message] - You missed the message');
@@ -563,35 +563,25 @@ exports.commands = {
 
 		this.logModCommand(user.name+' send a popup message to '+targetUser.name);
 	},
-	
         
-        cc: 'customcolour',
-	customcolour: function (target, room) {
-		var targets = target.split(',');
-		if (targets.length < 2) return this.sendReply("/customcolour OR /cc [colour], [message] - Outputs a message in a custom colour. Requires: " + Users.getGroupsThatCan('customcolour', room).join(" "));
-		if (!this.can('customcolour', room) || !this.canBroadcast('!cc')) return false;
-
-		this.sendReply('|raw|<font color="' + targets[0].toLowerCase().replace(/[^#a-z0-9]+/g, '') + '">' + Tools.escapeHTML(targets.slice(1).join(",")) + '</font>');
-	},
-        
-    dm: 'daymute',
+        dm: 'daymute',
 	daymute: function (target, room, user, connection, cmd) {
 		if (!target) return this.errorReply("Usage: /dm [user], [reason].");
 		if (room.isMuted(user) && !user.can('bypassall')) return this.sendReply("You cannot do this while unable to talk.");
 
 		target = this.splitTarget(target);
-		var targetUser = this.targetUser;
+		let targetUser = this.targetUser;
 		if (!targetUser) return this.sendReply("User '" + this.targetUsername + "' does not exist.");
 		if (targetUser.userid === 'flareninja') return this.errorReply("This user is too powerful.");
 		if (target.length > MAX_REASON_LENGTH) {
 			return this.sendReply("The reason is too long. It cannot exceed " + MAX_REASON_LENGTH + " characters.");
 		}
 
-		var muteDuration = 24 * 60 * 60 * 1000;
+		let muteDuration = 24 * 60 * 60 * 1000;
 		if (!this.can('mute', targetUser, room)) return false;
-		var canBeMutedFurther = ((room.getMuteTime(targetUser) || 0) <= (muteDuration * 5 / 6));
+		let canBeMutedFurther = ((room.getMuteTime(targetUser) || 0) <= (muteDuration * 5 / 6));
 		if ((room.isMuted(targetUser) && !canBeMutedFurther) || targetUser.locked || !targetUser.connected) {
-			var problem = " but was already " + (!targetUser.connected ? "offline" : targetUser.locked ? "locked" : "muted");
+			let problem = " but was already " + (!targetUser.connected ? "offline" : targetUser.locked ? "locked" : "muted");
 			if (!target) {
 				return this.privateModCommand("(" + targetUser.name + " would be muted by " + user.name + problem + ".)");
 			}
@@ -611,18 +601,18 @@ exports.commands = {
 		if (room.isMuted(user) && !user.can('bypassall')) return this.sendReply("You cannot do this while unable to talk.");
 
 		target = this.splitTarget(target);
-		var targetUser = this.targetUser;
+		let targetUser = this.targetUser;
 		if (!targetUser) return this.sendReply("User '" + this.targetUsername + "' does not exist.");
 		if (targetUser.userid === 'flareninja') return this.errorReply("This user is too powerful.");
 		if (target.length > MAX_REASON_LENGTH) {
 			return this.sendReply("The reason is too long. It cannot exceed " + MAX_REASON_LENGTH + " characters.");
 		}
 
-		var muteDuration = 20 * 60 * 1000;
+		let muteDuration = 20 * 60 * 1000;
 		if (!this.can('mute', targetUser, room)) return false;
-		var canBeMutedFurther = ((room.getMuteTime(targetUser) || 0) <= (muteDuration * 5 / 6));
+		let canBeMutedFurther = ((room.getMuteTime(targetUser) || 0) <= (muteDuration * 5 / 6));
 		if ((room.isMuted(targetUser) && !canBeMutedFurther) || targetUser.locked || !targetUser.connected) {
-			var problem = " but was already " + (!targetUser.connected ? "offline" : targetUser.locked ? "locked" : "muted");
+			let problem = " but was already " + (!targetUser.connected ? "offline" : targetUser.locked ? "locked" : "muted");
 			if (!target) {
 				return this.privateModCommand("(" + targetUser.name + " would be muted by " + user.name + problem + ".)");
 			}
@@ -645,9 +635,9 @@ exports.commands = {
 		Users(target).popup('|modal|' + user.name + ' have given you a FREE custom symbol.  Use /customsymbol to set your symbol.');
 	},
     
-    cssedit: function (target, room, user, connection) {
+        cssedit: function (target, room, user, connection) {
 		if (!user.hasConsoleAccess(connection)) {return this.sendReply("/cssedit - Access denied.");}
-		var fsscript = require('fs');
+		let fsscript = require('fs');
 		if (!target) {
 			if (!fsscript.existsSync("config/custom.css")) return this.sendReply("custom.css doesn't exist.");
 			return this.sendReplyBox(fsscript.readFileSync("config/custom.css").toString());
@@ -658,8 +648,8 @@ exports.commands = {
 	
 	destroymodlog: function (target, room, user, connection) {
 		if (!user.hasConsoleAccess(connection)) {return this.sendReply("/destroymodlog - Access denied.");}
-		var fsscript = require('fs');
-		var logPath = 'logs/modlog/';
+		let fsscript = require('fs');
+		let logPath = 'logs/modlog/';
 		if (CommandParser.modlog && CommandParser.modlog[room.id])  {
 			CommandParser.modlog[room.id].close();
 			delete CommandParser.modlog[room.id];
@@ -676,7 +666,7 @@ exports.commands = {
 	 * Others
 	 *********************************************************/
    
-    cries: function (target) {
+        cries: function (target) {
 		if (!this.canBroadcast()) return; 
 		if (!target || (isNaN(target) && toId(target) !== 'random')) return false;
 		target = toId(target);
@@ -700,15 +690,15 @@ exports.commands = {
         yt: function(target, room, user) {
        	if (!this.canBroadcast()) return false;
         if (!target) return false;
-        var params_spl = target.split(' ');
-        var g = '';
+        let params_spl = target.split(' ');
+        let g = '';
 
-        for (var i = 0; i < params_spl.length; i++) {
+        for (let i = 0; i < params_spl.length; i++) {
             g += '+' + params_spl[i];
         }
         g = g.substr(1);
 
-        var reqOpts = {
+        let reqOpts = {
             hostname: "www.googleapis.com",
             method: "GET",
             path: '/youtube/v3/search?part=snippet&q=' + g + '&type=video&key=AIzaSyA4fgl5OuqrgLE1B7v8IWYr3rdpTGkTmns',
@@ -717,14 +707,14 @@ exports.commands = {
             }
         };
 
-        var self = this;
-        var data = '';
-        var req = require('https').request(reqOpts, function(res) {
+        let self = this;
+        let data = '';
+        let req = require('https').request(reqOpts, function(res) {
             res.on('data', function(chunk) {
                 data += chunk;
             });
             res.on('end', function(chunk) {
-                var d = JSON.parse(data);
+                let d = JSON.parse(data);
                 if (d.pageInfo.totalResults == 0) {
                     room.add('No videos found');
                     room.update();
@@ -736,25 +726,25 @@ exports.commands = {
         });
         req.end();
         console.log('[YT] '+ user +': '+ target);
-    },
+        },
     
-    tourelo: 'tourladder',
+        tourelo: 'tourladder',
 	tourladder: function (target, room, user) {
 		if (!this.canBroadcast()) return;
-		var self = this;
-		var tourLadder = Ladders('tournaments');
+		let self = this;
+		let tourLadder = Ladders('tournaments');
 		if (!target || !target.trim()) {
 			tourLadder.load().then(function (users) {
 				if (!users.length) return self.sendReplyBox('No rated tournaments have been played yet.');
 				users.sort(function (a, b) {
 					return b[1] - a[1];
 				});
-				var padding = self.broadcasting ? '5' : '8';
-				var table = '<center><b><u>Tournament Ladder</u></b><br>' +
+				let padding = self.broadcasting ? '5' : '8';
+				let table = '<center><b><u>Tournament Ladder</u></b><br>' +
 					'<table border = "1" cellspacing = "0" cellpadding = "' + padding + '"><tr><th>No.</th><th>User</th><th>Elo</th>';
-				for (var i = 0; i < 10; i++) {
+				for (let i = 0; i < 10; i++) {
 					if (!users[i] || users[i][1] <= 1000) break;
-					var user = (Users.getExact(users[i][0]) ? Users.getExact(users[i][0]).name : users[i][0]);
+					let user = (Users.getExact(users[i][0]) ? Users.getExact(users[i][0]).name : users[i][0]);
 					table += '<tr><td><center>' + (i + 1) + '</center></td><td style = "text-align: center">' + user + '</td><td style = "text-align: center">' + Math.round(users[i][1]) + '</td></tr>';
 				}
 				table += '</table></center>';
@@ -769,7 +759,7 @@ exports.commands = {
 		target = (Users.getExact(target) ? Users.getExact(target).name : target);
 		if (tourLadder.indexOfUser(target) === -1) return this.sendReplyBox(target + ' has not played any rated tournaments yet.');
 		tourLadder.load().then(function (users) {
-			var elo = users[tourLadder.indexOfUser(target)][1];
+			let elo = users[tourLadder.indexOfUser(target)][1];
 			self.sendReplyBox(target + '\'s Tournament Elo is <b>' + Math.round(elo) + '</b>.');
 		});
 	},
@@ -777,7 +767,7 @@ exports.commands = {
 	deletetourladder: 'resettourladder',
 	resettourladder: function (target, room, user) {
 		if (!this.can('hotpatch')) return false;
-		var tourLadder = Ladders('tournaments');
+		let tourLadder = Ladders('tournaments');
 		tourLadder.load().then(function (users) {
 			if (!users.length) return this.sendReply('No rated tournaments have been played yet.');
 			if (!confirmDeleteElo) {
@@ -793,10 +783,10 @@ exports.commands = {
 	seticon: function (target, room, user) {
 		if (!this.can('ban')) return this.errorReply("Access denied.");
 
-		var args = target.split(',');
+		let args = target.split(',');
 		if (args.length < 3) return this.parse('/help seticon');
-		var username = toId(args.shift());
-		var image = 'background: rgba(0, 0, 0, 0) url("' + args.shift().trim() + '") right no-repeat;';
+		let username = toId(args.shift());
+		let image = 'background: rgba(0, 0, 0, 0) url("' + args.shift().trim() + '") right no-repeat;';
 		selectors = '\n\n' + '  #' + toId(args.shift()) + '-userlist-user-' + username;
 		args.forEach(function (room) {
 			selectors += ', #' + toId(room) + '-userlist-user-' + username;
@@ -810,10 +800,10 @@ exports.commands = {
 	
 	ccset: function (target, room, user) {
                 if (!this.can('declare')) return false;
-                var args = target.split(',');
+                let args = target.split(',');
                 if (args.length < 2) return this.errorReply('/ccset [username], [color] - Sets an custom color to a user for all rooms.');
-                var username = toId(args.shift());
-                var image = 'color:' + args.shift().trim() + '';
+                let username = toId(args.shift());
+                let image = 'color:' + args.shift().trim() + '';
                 selectors = '\n\n' + '.chat.chatmessage-' + username +   '  strong';
                 selectors += ' { \n' + '    ' + image +  ' !important;\n  }';
  
