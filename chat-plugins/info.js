@@ -2708,8 +2708,8 @@ exports.commands = {
 	seasonaldata: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 
-		var buffer = '|raw|';
-		var targetId = toId(target);
+		let buffer = '|raw|';
+		let targetId = toId(target);
 		switch (targetId) {
 		case 'cura':
 		case 'recover':
