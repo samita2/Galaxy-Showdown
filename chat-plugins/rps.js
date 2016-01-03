@@ -1,13 +1,13 @@
 'use strict';
 
 //rps
-var rockpaperscissors  = false;
-var numberofspots = 2;
-var gamestart = false;
-var rpsplayers = new Array();
-var rpsplayersid = new Array();
-var player1response = new Array();
-var player2response = new Array();
+let rockpaperscissors  = false;
+let numberofspots = 2;
+let gamestart = false;
+let rpsplayers = new Array();
+let rpsplayersid = new Array();
+let player1response = new Array();
+let player2response = new Array();
 
 exports.commands = {
 rps: "rockpaperscissors",
