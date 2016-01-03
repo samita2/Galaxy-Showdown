@@ -2,7 +2,7 @@
 
 const ranksDataFile = 'superranks.json';
 
-let fs = require('fs');
+var fs = require('fs');
 
 global.SuperRanks = {
 	ranks: {},
@@ -38,9 +38,9 @@ exports.commands = {
 		if (!SuperRanks.isHoster(user.userid) && !SuperRanks.isOwner(user.userid)) return this.sendReply('/giveaccess - access denied');
 		if (!target) return this.sendReply('Usage: /giveaccess user, [hoster/owner/admin]');
 		target = this.splitTarget(target, true);
-		let targetUser = this.targetUser;
-		let userid = toId(this.targetUsername);
-		let name = targetUser ? targetUser.name : this.targetUsername;
+		var targetUser = this.targetUser;
+		var userid = toId(this.targetUsername);
+		var name = targetUser ? targetUser.name : this.targetUsername;
 		if (!userid) return this.sendReply('Usage: /giveaccess user, [hoster/owner/admin]');
 		if (!SuperRanks.ranks[userid]) {
 			if (!targetUser) {
@@ -50,13 +50,13 @@ exports.commands = {
 				return this.sendReply("User '" + name + "' is unregistered, and so can't be promoted.");
 			}
 		}
-		let currentRank = SuperRanks.ranks[userid] || ' ';
-		let toRank = target.trim() ? target.trim().charAt(0) : 'none';
+		var currentRank = SuperRanks.ranks[userid] || ' ';
+		var toRank = target.trim() ? target.trim().charAt(0) : 'none';
 		if (!(toRank in {h: 1, o: 1, a: 1})) return this.sendReply('Usage: /giveaccess user, [hoster/owner/admin]');
 		if ((toRank === 'h' || toRank === 'o' || currentRank === 'h' || currentRank === 'o') && !SuperRanks.isHoster(user.userid)) return this.sendReply('/giveaccess - access denied');
 		SuperRanks.ranks[userid] = toRank;
 		writeRankData();
-		let nameTable = {
+		var nameTable = {
 			h: "Hoster",
 			o: "Owner",
 			a: "Admin Director"
@@ -67,18 +67,18 @@ exports.commands = {
 	removeaccess: function (target, room, user) {
 		if (!SuperRanks.isHoster(user.userid) && !SuperRanks.isOwner(user.userid)) return this.sendReply('/removeaccess - access denied');
 		if (!target) return this.sendReply('Usage: /removeaccess user');
-		let userid = toId(target);
+		var userid = toId(target);
 		if (!SuperRanks.ranks[userid]) return this.sendReply("User " + userid + " does not have access");
-		let currentRank = SuperRanks.ranks[userid];
+		var currentRank = SuperRanks.ranks[userid];
 		if ((currentRank === 'h' || currentRank === 'o') && !SuperRanks.isHoster(user.userid)) return this.sendReply('/removeaccess - access denied');
 		delete SuperRanks.ranks[userid];
 		writeRankData();
 		this.sendReply("User " + userid + " removed from excepted users");
 	},
 	hosters: function (target, room, user, connection) {
-		let ranks = SuperRanks.ranks;
-		let hosters = [], owners = [], admins = [];
-		for (let i in ranks) {
+		var ranks = SuperRanks.ranks;
+		var hosters = [], owners = [], admins = [];
+		for (var i in ranks) {
 			switch (ranks[i]) {
 				case 'h':
 					hosters.push(i);
