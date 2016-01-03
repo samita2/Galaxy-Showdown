@@ -192,7 +192,7 @@ var emotes = {
 	'BTte': 'http://i.imgur.com/KjMYGdj.jpg?1',
 	'GAy': 'http://i.imgur.com/Tms3DPi.png?1',
 	'piKa': 'http://i.imgur.com/viGgYqN.png',
-	'faCe': 'https://qph.is.quoracdn.net/main-qimg-e88588d1f672c2cd982317fc68bbac3b?convert_to_webp=true'
+	'faCe': 'https://qph.is.quoracdn.net/main-qimg-e88588d1f672c2cd982317fc68bbac3b?convert_to_webp=true',
 };
 
 var emotesKeys = Object.keys(emotes);
@@ -333,6 +333,6 @@ exports.commands = {
 			this.add("|raw|<div class=\"broadcast-blue\"><b>Emoticons are enabled!</b><br />Emoticons will work now.</div>");
 		}
 	},
-	toggleemoticonshelp: ["/toggleemoticons - Toggle emoticons on or off."]
+	toggleemoticonshelp: ["/toggleemoticons - Toggle emoticons on or off."],
 	
 };
