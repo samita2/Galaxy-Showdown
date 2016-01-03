@@ -21,7 +21,7 @@ var messages = [
 	"is blasting off again!",
 	"(Quit: oh god how did this get here i am not good with computer)",
 	"was unfortunate and didn't get a cool message.",
-	"{{user}}'s mama accidently kicked {{user}} from the server!"
+	"{{user}}'s mama accidently kicked {{user}} from the server!",
 ];
 var ipbans = fs.createWriteStream('config/ipbans.txt', {
 	'flags': 'a'
