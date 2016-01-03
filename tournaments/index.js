@@ -738,7 +738,7 @@ class Tournament {
 		let color = '#088cc7';
 		let sizeRequiredToEarn = 4;
 		let currencyName = function (amount) {
-			var name = " galaxy points";
+			var name = " Galaxy Point";
 			return amount === 1 ? name : name + "s";
 		};
 		let data = this.generator.getResults().map(usersToNames).toString();
