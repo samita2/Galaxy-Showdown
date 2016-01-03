@@ -85,7 +85,7 @@ function label(text) {
 }
 
 function currencyName(amount) {
-	let name = " buck";
+	let name = " galaxy points";
 	return amount === 1 ? name : name + "s";
 }
 
