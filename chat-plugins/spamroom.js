@@ -1,6 +1,6 @@
 'use strict';
 
-let spamroom = Rooms.get("spamroom");
+var spamroom = Rooms.get("spamroom");
 
 if (!spamroom) {
 	Rooms.global.addChatRoom("Spam Room");
@@ -13,29 +13,29 @@ if (!spamroom) {
 	spamroom.chatRoomData.exceptions = {};
 	Rooms.global.writeChatRoomData();
 }
-let userlist = spamroom.chatRoomData.addedUsers;
-let exceptions = spamroom.chatRoomData.exceptions;
+var userlist = spamroom.chatRoomData.addedUsers;
+var exceptions = spamroom.chatRoomData.exceptions;
 
 Users.User.prototype.isSpamroomed = function () {
 	if (exceptions[this.userid]) return false;
 	if (userlist[this.userid]) return true;
-	for (let i in this.prevNames)
+	for (var i in this.prevNames)
 		if (exceptions[i]) return false;
 		if (userlist[i]) return true;
-	for (let i = 0; i < this.getAlts().length; i++)
+	for (var i = 0; i < this.getAlts().length; i++)
 		if (userlist[this.getAlts()[i]]) return true;
 	return false;
 }
 
 function addUser (target, user) {
-	let names = [];
+	var names = [];
 	userlist[target.userid] = true;
-	for (let name in target.prevNames) {
+	for (var name in target.prevNames) {
 		userlist[toId(name)] = true;
 		names.push(name);
 	}
-	let alts = target.getAlts();
-	for (let i = 0; i < alts.length; i++) {
+	var alts = target.getAlts();
+	for (var i = 0; i < alts.length; i++) {
 		if (!user.can('lock', target)) continue;
 		userlist[toId(alts[i])] = true;
 		names.push(Users.get(alts[i].name));
@@ -46,14 +46,14 @@ function addUser (target, user) {
 }
 
 function removeUser (target, user) {
-	let names = [];
+	var names = [];
 	delete userlist[target.userid];
-	for (let name in target.prevNames) {
+	for (var name in target.prevNames) {
 		delete userlist[toId(name)];
 		names.push(name);
 	}
-	let alts = target.getAlts();
-	for (let i = 0; i < alts.length; i++) {
+	var alts = target.getAlts();
+	for (var i = 0; i < alts.length; i++) {
 		if (!user.can('lock', target)) continue;
 		delete userlist[toId(alts[i])];
 		names.push(Users.get(alts[i].name));
@@ -68,13 +68,13 @@ var commands = {
 	add: function (target, room, user, connection, cmd) {
 		if (!this.can('lock')) return false;
 		if (!toId(target)) return this.sendReply('/spamroom ' + cmd + ' [user] - Adds a user and their alts to the spamroom.');
-		let targetUser = Users.get(target);
+		var targetUser = Users.get(target);
 		if (!targetUser) return this.sendReply('User ' + target + ' not found.');
 		if (!this.can('lock', targetUser)) return false;
 		delete exceptions[targetUser.userid];
 		Rooms.global.writeChatRoomData();
 		if (userlist[targetUser.userid]) return this.sendReply(targetUser.name + ' is already in the spamroom!');
-		let alts = addUser(targetUser, user);
+		var alts = addUser(targetUser, user);
 		this.privateModCommand('(' + targetUser.name + ' was added to the spamroom.)');
 		if (alts.length) this.privateModCommand('(' + targetUser.name + '\'s alts were added to the spamroom: ' + alts.join(', '));
 	},
@@ -84,13 +84,13 @@ var commands = {
 	remove: function (target, room, user, connection, cmd) {
 		if (!this.can('lock')) return false;
 		if (!toId(target)) return this.sendReply('/spamroom ' + cmd + ' [user] - Removes a user and all of their alts from the spamroom.');
-		let targetUser = Users.get(target);
+		var targetUser = Users.get(target);
 		if (!targetUser) return this.sendReply('User ' + target + ' not found.');
 		if (!this.can('lock', targetUser)) return false;
-		let check;
+		var check;
 		if (exceptions[targetUser.userid]) check = true;
 		if (!userlist[targetUser.userid] || check) return this.sendReply(targetUser.name + ' isn\'t in the spamroom.');
-		let alts = removeUser(targetUser, user);
+		var alts = removeUser(targetUser, user);
 		if (!check) this.privateModCommand('(' + targetUser.name + ' was removed from the spam room.)');
 		if (alts.length) this.privateModCommand('(' + targetUser.name + '\'s alts were removed from the spamroom: ' + alts.join(', '));
 	},
@@ -98,7 +98,7 @@ var commands = {
 	exception: function (target, room, user, connection, cmd) {
 		if (!this.can('lock')) return false;
 		if (!toId(target)) return this.sendReply('/spamroom ' + cmd + ' [user] - Excludes a specific user from the spam room.');
-		let targetUser = Users.get(target);
+		var targetUser = Users.get(target);
 		if (!targetUser) return this.sendReply('User ' + target + ' not found.');
 		if (!this.can('lock', targetUser)) return false;
 		exceptions[targetUser.userid] = true;
@@ -110,7 +110,7 @@ var commands = {
 	unexception: function (target, room, user, connection, cmd) {
 		if (!this.can('lock')) return false;
 		if (!toId(target)) return this.sendReply('/spamroom ' + cmd + ' [user] - Excludes a specific user from the spam room.');
-		let targetUser = Users.get(target);
+		var targetUser = Users.get(target);
 		if (!targetUser) return this.sendReply('User ' + target + ' not found.');
 		if (!this.can('lock', targetUser)) return false;
 		delete exceptions[targetUser.userid];
@@ -122,11 +122,11 @@ var commands = {
 	see: 'view',
 	view: function (target, room, user, connection, cmd) {
 		if (!this.can('lock')) return false;
-		let list = [];
-		for (let i in userlist) {
+		var list = [];
+		for (var i in userlist) {
 			list.push(i);
 		}
-		let exceptionlist = [];
+		var exceptionlist = [];
 		for (i in exceptions) {
 			exceptionlist.push(i);
 		}

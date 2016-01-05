@@ -1,8 +1,8 @@
 'use strict';
 
 exports.commands = {
-	
-  panagramhelp: 'panagramrules',
+//Panagram
+	panagramhelp: 'panagramrules',
   panagramrules: function(target, room, user) {
         if (!this.canBroadcast()) return;
         return this.sendReplyBox('<u><font size = 2><center>Pangram rules and commands</center></font></u><br />' +
@@ -10,23 +10,24 @@ exports.commands = {
             '<b>/guessp [Pokemon]</b> - Guesses a Pokémon. After guessing incorrectly, you cannot guess again in the same game. There are a total of 3 tries per game. The answer is revealed after all 3 chances are over.<br />' +
             '<b>/panagramend</b> OR <b>/endpanagram</b> OR <b>/endp</b> - Ends the current game of Panagram.');
     },
- panagram: function(target, room, user) {
+    //panagram commands.
+  panagram: function(target, room, user) {
         if (!this.can('broadcast', null, room)) return false;
         if (room.panagram) return this.sendReply('There is already a game of Panagram going on.');
-        let pokedex = [];
-        for (let i in Tools.data.Pokedex) {
+        var pokedex = [];
+        for (var i in Tools.data.Pokedex) {
             if (Tools.data.Pokedex[i].num > 0 && !Tools.data.Pokedex[i].forme) {
                 pokedex.push(i);
             }
         }
-        let mixer = function(word) {
-            let array = [];
-            for (let k = 0; k < word.length; k++) {
+        var mixer = function(word) {
+            var array = [];
+            for (var k = 0; k < word.length; k++) {
                 array.push(word[k]);
             }
-            let a;
-            let b;
-            let i = array.length;
+            var a;
+            var b;
+            var i = array.length;
             while (i) {
                 a = Math.floor(Math.random() * i);
                 i--;
@@ -37,8 +38,8 @@ exports.commands = {
             return array.join('').toString();
         }
 
-        let poke = pokedex[Math.floor(Math.random() * pokedex.length)];
-        let panagram = mixer(poke.toString());
+        var poke = pokedex[Math.floor(Math.random() * pokedex.length)];
+        var panagram = mixer(poke.toString());
         while (panagram == poke) {
             panagram = mixer(poke);
         }
@@ -52,7 +53,7 @@ exports.commands = {
         room.panagram.answer = toId(poke);
     },
 
-  gp: 'guessp',
+	gp: 'guessp',
   guesspoke: 'guessp',
   guessp: function(target, room, user, cmd) {
         if (!room.panagram) return this.sendReply('There is no game of Panagram going on in this room.');
