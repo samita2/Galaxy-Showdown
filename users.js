@@ -858,7 +858,7 @@ User = (function () {
 		}
 
 		var expiry = Config.tokenexpiry || 25 * 60 * 60;
-		if (Math.abs(parseInt(tokenDataSplit[3], 10) - Date.now() / 1000) > expiry) {
+		if (Math.abs(parseInt(tokenDataSplit[3]) - Date.now() / 1000) > expiry) {
 			console.log('stale assertion: ' + tokenData);
 			this.send('|nametaken|' + name + "|Your assertion is stale. This usually means that the clock on the server computer is incorrect. If this is your server, please set the clock to the correct time.");
 			return;
@@ -1091,6 +1091,7 @@ User = (function () {
 				room.game.onUpdateConnection(this, connection);
 			}
 		}
+		this.updateSearch(true, connection);
 	};
 	User.prototype.debugData = function () {
 		var str = '' + this.group + this.name + ' (' + this.userid + ')';
@@ -1543,6 +1544,21 @@ User = (function () {
 		this.send('|updatechallenges|' + JSON.stringify({
 			challengesFrom: Object.map(this.challengesFrom, 'format'),
 			challengeTo: challengeTo,
+		}));
+	};
+	User.prototype.updateSearch = function (onlyIfExists, connection) {
+		let games = {};
+		let atLeastOne = false;
+		for (let roomid in this.games) {
+			games[roomid] = this.games[roomid].title;
+			atLeastOne = true;
+		}
+		if (!atLeastOne) games = null;
+		let searching = Object.keys(this.searching);
+		if (onlyIfExists && !searching.length && !atLeastOne) return;
+		(connection || this).send('|updatesearch|' + JSON.stringify({
+			searching: searching,
+			games: games,
 		}));
 	};
 	User.prototype.makeChallenge = function (user, format/*, isPrivate*/) {
