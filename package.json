@@ -1,7 +1,5 @@
 {
-  "name": "pokemon-showdown",
-  "preferGlobal": true,
-  "description": "The server for the Pokémon Showdown battle simulator",
+  "name": "Pokemon-Showdown",
   "version": "0.10.2",
   "dependencies": {
     "cloud-env": "0.1.0",
@@ -33,9 +31,9 @@
   "scripts": {
     "start": "node app.js",
     "test": "eslint --rulesdir=dev-tools/eslint --cache . && mocha"
-  },
-  "bin": "./pokemon-showdown",
-  "homepage": "http://pokemonshowdown.com",
+},
+  "bin": "./app.js",
+  "homepage": "http://play.pokemonshowdown.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/Zarel/Pokemon-Showdown.git"
