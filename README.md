@@ -37,6 +37,14 @@ $ node app.js
 ```
 
 ## Maintainers
+    ./pokemon-showdown
+
+(Requires Node.js 4+)
+
+
+Detailed installation instructions
+------------------------------------------------------------------------
+
 Pokémon Showdown requires you to have [Node.js][5] installed, 4.x or later. (Alternatively, most versions of [io.js][6] also work, but is not recommended.)
 This boilerplate is brought to you and maintained by the following people:
 
@@ -57,11 +65,13 @@ Congratulations, you're done setting up Pokémon Showdown.
 
 Now, to start Pokémon Showdown, run the command:
 
-    ./pokemon-showdown
+    node pokemon-showdown
+
+(If you're not on Windows, we recommend doing `./pokemon-showdown` instead.)
 
 You can also specify a port:
 
-    ./pokemon-showdown 8000
+    node pokemon-showdown 8000
 
 Visit your server at `http://SERVER:8000`
 

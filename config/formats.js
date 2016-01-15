@@ -174,16 +174,16 @@ exports.Formats = [
 		desc: [
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3545903/\">np: Doubles OU Stage 3</a>",
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3498688/\">Doubles OU Banlist</a>",
-			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3535930/\">Doubles OU Viability Ranking</a>"
+			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3535930/\">Doubles OU Viability Ranking</a>",
 		],
 		section: "ORAS Doubles",
 
 		gameType: 'doubles',
 		ruleset: ['Pokemon', 'Standard Doubles', 'Team Preview'],
-		banlist: ['Arceus', 'Dialga', 'Giratina', 'Giratina-Origin', 'Groudon', 'Ho-Oh', 'Kyogre', 'Kyurem-White', 'Lugia', 'Mewtwo',
-			'Palkia', 'Rayquaza', 'Reshiram', 'Shaymin-Sky', 'Xerneas', 'Yveltal', 'Zekrom', 'Salamence-Mega', 'Salamencite', 'Soul Dew', 'Dark Void',
-			'Gravity ++ Grass Whistle', 'Gravity ++ Hypnosis', 'Gravity ++ Lovely Kiss', 'Gravity ++ Sing', 'Gravity ++ Sleep Powder', 'Gravity ++ Spore'
-		]
+		banlist: ['Arceus', 'Dialga', 'Giratina', 'Giratina-Origin', 'Groudon', 'Ho-Oh', 'Kyogre', 'Kyurem-White', 'Lugia',
+			'Mewtwo', 'Palkia', 'Rayquaza', 'Reshiram', 'Salamence-Mega', 'Salamencite', 'Shaymin-Sky', 'Xerneas', 'Yveltal', 'Zekrom',
+			'Soul Dew', 'Dark Void', 'Gravity ++ Grass Whistle', 'Gravity ++ Hypnosis', 'Gravity ++ Lovely Kiss', 'Gravity ++ Sing', 'Gravity ++ Sleep Powder', 'Gravity ++ Spore',
+		],
 	},
 	{
 		name: "Doubles Ubers",
@@ -192,7 +192,7 @@ exports.Formats = [
 
 		gameType: 'doubles',
 		ruleset: ['Pokemon', 'Species Clause', 'Moody Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Evasion Abilities Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod', 'Team Preview'],
-		banlist: ['Unreleased', 'Illegal', 'Dark Void']
+		banlist: ['Unreleased', 'Illegal', 'Dark Void'],
 	},
 	{
 		name: "Doubles UU",
@@ -201,13 +201,13 @@ exports.Formats = [
 
 		gameType: 'doubles',
 		ruleset: ['Doubles OU'],
-		banlist: ['Aegislash', 'Amoonguss', 'Azumarill', 'Bisharp', 'Blaziken', 'Breloom', 'Chandelure', 'Charizard', 'Conkeldurr',
-			'Cresselia', 'Diancie', 'Dragonite', 'Excadrill', 'Ferrothorn', 'Garchomp', 'Gardevoir', 'Gengar', 'Greninja',
-			'Gyarados', 'Heatran', 'Hoopa-Unbound', 'Hydreigon', 'Jellicent', 'Jirachi', 'Kangaskhan', 'Keldeo', 'Kyurem-Black',
-			'Landorus', 'Landorus-Therian', 'Latios', 'Ludicolo', 'Mawile', 'Metagross', 'Politoed', 'Rotom-Wash', 'Sableye',
-			'Scizor', 'Scrafty', 'Shaymin-Sky', 'Suicune', 'Swampert', 'Sylveon', 'Talonflame', 'Terrakion',
-			'Thundurus', 'Togekiss', 'Tyranitar', 'Venusaur', 'Volcarona', 'Weavile', 'Whimsicott', 'Zapdos'
-		]
+		banlist: ['Aegislash', 'Amoonguss', 'Arcanine', 'Azumarill', 'Bisharp', 'Breloom', 'Chandelure', 'Charizard-Mega-Y', 'Charizardite Y',
+			'Conkeldurr', 'Cresselia', 'Diancie-Mega', 'Diancite', 'Dragonite', 'Excadrill', 'Ferrothorn', 'Garchomp', 'Gardevoir-Mega', 'Gardevoirite',
+			'Gengar', 'Greninja', 'Gyarados', 'Heatran', 'Hoopa-Unbound', 'Hydreigon', 'Jellicent', 'Jirachi', 'Kangaskhan-Mega', 'Kangaskhanite',
+			'Keldeo', 'Kyurem-Black', 'Landorus', 'Landorus-Therian', 'Latios', 'Ludicolo', 'Mawile-Mega', 'Mawilite', 'Metagross-Mega', 'Metagrossite',
+			'Mew', 'Milotic', 'Politoed', 'Rotom-Wash', 'Sableye', 'Scizor', 'Scrafty', 'Shaymin-Sky', 'Suicune', 'Sylveon',
+			'Talonflame', 'Terrakion', 'Thundurus', 'Togekiss', 'Tyranitar', 'Venusaur', 'Volcarona', 'Weavile', 'Whimsicott', 'Zapdos',
+		],
 	},
 	{
 		name: "Doubles NU",
@@ -216,15 +216,15 @@ exports.Formats = [
 		gameType: 'doubles',
 		searchShow: false,
 		ruleset: ['Doubles UU'],
-		banlist: ['Abomasnow', 'Aerodactyl', 'Altaria', 'Ampharos', 'Arcanine', 'Aromatisse', 'Aurorus', 'Banette', 'Blastoise',
-			'Bronzong', 'Camerupt', 'Clawitzer', 'Cobalion', 'Cofagrigus', 'Cradily', 'Crawdaunt', 'Crobat', 'Doublade',
-			'Dusclops', 'Electivire', 'Empoleon', 'Espeon', 'Florges', 'Forretress', 'Galvantula', 'Gastrodon', 'Genesect',
-			'Hariyama', 'Hitmontop', 'Honchkrow', 'Hoopa', 'Infernape', 'Jolteon', 'Kingdra', 'Kingler', 'Klefki',
-			'Krookodile', 'Kyurem', 'Liepard', 'Lopunny', 'Lucario', 'Machamp', 'Mamoswine', 'Manaphy', 'Medicham',
-			'Mew', 'Mienshao', 'Milotic', 'Murkrow', 'Nidoking', 'Ninetales', 'Noivern', 'Pachirisu', 'Pangoro',
-			'Porygon2', 'Reuniclus', 'Rhyperior', 'Roserade', 'Rotom-Heat', 'Salamence', 'Sceptile', 'Serperior', 'Slowking',
-			'Snorlax', 'Thundurus-Therian', 'Togetic', 'Tornadus', 'Vaporeon'
-		]
+		banlist: ['Abomasnow-Mega', 'Abomasite', 'Aerodactyl-Mega', 'Aerodactylite', 'Ambipom', 'Ampharos-Mega', 'Ampharosite',
+			'Aromatisse', 'Aurorus', 'Banette-Mega', 'Banettite', 'Blastoise-Mega', 'Blastoisinite', 'Blaziken', 'Bronzong',
+			'Camerupt-Mega', 'Cameruptite', 'Charizard', 'Clawitzer', 'Cofagrigus', 'Cradily', 'Crawdaunt', 'Crobat', 'Diancie', 'Doublade',
+			'Dusclops', 'Empoleon', 'Escavalier', 'Espeon', 'Forretress', 'Galvantula', 'Gardevoir', 'Gastrodon', 'Genesect', 'Hariyama', 'Hitmontop',
+			'Infernape', 'Jolteon', 'Kangaskhan', 'Kecleon', 'Klefki', 'Krookodile', 'Kyurem', 'Liepard', 'Lopunny-Mega', 'Lopunnite',
+			'Lucario', 'Machamp', 'Mamoswine', 'Manaphy', 'Mawile', 'Medicham-Mega', 'Medichamite', 'Meowstic', 'Metagross', 'Murkrow',
+			'Nidoking', 'Ninetales', 'Noivern', 'Pachirisu', 'Pangoro', 'Porygon2', 'Porygon-Z', 'Reuniclus', 'Rhyperior', 'Rotom-Heat',
+			'Salamence', 'Sceptile-Mega', 'Sceptilite', 'Slowking', 'Snorlax', 'Swampert', 'Togetic', 'Tornadus', 'Vaporeon', 'Victini',
+		],
 	},
 	{
 		name: "VGC 2016",
