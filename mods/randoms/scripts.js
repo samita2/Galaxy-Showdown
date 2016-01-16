@@ -472,6 +472,8 @@ exports.BattleScripts = {
 		var keys = [];
 		var pokemonLeft = 0;
 		var pokemon = [];
+		var excludedTiers = {'LC':1, 'LC Uber':1, 'NFE':1};
+		var allowedNFE = {'Chansey':1, 'Doublade':1, 'Pikachu':1, 'Porygon2':1, 'Scyther':1};
 		for (var i in this.data.FormatsData) {
 			var template = this.getTemplate(i);
 			//!this.data.FormatsData[i].isNonstandard && !template.evos.length
