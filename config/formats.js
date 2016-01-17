@@ -2559,6 +2559,7 @@ exports.Formats = [
 		name: "VGC 2014",
 		section: "Past VGC",
 
+		mod: 'gen5',
 		gameType: 'doubles',
 		onBegin: function () {
 			this.debug('cutting down to 4');
