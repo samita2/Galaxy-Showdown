@@ -40,6 +40,7 @@ let emotes = {
 	'funnylol': 'http://i.imgur.com/SlzCghq.png',
 	'hmmface': 'http://i.imgur.com/Z5lOwfZ.png',
 	'Kappa': 'http://i.imgur.com/5qRROqN.png',
+	'BibleThump': 'https://static-cdn.jtvnw.net/emoticons/v1/86/1.0',
 	'4Head': 'https://static-cdn.jtvnw.net/emoticons/v1/354/1.0',
 	'DansGame': 'https://static-cdn.jtvnw.net/emoticons/v1/33/1.0',
 	'EleGiggle': 'https://static-cdn.jtvnw.net/emoticons/v1/4339/1.0',
