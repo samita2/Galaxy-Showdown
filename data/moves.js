@@ -4475,7 +4475,7 @@ exports.BattleMovedex = {
 			for (let sideSlot = 0; sideSlot < this.sides.length; sideSlot++) {
 				let sideActive = this.sides[sideSlot].active;
 				for (let activeSlot = 0; activeSlot < sideActive.length; activeSlot++) {
-					if (sideActive[activeSlot] && sideActive[activeSlot].hasType('Grass')) {
+					if (sideActive[activeSlot] && sideActive[activeSlot].isActive && sideActive[activeSlot].hasType('Grass')) {
 						// This move affects every Grass-type Pokemon in play.
 						targets.push(sideActive[activeSlot]);
 					}
@@ -5759,7 +5759,7 @@ exports.BattleMovedex = {
 			this.add('-clearallboost');
 			for (let i = 0; i < this.sides.length; i++) {
 				for (let j = 0; j < this.sides[i].active.length; j++) {
-					if (this.sides[i].active[j]) this.sides[i].active[j].clearBoosts();
+					if (this.sides[i].active[j] && this.sides[i].active[j].isActive) this.sides[i].active[j].clearBoosts();
 				}
 			}
 		},
@@ -9577,7 +9577,7 @@ exports.BattleMovedex = {
 			let message = false;
 			for (let i = 0; i < this.sides.length; i++) {
 				for (let j = 0; j < this.sides[i].active.length; j++) {
-					if (this.sides[i].active[j]) {
+					if (this.sides[i].active[j] && this.sides[i].active[j].isActive) {
 						if (this.sides[i].active[j].hasAbility('soundproof')) {
 							this.add('-immune', this.sides[i].active[j], '[msg]', '[from] ability: Soundproof');
 							result = true;
@@ -11421,7 +11421,7 @@ exports.BattleMovedex = {
 			for (let sideSlot = 0; sideSlot < this.sides.length; sideSlot++) {
 				let sideActive = this.sides[sideSlot].active;
 				for (let activeSlot = 0; activeSlot < sideActive.length; activeSlot++) {
-					if (!sideActive[activeSlot]) continue;
+					if (!sideActive[activeSlot] || !sideActive[activeSlot].isActive) continue;
 					if (!sideActive[activeSlot].runImmunity('Ground')) {
 						this.add('-immune', sideActive[activeSlot], '[msg]');
 						anyAirborne = true;
@@ -14444,12 +14444,7 @@ exports.BattleMovedex = {
 		pp: 10,
 		priority: 0,
 		flags: {protect: 1, reflectable: 1, mirror: 1},
-		onModifyMove: function (move, pokemon) {
-			if (pokemon.hasType('Poison')) {
-				move.accuracy = true;
-				move.alwaysHit = true;
-			}
-		},
+		// No Guard-like effect for Poison-type users implemented in BattleScripts#tryMoveHit
 		status: 'tox',
 		secondary: false,
 		target: "normal",
