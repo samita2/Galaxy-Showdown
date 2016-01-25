@@ -8,6 +8,7 @@ let shop = [
 	['Symbol', 'Buys a custom symbol to go infront of name and puts you at top of userlist. (Temporary until restart, certain symbols are blocked)', 5, "<button name = 'send', value = '/buy symbol'><b>Buy!</button>"],
 	['Avatar', 'Buys an custom avatar to be applied to your name (You supply. Images larger than 80x80 may not show correctly)', 25, "<button name = 'send', value = '/buy avatar'><b>Buy!</button>"],
 	['Icon', 'Buys a custom userlist icon', 20, "<button name = 'send', value = '/buy icon'><b>Buy!</button>"],
+	['Customcolor', 'Change your nickname\'s color', 70, "<button name = 'send', value = '/buy customcolor'><b>Buy!</button>"],
 	['Trainer Card', 'Buys a trainer card which shows information through a command. (You supply, can be refused)', 25, "<button name = 'send', value = '/buy trainer card'><b>Buy!</button>"],
 	['Room', 'Buys a chatroom for you to own. (within reason, can be refused)', 150, "<button name = 'send', value = '/buy room'><b>Buy!</button>"],
 ];
