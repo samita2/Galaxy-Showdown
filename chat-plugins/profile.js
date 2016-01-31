@@ -2,7 +2,14 @@
 
 let color = require('../config/color');
 let moment = require('moment');
+let geoip = {};
 
+try {
+	geoip = require('geoip-ultralight');
+	geoip.startWatchingDataUpdate();
+} catch (e) {
+	console.error(e);
+}
 let BR = '<br>';
 let SPACE = '&nbsp;';
 let profileColor = '#24678d';
@@ -124,7 +131,19 @@ Profile.prototype.money = function (amount) {
 };
 
 Profile.prototype.name = function () {
-	return label('Name') + bold(font(color(toId(this.username)), this.username));
+	function getFlag() {
+		if (!this.isOnline) return false;
+		if (this.isOnline) {
+			let geo = geoip.lookupCountry(this.user.latestIp);
+			if (!geo) {
+				return false;
+			} else {
+				return ' <img src="https://github.com/kevogod/cachechu/blob/master/flags/' + geo.toLowerCase() + '.png?raw=true" height=10 title="' + geo + '">';
+			}
+		}
+	}
+	if (!getFlag.call(this)) return label('Name') + bold(font(color(toId(this.username)), this.username));
+	if (getFlag.call(this)) return label('Name') + bold(font(color(toId(this.username)), this.username)) + ' ' + getFlag.call(this);
 };
 
 Profile.prototype.seen = function (timeAgo) {
