@@ -210,7 +210,9 @@ global.Sockets = require('./sockets.js');
 /*********************************************************
  * Set up our last global
  *********************************************************/
-
+// TODO: support on-demand includeMods()
+Tools.includeMods();
+ 
 global.TeamValidator = require('./team-validator.js');
 
 // load ipbans at our leisure
