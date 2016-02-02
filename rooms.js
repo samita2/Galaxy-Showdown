@@ -329,6 +329,11 @@ let GlobalRoom = (function () {
 				isPrivate: true,
 				staffRoom: true,
 				staffAutojoin: true,
+			}, {
+				title: 'High Staff',
+				isPrivate: true,
+				upperstaffRoom: true,
+				upperstaffAutojoin: true,
 			}];
 		}
 
