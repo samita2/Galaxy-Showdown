@@ -146,6 +146,24 @@ exports.Formats = [
 		requirePentagon: true
 	},
 	{
+		name: "Kanto Classic",
+		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3563162/\">Kanto Classic</a>"],
+		section: "ORAS Singles",
+
+		maxForcedLevel: 50,
+		teamLength: {
+			validate: [6, 6],
+		},
+		ruleset: ['Pokemon', 'Standard GBU', 'Team Preview'],
+		onValidateSet: function (set) {
+			let template = this.getTemplate(set.species || set.name);
+			if (template.num > 149) {
+				return [set.species + " is banned by Kanto Classic."];
+			}
+			set.item = '';
+		},
+	},
+	{
 		name: "Custom Game",
 		section: "ORAS Singles",
 
@@ -373,7 +391,7 @@ exports.Formats = [
 
 		mod: 'mixandmega',
 		ruleset: ['Ubers', 'Baton Pass Clause'],
-		banlist: ['Gengarite', 'Shadow Tag', 'Dynamic Punch', 'Zap Cannon'],
+		banlist: ['Gengarite', 'Shadow Tag', 'Dynamic Punch', 'Electrify', 'Zap Cannon'],
 		onValidateTeam: function (team, format) {
 			let itemTable = {};
 			for (let i = 0; i < team.length; i++) {
@@ -504,6 +522,19 @@ exports.Formats = [
 
 		ruleset: ['OU'],
 		banlist: [],
+		onValidateTeam: function (team, format) {
+			let fakeCount = 0;
+			let move = {};
+			for (let i = 0; i < team.length; i++) {
+				if (team[i].moves) {
+					for (let j = 0; j < team[i].moves.length; j++) {
+						move = this.getMove(team[i].moves[j]);
+						if (move.id === "fakeout" && fakeCount > 0) return ["You are limited to one user of Fake Out per team.", "(" + (team[i].name || team[i].species) + " has Fake Out)"];
+						if (move.id === "fakeout") fakeCount += 1;
+					}
+				}
+			}
+		},
 		onModifyMove: function (move) {
 			let validTargets = {"normal":1, "any":1, "randomNormal":1, "allAdjacent":1, "allAdjacentFoes":1};
 			if (move.target && !move.nonGhostTarget && (move.target in validTargets)) move.selfSwitch = true;
