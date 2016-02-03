@@ -1157,6 +1157,11 @@ User = (function () {
 			var staffRoom = Rooms('staff');
 			this.isStaff = (staffRoom && staffRoom.auth && staffRoom.auth[this.userid]);
 		}
+		this.isUpperstaff = (this.group in {'&':1, '~':1});
+		if (!this.isUpperstaff) {
+			var upperstaffRoom = Rooms.get('highstaff');
+			this.isUpperstaff = (upperstaffRoom && upperstaffRoom.auth && upperstaffRoom.auth[this.userid]);
+		}
 		if (this.confirmed) {
 			this.autoconfirmed = this.confirmed;
 			this.locked = false;
@@ -1179,6 +1184,11 @@ User = (function () {
 		if (!this.isStaff) {
 			var staffRoom = Rooms('staff');
 			this.isStaff = (staffRoom && staffRoom.auth && staffRoom.auth[this.userid]);
+		}
+		this.isUpperstaff = (this.group in {'&':1, '~':1});
+		if (!this.isUpperstaff) {
+			var upperstaffRoom = Rooms.get('highstaff');
+			this.isUpperstaff = (upperstaffRoom && upperstaffRoom.auth && upperstaffRoom.auth[this.userid]);
 		}
 		Rooms.global.checkAutojoin(this);
 		if (this.registered) {
