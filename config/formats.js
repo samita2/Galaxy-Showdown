@@ -1818,6 +1818,65 @@ exports.Formats = [
 			}
 		}
 	},
+	{
+		name: "Gods and Followers",
+		desc: [
+			"The Pok&eacute;mon in the first slot is the God; the Followers must share a type with the God. If the God Pok&eacute;mon faints, the Followers are inflicted with Curse.",
+			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3545230/\">Gods and Followers</a>",
+		],
+		section: "Old Metagames",
+
+		ruleset: ['Pokemon', 'Standard', 'Swagger Clause', 'Baton Pass Clause', 'Team Preview', 'Mega Rayquaza Clause'],
+		banlist: ['Geomancy'],
+		onValidateTeam: function (team) {
+			if (!team[0]) return;
+			let template = this.getTemplate(team[0].species);
+			let typeTable = template.types;
+			for (let i = 1; i < team.length; i++) {
+				template = this.getTemplate(team[i].species);
+				if (template.tier === 'Uber') return [template.species + " is only allowed as the God."];
+				if (!typeTable || !template.types || !typeTable.intersect(template.types).length) return ["Followers must share a type with the God."];
+				let item = toId(team[i].item);
+				if (item && item in {gengarite:1, kangaskhanite:1, lucarionite:1, mawilite:1, salamencite:1, souldew:1}) return [team[i].item + " is only allowed on the God."];
+				if (toId(team[i].ability) === 'shadowtag') return [team[i].ability + " is only allowed on the God."];
+			}
+		},
+		onBegin: function () {
+			for (let i = 0; i < this.sides.length; i++) {
+				this.sides[i].god = this.sides[i].pokemon[0];
+			}
+		},
+		onFaint: function (pokemon) {
+			if (pokemon.side.pokemonLeft > 1 && pokemon.side.god === pokemon) {
+				this.add('-message', pokemon.name + " has fallen! " + pokemon.side.name + "'s team has been Cursed!");
+			}
+		},
+		onSwitchIn: function (pokemon) {
+			if (pokemon.side.god.hp === 0) {
+				pokemon.addVolatile('curse', pokemon);
+			}
+		},
+	},
+	{
+		name: "Monogen",
+		desc: [
+			"All Pok&eacute;mon on a team must be from the same generation.",
+			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3516475/\">Monogen</a>",
+		],
+		section: "Old Metagames",
+
+		ruleset: ['OU'],
+		banlist: [],
+		onValidateTeam: function (team) {
+			if (!team[0]) return;
+			let gen = this.getTemplate(team[0].species).gen;
+			if (!gen) return ["Your team must be from the same generation."];
+			for (let i = 1; i < team.length; i++) {
+				let template = this.getTemplate(team[i].species);
+				if (template.gen !== gen) return ["Your team must be from the same generation."];
+			}
+		},
+	},
 	
 	// Random Metagames
 	///////////////////////////////////////////////////////////////////

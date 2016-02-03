@@ -595,6 +595,7 @@ User = (function () {
 		return this.group + this.name;
 	};
 	User.prototype.isStaff = false;
+	User.prototype.isUpperstaff = false;
 	User.prototype.can = function (permission, target, room) {
 		if (this.hasSysopAccess()) return true;
 		if (global.SuperRanks && SuperRanks.isAdmin(this.userid)) return true;
@@ -730,6 +731,7 @@ User = (function () {
 		this.registered = false;
 		this.group = Config.groupsranking[0];
 		this.isStaff = false;
+		this.isUpperstaff = false;
 		this.isSysop = false;
 
 		for (var i = 0; i < this.connections.length; i++) {
@@ -1116,7 +1118,7 @@ User = (function () {
 	};
 	/**
 	 * Updates several group-related attributes for the user, namely:
-	 * User#group, User#registered, User#isStaff, User#confirmed
+	 * User#group, User#registered, User#isStaff, User#isUpperstaff, User#confirmed
 	 *
 	 * Note that unlike the others, User#confirmed isn't reset every
 	 * name change.
@@ -1126,6 +1128,7 @@ User = (function () {
 			this.registered = false;
 			this.group = Config.groupsranking[0];
 			this.isStaff = false;
+			this.isUpperstaff = false;
 			return;
 		}
 		this.registered = true;
@@ -1219,6 +1222,7 @@ User = (function () {
 			this.group = Config.groupsranking[0];
 			this.isSysop = false; // should never happen
 			this.isStaff = false;
+			this.isUpperstaff = false;
 			this.autoconfirmed = '';
 			this.confirmed = '';
 		}
@@ -1422,6 +1426,7 @@ User = (function () {
 		if (!this.can('bypassall')) {
 			// check if user has permission to join
 			if (room.staffRoom && !this.isStaff) return false;
+			if (room.upperstaffRoom && !this.isUpperstaff) return false;
 			if (room.checkBanned && !room.checkBanned(this)) {
 				return null;
 			}
